@@ -10,25 +10,40 @@ import java.util.Arrays;
 
 
 public class SimpleListView extends ActionBarActivity {
-    private ListView mainListView;
-    private ArrayAdapter<String> listAdapter;
+    private ListView first_setting,second_setting,icon;
+    private ArrayAdapter<String> listAdapter1,listAdapter2,listAdapter3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mainListView = (ListView)findViewById(R.id.mainListView);
+        first_setting=(ListView)findViewById(R.id.first_setting);
+        second_setting=(ListView)findViewById(R.id.second_setting);
+        icon = (ListView)findViewById(R.id.icon);
 
-        String[] Applications = new String[] {"KaKaoTalk","Line","Call"};
+        String[] firstsetting_string = new String[] {"상","하","상"};
+        String[] secondsetting_string = new String[] {"하","상","상"};
+        String[] iconsetting_string = new String[] {"KaKaoTalk","Line","Call"};
 
-        ArrayList<String> planetList = new ArrayList<String>();
-        planetList.addAll(Arrays.asList(Applications));
+        ArrayList<String> firstsetting_List = new ArrayList<String>();
+        ArrayList<String> secondsetting_List = new ArrayList<String>();
+        ArrayList<String> icon_List = new ArrayList<String>();
 
-        listAdapter = new ArrayAdapter<String>(this,R.layout.activity_eachrow,planetList);
+        firstsetting_List.addAll(Arrays.asList(firstsetting_string ));
+        secondsetting_List.addAll(Arrays.asList(secondsetting_string));
+        icon_List.addAll(Arrays.asList(iconsetting_string));
 
-        listAdapter.add("ScreenShot");
+        listAdapter1 = new ArrayAdapter<String>(this,R.layout.activity_eachrow,firstsetting_List);
+        listAdapter2 = new ArrayAdapter<String>(this,R.layout.activity_eachrow,secondsetting_List);
+        listAdapter3 = new ArrayAdapter<String>(this,R.layout.activity_eachrow,icon_List);
 
-        mainListView.setAdapter(listAdapter);
+        listAdapter1.add("Touch");
+        listAdapter2.add("하");
+        listAdapter3.add("ScreenShot");
+
+        first_setting.setAdapter(listAdapter1);
+        second_setting.setAdapter(listAdapter2);
+        icon.setAdapter(listAdapter3);
     }
 }

@@ -30,20 +30,20 @@
         android:layout_height="470dp">
 
         <ListView
-            android:id="@+id/mainListView"
+            android:id="@+id/first_setting"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1.02">
         </ListView>
 
         <ListView
-            android:id="@+id/listView2"
+            android:id="@+id/second_setting"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1.02" />
 
         <ListView
-            android:id="@+id/listView"
+            android:id="@+id/icon"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1.02" />
