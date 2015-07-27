@@ -6,18 +6,21 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
+import java.util.ArrayList;
+
 
 public class AddEditActivity extends Activity {
-    int phoneBtnCount,phoneMotionCount;
+
+    private int phoneBtnCount =3,phoneMotionCount=3;
 
     private String mModelName;
 
-    private Button[] mButtons;
-    private RelativeLayout.LayoutParams[] mrlPramas;
     private RelativeLayout mRelativeLayout;
 
-     Button btnTest;
-     RelativeLayout.LayoutParams rlPramas;
+    private ArrayList<Button> mButton = new ArrayList<Button>();
+    private ArrayList<Button> mMotion = new ArrayList<Button>();
+    private ArrayList<RelativeLayout.LayoutParams> mButonParam = new ArrayList<RelativeLayout.LayoutParams>();
+    private ArrayList<RelativeLayout.LayoutParams> mMotionParam = new ArrayList<RelativeLayout.LayoutParams>();
 
 
     @Override
@@ -28,48 +31,41 @@ public class AddEditActivity extends Activity {
         // (임시로) 모델 "A" 전송
         mModelName = "A";
 
-        test();
+        mRelativeLayout = (RelativeLayout)findViewById(R.id.rl_main);
 
-//        setLayout();
-//        init();
-
-    }
-
-    public void test(){
-
-        btnTest = (Button)findViewById(R.id.btn_1);
-        rlPramas = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
-        rlPramas.addRule(RelativeLayout.LEFT_OF, R.id.btn_main);
-        rlPramas.addRule(RelativeLayout.ALIGN_TOP, R.id.btn_main);
-
-
-        btnTest.setLayoutParams(rlPramas);
+        setLayout();
+        checkModel();
+        init();
 
     }
 
     private void setLayout(){
-        mButtons = new Button[]{
-                (Button)findViewById(R.id.btn_1),
-                (Button)findViewById(R.id.btn_2),
-                (Button)findViewById(R.id.btn_3),
-                new Button(AddEditActivity.this),
-        };
 
-        mrlPramas = new RelativeLayout.LayoutParams[]{
-                new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT),
-                new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT),
-                new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT),
-        };
+        //Button id = 1 ~
+        for (int i=0;i<phoneBtnCount;i++) {
+            mButton.add(new Button(this));
+            mButton.get(i).setId(i);
+            mButton.get(i).setText("'" + i + "'");
+            mButonParam.add(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT));
+        }
 
+        //Motion button id = 10 ~
+        for(int i=0;i<phoneMotionCount;i++) {
+            mMotion.add(new Button(this));
+            mButton.get(i).setId(i*10);
+            mMotionParam.add(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT));
+        }
     }
 
     private void init(){
-        checkModel();
 
-        for(int i=0;i<mButtons.length;i++) {
-            mButtons[i].setLayoutParams(mrlPramas[i]);
 
+
+        for(int i=0;i<mButton.size();i++) {
+            mButton.get(i).setLayoutParams(mButonParam.get(i));
+            mRelativeLayout.addView(mButton.get(i));
         }
+
     }
 
     private void checkModel() {
@@ -83,12 +79,13 @@ public class AddEditActivity extends Activity {
             phoneBtnCount = 3;
             phoneMotionCount = 2;
 
-            mrlPramas[0].addRule(RelativeLayout.LEFT_OF, R.id.btn_main);
-            mrlPramas[0].addRule(RelativeLayout.ALIGN_TOP, R.id.btn_main);
-            mrlPramas[1].addRule(RelativeLayout.RIGHT_OF, R.id.btn_main);
-            mrlPramas[1].addRule(RelativeLayout.ALIGN_TOP, R.id.btn_main);
-            mrlPramas[2].addRule(RelativeLayout.LEFT_OF, R.id.btn_main);
-            mrlPramas[2].addRule(RelativeLayout.ALIGN_BOTTOM, R.id.btn_main);
+            mButonParam.get(0).addRule(RelativeLayout.LEFT_OF, R.id.btn_main);
+            mButonParam.get(0).addRule(RelativeLayout.ALIGN_TOP, R.id.btn_main);
+            mButonParam.get(1).addRule(RelativeLayout.RIGHT_OF, R.id.btn_main);
+            mButonParam.get(1).addRule(RelativeLayout.ALIGN_TOP, R.id.btn_main);
+            mButonParam.get(2).addRule(RelativeLayout.LEFT_OF, R.id.btn_main);
+            mButonParam.get(2).addRule(RelativeLayout.ALIGN_BOTTOM, R.id.btn_main);
+
 
 
         } else if (mModelName == "B") {
