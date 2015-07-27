@@ -13,7 +13,6 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        textView= (TextView)findViewById(R.id.bumseok);
 
         setContentView(R.layout.activity_main);
     }
