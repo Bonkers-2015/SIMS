@@ -16,6 +16,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".PopupActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/title_activity_popup"
+            android:theme="@android:style/Theme.Dialog"
+            android:windowSoftInputMode="stateHidden" >
+>
+        </activity>
+        <activity
+            android:name=".PhoneActivity"
+            android:label="@string/title_activity_phone"
+            android:theme="@android:style/Theme.Dialog"
+            android:windowSoftInputMode="stateHidden">
+        </activity>
     </application>
 
 </manifest>
