@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.TextView;
 
 
-public class MainActivity extends ActionBarActivity{
+public class MainActivity extends ActionBarActivity {
 
     String model = Build.MODEL;
     TextView textView;
@@ -19,6 +19,7 @@ public class MainActivity extends ActionBarActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
         LayoutInflater inflater = (LayoutInflater) getApplicationContext().
                 getSystemService(Context.LAYOUT_INFLATER_SERVICE);

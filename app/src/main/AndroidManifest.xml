@@ -17,23 +17,22 @@
             </intent-filter>
         </activity>
         <activity
-<<<<<<< HEAD
-            android:name=".NextActivity"
-            android:label="SIMS">
-=======
             android:name=".PopupActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_popup"
             android:theme="@android:style/Theme.Dialog"
             android:windowSoftInputMode="stateHidden" >
->
         </activity>
         <activity
             android:name=".PhoneActivity"
             android:label="@string/title_activity_phone"
             android:theme="@android:style/Theme.Dialog"
             android:windowSoftInputMode="stateHidden">
->>>>>>> 09409fd7623ce62a5c19afe29b46445820e51459
+        </activity>
+        <activity
+            android:name=".AddEditActivity"
+            android:label="@string/title_activity_add_edit" >
+
         </activity>
     </application>
 
