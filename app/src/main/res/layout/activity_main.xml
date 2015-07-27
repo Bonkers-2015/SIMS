@@ -20,6 +20,6 @@
         android:textSize="15dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:text="model"/>
+        android:text="MODEL"/>
 
 </RelativeLayout>
