@@ -3,6 +3,12 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+<<<<<<< HEAD
     <string name="title_activity_next">NextActivity</string>
 
+=======
+    <string name="title_activity_next">nextActivity</string>
+    <string name="title_activity_popup">PopupActivity</string>
+    <string name="title_activity_phone">PhoneActivity</string>
+>>>>>>> 09409fd7623ce62a5c19afe29b46445820e51459
 </resources>
