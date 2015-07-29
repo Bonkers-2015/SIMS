@@ -2,7 +2,6 @@ package bonkers.cau.sims;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -21,8 +20,8 @@ import java.util.ArrayList;
 
 public class PopupActivity extends Activity {
     private ListView mListView = null;
-    private PUListAdapter mAdapter = null;
-
+    private PUListAdapter puAdapter = null;
+    private PUListAdapter pAdapter = null;
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             // TODO Auto-generated method stub
@@ -37,26 +36,34 @@ public class PopupActivity extends Activity {
 
 
             mListView = (ListView) findViewById(R.id.popup_list);
-            mAdapter = new PUListAdapter(this);
-            mListView.setAdapter(mAdapter);
+            puAdapter = new PUListAdapter(this);
+            pAdapter = new PUListAdapter(this);
+            mListView.setAdapter(puAdapter);
 
-           mAdapter.addItem(getResources().getDrawable(R.mipmap.kakao),
+            puAdapter.addItem(getResources().getDrawable(R.mipmap.kakao),
                     "kakao");
-            mAdapter.addItem(getResources().getDrawable(R.mipmap.knights),
+            puAdapter.addItem(getResources().getDrawable(R.mipmap.knights),
                     "7knights");
-            mAdapter.addItem(getResources().getDrawable(R.mipmap.line),
+            puAdapter.addItem(getResources().getDrawable(R.mipmap.line),
                     "line");
-            mAdapter.addItem(null,
+            puAdapter.addItem(null,
                     "이미지가 null이면...");
 
             mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
                 @Override
                 public void onItemClick(AdapterView<?> parent, View v, int position, long id){
-                    PopupListdata mData = mAdapter.mPopupListdata.get(position);
+                    PopupListdata mData = puAdapter.mPopupListdata.get(position);
                     if("line"==mData.mTitle){
-                        Intent i = new Intent(PopupActivity.this.getParent(), PhoneActivity.class);
-                        startActivity(i);
+                        pAdapter.addItem(getResources().getDrawable(R.mipmap.human),
+                                "pakrbeomseok");
+                        pAdapter.addItem(getResources().getDrawable(R.mipmap.human),
+                                "pakrbeomseok");
+                        pAdapter.addItem(getResources().getDrawable(R.mipmap.human),
+                                "pakrbeomseok");
+                        pAdapter.addItem(getResources().getDrawable(R.mipmap.human),
+                                "pakrbeomseok");
+                        mListView.setAdapter(pAdapter);
                     }
 
                 }
@@ -150,7 +157,7 @@ public class PopupActivity extends Activity {
 
 
         public void dataChange(){
-            mAdapter.notifyDataSetChanged();
+            puAdapter.notifyDataSetChanged();
         }
 
     }
