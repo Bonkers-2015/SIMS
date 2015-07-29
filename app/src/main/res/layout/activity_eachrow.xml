@@ -43,9 +43,9 @@
 
         <ImageView
             android:id="@+id/icon"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:src="@mipmap/ic_launcher"
+            android:src="@mipmap/kakao"
             android:paddingLeft="30dp" />
 
     </LinearLayout>
