@@ -14,8 +14,8 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/nameSIMS"
-            android:text="SIMS"
+            android:id="@+id/name_sims"
+            android:text="sims"
             android:textColor="#ff7aa0ff"
             android:textSize="30dp"
             android:singleLine="false"
@@ -27,26 +27,16 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="470dp">
+        android:layout_height="410dp">
 
         <ListView
-            android:id="@+id/first_setting"
+            android:id="@+id/m_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1.02">
         </ListView>
 
-        <ListView
-            android:id="@+id/second_setting"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1.02" />
 
-        <ListView
-            android:id="@+id/icon"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1.02" />
     </LinearLayout>
 
     <LinearLayout
@@ -57,7 +47,7 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Add.."
+            android:text="add.."
             android:id="@+id/addbutton" />
     </LinearLayout>
 
