@@ -2,7 +2,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="200dip"
     android:layout_height="500dip"
-    android:layout_centerInParent="true"
     android:background="#50FFFFFF"
     tools:context="bonkers.cau.sims.PopupActivity">
 

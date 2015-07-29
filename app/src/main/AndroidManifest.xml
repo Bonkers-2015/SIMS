@@ -22,7 +22,15 @@
             android:label="@string/title_activity_popup"
             android:theme="@android:style/Theme.Dialog"
             android:windowSoftInputMode="stateHidden" >
-        </activity>
-    </application>
 
+
+        </activity>
+        <activity
+            android:name=".AddEditActivity"
+            android:label="@string/title_activity_add_edit" >
+
+        </activity>
+
+    </application>
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
 </manifest>

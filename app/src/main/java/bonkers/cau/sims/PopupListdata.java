@@ -13,7 +13,7 @@ public class PopupListdata {
         public Drawable mIcon;
 
         // ø¶ ¿Ã∏ß
-        public String mTitle;
+        public CharSequence mTitle;
 
 
 

@@ -3,7 +3,8 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_next">nextActivity</string>
     <string name="title_activity_popup">PopupActivity</string>
     <string name="title_activity_phone">PhoneActivity</string>
+    <string name="title_activity_add_edit">AddEditActivity</string>
+    
 </resources>

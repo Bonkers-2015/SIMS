@@ -2,8 +2,13 @@ package bonkers.cau.sims;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +21,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class PopupActivity extends Activity {
@@ -33,53 +39,66 @@ public class PopupActivity extends Activity {
 
 
 
-
+            PackageManager packagemanager = this.getPackageManager();
+            List<ApplicationInfo> appList = packagemanager.getInstalledApplications( 0 );
 
             mListView = (ListView) findViewById(R.id.popup_list);
             puAdapter = new PUListAdapter(this);
             pAdapter = new PUListAdapter(this);
             mListView.setAdapter(puAdapter);
+            puAdapter.addItem(getResources().getDrawable(R.mipmap.phone),"Phone");
+            for (int i = 0; i < appList.size(); i++)
+                puAdapter.addItem(appList.get(i).loadIcon(packagemanager),
+                        appList.get(i).loadLabel(packagemanager));
 
-            puAdapter.addItem(getResources().getDrawable(R.mipmap.kakao),
-                    "kakao");
-            puAdapter.addItem(getResources().getDrawable(R.mipmap.knights),
-                    "7knights");
-            puAdapter.addItem(getResources().getDrawable(R.mipmap.line),
-                    "line");
-            puAdapter.addItem(null,
-                    "이미지가 null이면...");
+
 
             mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
                 @Override
-                public void onItemClick(AdapterView<?> parent, View v, int position, long id){
+                public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                     PopupListdata mData = puAdapter.mPopupListdata.get(position);
-                    if("line"==mData.mTitle){
-                        pAdapter.addItem(getResources().getDrawable(R.mipmap.human),
-                                "pakrbeomseok");
-                        pAdapter.addItem(getResources().getDrawable(R.mipmap.human),
-                                "pakrbeomseok");
-                        pAdapter.addItem(getResources().getDrawable(R.mipmap.human),
-                                "pakrbeomseok");
-                        pAdapter.addItem(getResources().getDrawable(R.mipmap.human),
-                                "pakrbeomseok");
+                    if ("Phone" == mData.mTitle) {
+                        getList();
                         mListView.setAdapter(pAdapter);
                     }
 
                 }
             });
 
-
-    /*        //make same height and width in imageview
-            ImageView iv = (ImageView)this.findViewById(R.id.popup_list_image);
-            ViewGroup.LayoutParams lp = iv.getLayoutParams();
-            lp.height = getResources().getDisplayMetrics().heightPixels;
-            lp.width = lp.height;*/
-
-
-
-
         }
+    private Cursor getURI()
+    {
+        // 주소록 URI
+        Uri people =  ContactsContract.Contacts.CONTENT_URI;
+
+        // 검색할 컬럼 정하기
+        String[] projection = new String[] { ContactsContract.Contacts._ID, ContactsContract.Contacts.DISPLAY_NAME, ContactsContract.Contacts.HAS_PHONE_NUMBER };
+
+        // 쿼리 날려서 커서 얻기
+        String[] selectionArgs = null;
+        String sortOrder = ContactsContract.Contacts.DISPLAY_NAME + " COLLATE LOCALIZED ASC";
+
+        // managedquery 는 activity 메소드이므로 아래와 같이 처리함
+        return getContentResolver().query(people, projection, null, selectionArgs, sortOrder);
+        // return managedQuery(people, projection, null, selectionArgs, sortOrder);
+    }
+    public void getList(){
+
+        Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
+
+        Cursor cursor = getURI();                    // 전화번호부 가져오기
+
+
+        if(cursor.moveToFirst()){
+            do{
+                pAdapter.addItem(getResources().getDrawable(R.mipmap.human),cursor.getString(1) + "/" + cursor.getString(0)+ "/" + cursor.getString(2));
+            }while(cursor.moveToNext());
+        }
+
+
+
+    }
 
     private class ViewHolder {
         public ImageView popupIcon;
@@ -90,6 +109,10 @@ public class PopupActivity extends Activity {
         private ArrayList<PopupListdata> mPopupListdata = new ArrayList<PopupListdata>();
 
         public PUListAdapter(Context mContext) {
+            super();
+            this.mContext = mContext;
+        }
+        public PUListAdapter(Context mContext,ArrayList<String> mylist) {
             super();
             this.mContext = mContext;
         }
@@ -140,7 +163,7 @@ public class PopupActivity extends Activity {
 
             return convertView;
         }
-        public void addItem(Drawable icon, String mTitle){
+        public void addItem(Drawable icon, CharSequence mTitle){
             PopupListdata addInfo = null;
             addInfo = new PopupListdata();
             addInfo.mIcon = icon;
