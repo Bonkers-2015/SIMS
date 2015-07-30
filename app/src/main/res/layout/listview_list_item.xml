@@ -1,0 +1,49 @@
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/first_setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="상"
+            android:textSize="45dp"
+            android:paddingLeft="30dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+"
+            android:textSize="45dp"
+            android:paddingLeft="30dp" />
+        <TextView
+            android:id="@+id/second_setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="하"
+            android:textSize="45dp"
+            android:paddingLeft="30dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="|"
+            android:textSize="45dp"
+            android:paddingLeft="30dp" />
+
+
+        <ImageView
+            android:id="@+id/list_icon"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_launcher"
+            android:paddingLeft="30dp" />
+
+    </LinearLayout>
+</LinearLayout>
