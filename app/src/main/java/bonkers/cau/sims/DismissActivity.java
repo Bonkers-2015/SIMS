@@ -20,7 +20,7 @@ public class DismissActivity extends Activity{
         super.onCreate(savedIntanceState);
         setContentView(R.layout.activity_list);
 
-        mListView = (ListView)findViewById(R.id.listView1);
+        mListView = (ListView)findViewById(R.id.);
 
         String[] items = new String[20];
         for(int i=0; i<items.length;i++) {
