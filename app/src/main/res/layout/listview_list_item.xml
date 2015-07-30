@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:weightSum="1">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -12,38 +13,36 @@
 
         <TextView
             android:id="@+id/first_setting"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="상"
-            android:textSize="45dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="20dp"
             android:paddingLeft="30dp" />
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:text="+"
-            android:textSize="45dp"
+            android:textSize="20dp"
             android:paddingLeft="30dp" />
         <TextView
             android:id="@+id/second_setting"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="하"
-            android:textSize="45dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="20dp"
             android:paddingLeft="30dp" />
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:text="|"
-            android:textSize="45dp"
+            android:textSize="20dp"
             android:paddingLeft="30dp" />
 
-
-        <ImageView
-            android:id="@+id/list_icon"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/ic_launcher"
-            android:paddingLeft="30dp" />
 
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/list_icon"
+        android:layout_width="63dp"
+        android:layout_height="45dp"
+        android:src="@mipmap/kakao"
+        android:paddingLeft="30dp" />
 </LinearLayout>
