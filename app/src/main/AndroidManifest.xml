@@ -31,6 +31,12 @@
 
         </activity>
 
+        <activity
+            android:name=".ListActivity"
+            android:label="@string/title_activity_add_edit" >
+
+        </activity>
+
     </application>
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 </manifest>

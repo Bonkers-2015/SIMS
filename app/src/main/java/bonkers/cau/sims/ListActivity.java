@@ -1,6 +1,7 @@
 package bonkers.cau.sims;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -8,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -28,8 +30,16 @@ public class ListActivity extends ActionBarActivity {
 
         mAdapter = new ListViewAdapter(this);
         mListView.setAdapter(mAdapter);
-
-
+        mAdapter.addItem(getResources().getDrawable(R.mipmap.phone), "vol up", "vol down");
+        Button btn =(Button)findViewById(R.id.list_addbtn);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ListActivity.this, AddEditActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 
     private class ViewHolder {

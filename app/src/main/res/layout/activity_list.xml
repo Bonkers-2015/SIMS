@@ -46,6 +46,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="add.."
-            android:id="@+id/addbutton" />
+            android:id="@+id/list_addbtn" />
     </LinearLayout>
 </LinearLayout>
