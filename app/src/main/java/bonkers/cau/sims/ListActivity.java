@@ -21,6 +21,7 @@ public class ListActivity extends ActionBarActivity {
 
     private ListView mListView = null;
     private ListViewAdapter mAdapter=null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +31,8 @@ public class ListActivity extends ActionBarActivity {
 
         mAdapter = new ListViewAdapter(this);
         mListView.setAdapter(mAdapter);
-        mAdapter.addItem(getResources().getDrawable(R.mipmap.phone), "vol up", "vol down");
+        mAdapter.addItem(getResources().getDrawable(R.mipmap.phone), "Vol-up", "Vol-down");
+        mAdapter.addItem(getResources().getDrawable(R.mipmap.kakao),"Vol-down","Vol-up");
         Button btn =(Button)findViewById(R.id.list_addbtn);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -40,6 +42,32 @@ public class ListActivity extends ActionBarActivity {
                 finish();
             }
         });
+
+        String[] items = new String[20];
+        for(int i=0; i<items.length;i++) {
+            items[i] = "Item" + (i+1);
+        }
+
+        mListView.setAdapter(mAdapter);
+
+        SwipeDismissListViewTouchListener touchListner =
+                new SwipeDismissListViewTouchListener (mListView,
+                        new SwipeDismissListViewTouchListener.DismissCallbacks() {
+                            @Override
+                            public boolean canDismiss(int position) {
+                                return true;
+                            }
+
+                            @Override
+                            public void onDismiss(ListView listView,int[] reverseSortedPositions) {
+                                for (int position:reverseSortedPositions) {
+                                    mAdapter.remove(position);
+                                }
+                                mAdapter.notifyDataSetChanged();
+                            }
+                        });
+        mListView.setOnTouchListener(touchListner);
+        mListView.setOnScrollListener(touchListner.makeScrollListener());
     }
 
     private class ViewHolder {
