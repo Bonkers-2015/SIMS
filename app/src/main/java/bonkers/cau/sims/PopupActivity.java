@@ -2,6 +2,7 @@ package bonkers.cau.sims;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -38,9 +39,16 @@ public class PopupActivity extends Activity {
                 WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
         setContentView(R.layout.activity_popup);
 
+        //addEdit에서 intent를 얻어옴
+        Intent intent = getIntent();
+        //intent extra로 전달한 myName 에 해당하는 값을 전달함
+        String receivedText = intent.getStringExtra("myName");
+
+
 
         PackageManager packagemanager = this.getPackageManager();
         List<ApplicationInfo> appList = packagemanager.getInstalledApplications(0);
+
 
         mListView = (ListView) findViewById(R.id.popup_list);
         puAdapter = new PUListAdapter(this);
@@ -60,6 +68,18 @@ public class PopupActivity extends Activity {
                 if ("Phone" == mData.mTitle) {
                     getList();
                     mListView.setAdapter(pAdapter);
+
+                }
+                else{
+                    //Add edit Activity로 전달한 데이터 resultText Key 값의 "superdroid result" 문자열을
+                    //Extra로 Intent에 담았다.
+                    Intent intent = new Intent();
+                    intent.putExtra("resultText",mData.mTitle);
+
+                    // 전달할 Intent를 설정하고 finish()함수를 통해
+                    //B Activity를 종료시킴과 동시에 결과로 Intent를 전달하였다.
+                    setResult(RESULT_OK,intent);
+                    finish();
                 }
 
             }

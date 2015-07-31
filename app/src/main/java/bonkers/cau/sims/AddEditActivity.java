@@ -3,6 +3,8 @@ package bonkers.cau.sims;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -12,6 +14,7 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class AddEditActivity extends Activity {
@@ -19,7 +22,8 @@ public class AddEditActivity extends Activity {
     private int phoneBtnCount = 3, phoneMotionCount = 3;
 
     private String mModelName;
-
+    private CharSequence appName;
+    List<ApplicationInfo> appList;
     private RelativeLayout mRelativeLayout;
     private int btnCount[] = {0, 0, 0};
     private ArrayList<Button> mButton = new ArrayList<Button>();
@@ -28,6 +32,8 @@ public class AddEditActivity extends Activity {
     private ArrayList<RelativeLayout.LayoutParams> mMotionParam = new ArrayList<RelativeLayout.LayoutParams>();
 
     private Button mButtonMain;
+    // requestCode
+    private static final int LAUNCHED_ACTIVITY = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +42,11 @@ public class AddEditActivity extends Activity {
 
         // (임시로) 모델 "A" 전송
         mModelName = "A";
+
+
+
+
+
 
         mRelativeLayout = (RelativeLayout) findViewById(R.id.rl_main);
 
@@ -48,11 +59,37 @@ public class AddEditActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(AddEditActivity.this, PopupActivity.class);
-                startActivity(i);
+                i.putExtra("myName", "superdroid");
+                startActivityForResult(i, LAUNCHED_ACTIVITY);
             }
         });
     }
 
+    //PopupActivity 의 결과를 전달받기위해 overriding을 함
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //어플 목록을 불러옴
+        PackageManager packagemanager = this.getPackageManager();
+        appList = packagemanager.getInstalledApplications(0);
+        switch (requestCode) {
+            case LAUNCHED_ACTIVITY:
+                if (resultCode == RESULT_OK) {
+                    appName = data.getStringExtra("resultTExt");
+
+
+                    for (ApplicationInfo app : appList) {
+                        CharSequence test =app.loadLabel(packagemanager);
+                        if (test.equals(appName)) {
+                            mButtonMain.setBackground(app.loadIcon(packagemanager));
+                            break;
+                        }
+                    }
+
+                }
+
+        }
+    }
 
     private void showDialog() {
         AlertDialog.Builder alert = new AlertDialog.Builder(AddEditActivity.this);
@@ -75,10 +112,12 @@ public class AddEditActivity extends Activity {
             mButton.get(i).setText("'" + i + "'");
             mButonParam.add(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         }
+
         mButton.get(0).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (btnCount[0] == 0) {
+                    //2개 이상 눌렸으면?
                     if (btnCount[0] + btnCount[1] + btnCount[2] < 2) {
                         btnCount[0] = 1;
                         mButton.get(0).setBackgroundColor(Color.BLUE);
@@ -148,6 +187,7 @@ public class AddEditActivity extends Activity {
         }
 
     }
+
 
     private void checkModel() {
 
