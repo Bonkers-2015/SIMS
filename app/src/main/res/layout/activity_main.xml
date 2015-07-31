@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -17,5 +18,60 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:text="MODEL"/>
+=======
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:weightSum="1">
 
-</RelativeLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+>>>>>>> db5829acd1c9d1f3c250030acd2a52fc94f5775b
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/name_sims"
+            android:text="sims"
+            android:textColor="#ff7aa0ff"
+            android:textSize="30dp"
+            android:singleLine="false"
+            android:selectAllOnFocus="false"
+            android:phoneNumber="false"
+            android:paddingLeft="150dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="410dp">
+
+        <ListView
+            android:id="@+id/m_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1.02">
+        </ListView>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="add.."
+            android:id="@+id/addbutton" />
+    </LinearLayout>
+
+
+</LinearLayout>
