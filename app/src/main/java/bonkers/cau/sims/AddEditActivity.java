@@ -70,8 +70,6 @@ public class AddEditActivity extends Activity {
 
     private void init(){
 
-
-
         for(int i=0;i<mButton.size();i++) {
             mButton.get(i).setLayoutParams(mButonParam.get(i));
             mRelativeLayout.addView(mButton.get(i));
