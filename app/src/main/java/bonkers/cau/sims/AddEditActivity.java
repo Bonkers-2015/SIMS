@@ -53,6 +53,7 @@ public class AddEditActivity extends Activity {
         });
     }
 
+
     private void showDialog() {
         AlertDialog.Builder alert = new AlertDialog.Builder(AddEditActivity.this);
         alert.setPositiveButton("ok", new DialogInterface.OnClickListener() {

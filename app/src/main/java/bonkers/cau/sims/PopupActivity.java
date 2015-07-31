@@ -28,52 +28,51 @@ public class PopupActivity extends Activity {
     private ListView mListView = null;
     private PUListAdapter puAdapter = null;
     private PUListAdapter pAdapter = null;
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            // TODO Auto-generated method stub
-            super.onCreate(savedInstanceState);
-            requestWindowFeature(Window.FEATURE_NO_TITLE);
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND,
-                    WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
-            setContentView(R.layout.activity_popup);
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
+        super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND,
+                WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
+        setContentView(R.layout.activity_popup);
 
 
+        PackageManager packagemanager = this.getPackageManager();
+        List<ApplicationInfo> appList = packagemanager.getInstalledApplications(0);
 
-            PackageManager packagemanager = this.getPackageManager();
-            List<ApplicationInfo> appList = packagemanager.getInstalledApplications( 0 );
-
-            mListView = (ListView) findViewById(R.id.popup_list);
-            puAdapter = new PUListAdapter(this);
-            pAdapter = new PUListAdapter(this);
-            mListView.setAdapter(puAdapter);
-            puAdapter.addItem(getResources().getDrawable(R.mipmap.phone),"Phone");
-            for (int i = 0; i < appList.size(); i++)
-                puAdapter.addItem(appList.get(i).loadIcon(packagemanager),
-                        appList.get(i).loadLabel(packagemanager));
-
+        mListView = (ListView) findViewById(R.id.popup_list);
+        puAdapter = new PUListAdapter(this);
+        pAdapter = new PUListAdapter(this);
+        mListView.setAdapter(puAdapter);
+        puAdapter.addItem(getResources().getDrawable(R.mipmap.phone), "Phone");
+        for (int i = 0; i < appList.size(); i++)
+            puAdapter.addItem(appList.get(i).loadIcon(packagemanager),
+                    appList.get(i).loadLabel(packagemanager));
 
 
-            mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-                @Override
-                public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                    PopupListdata mData = puAdapter.mPopupListdata.get(position);
-                    if ("Phone" == mData.mTitle) {
-                        getList();
-                        mListView.setAdapter(pAdapter);
-                    }
-
+            @Override
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                PopupListdata mData = puAdapter.mPopupListdata.get(position);
+                if ("Phone" == mData.mTitle) {
+                    getList();
+                    mListView.setAdapter(pAdapter);
                 }
-            });
 
-        }
-    private Cursor getURI()
-    {
+            }
+        });
+
+    }
+
+    private Cursor getURI() {
         // 주소록 URI
-        Uri people =  ContactsContract.Contacts.CONTENT_URI;
+        Uri people = ContactsContract.Contacts.CONTENT_URI;
 
         // 검색할 컬럼 정하기
-        String[] projection = new String[] { ContactsContract.Contacts._ID, ContactsContract.Contacts.DISPLAY_NAME, ContactsContract.Contacts.HAS_PHONE_NUMBER };
+        String[] projection = new String[]{ContactsContract.Contacts._ID, ContactsContract.Contacts.DISPLAY_NAME, ContactsContract.Contacts.HAS_PHONE_NUMBER};
 
         // 쿼리 날려서 커서 얻기
         String[] selectionArgs = null;
@@ -83,19 +82,19 @@ public class PopupActivity extends Activity {
         return getContentResolver().query(people, projection, null, selectionArgs, sortOrder);
         // return managedQuery(people, projection, null, selectionArgs, sortOrder);
     }
-    public void getList(){
+
+    public void getList() {
 
         Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
 
         Cursor cursor = getURI();                    // 전화번호부 가져오기
 
 
-        if(cursor.moveToFirst()){
-            do{
-                pAdapter.addItem(getResources().getDrawable(R.mipmap.human),cursor.getString(1) + "/" + cursor.getString(0)+ "/" + cursor.getString(2));
-            }while(cursor.moveToNext());
+        if (cursor.moveToFirst()) {
+            do {
+                pAdapter.addItem(getResources().getDrawable(R.mipmap.human), cursor.getString(1) + "/" + cursor.getString(0) + "/" + cursor.getString(2));
+            } while (cursor.moveToNext());
         }
-
 
 
     }
@@ -104,6 +103,7 @@ public class PopupActivity extends Activity {
         public ImageView popupIcon;
         public TextView popupText;
     }
+
     private class PUListAdapter extends BaseAdapter {
         private Context mContext = null;
         private ArrayList<PopupListdata> mPopupListdata = new ArrayList<PopupListdata>();
@@ -112,7 +112,8 @@ public class PopupActivity extends Activity {
             super();
             this.mContext = mContext;
         }
-        public PUListAdapter(Context mContext,ArrayList<String> mylist) {
+
+        public PUListAdapter(Context mContext, ArrayList<String> mylist) {
             super();
             this.mContext = mContext;
         }
@@ -146,7 +147,7 @@ public class PopupActivity extends Activity {
                 holder.popupText = (TextView) convertView.findViewById(R.id.popup_list_text);
 
                 convertView.setTag(holder);
-            }else{
+            } else {
                 holder = (ViewHolder) convertView.getTag();
             }
 
@@ -155,7 +156,7 @@ public class PopupActivity extends Activity {
             if (mData.mIcon != null) {
                 holder.popupIcon.setVisibility(View.VISIBLE);
                 holder.popupIcon.setImageDrawable(mData.mIcon);
-            }else{
+            } else {
                 holder.popupIcon.setVisibility(View.GONE);
             }
 
@@ -163,7 +164,8 @@ public class PopupActivity extends Activity {
 
             return convertView;
         }
-        public void addItem(Drawable icon, CharSequence mTitle){
+
+        public void addItem(Drawable icon, CharSequence mTitle) {
             PopupListdata addInfo = null;
             addInfo = new PopupListdata();
             addInfo.mIcon = icon;
@@ -173,13 +175,13 @@ public class PopupActivity extends Activity {
             dataChange();
         }
 
-        public void remove(int position){
+        public void remove(int position) {
             mPopupListdata.remove(position);
             dataChange();
         }
 
 
-        public void dataChange(){
+        public void dataChange() {
             puAdapter.notifyDataSetChanged();
         }
 
