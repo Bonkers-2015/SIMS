@@ -1,7 +1,10 @@
 package bonkers.cau.sims;
 
 import android.content.Context;
+<<<<<<< HEAD
 import android.content.Intent;
+=======
+>>>>>>> db5829acd1c9d1f3c250030acd2a52fc94f5775b
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -9,7 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+<<<<<<< HEAD
 import android.widget.Button;
+=======
+>>>>>>> db5829acd1c9d1f3c250030acd2a52fc94f5775b
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -17,14 +23,20 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Collections;
 
+<<<<<<< HEAD
 public class ListActivity extends ActionBarActivity {
 
+=======
+
+public class ListActivity extends ActionBarActivity {
+>>>>>>> db5829acd1c9d1f3c250030acd2a52fc94f5775b
     private ListView mListView = null;
     private ListViewAdapter mAdapter=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+<<<<<<< HEAD
         setContentView(R.layout.activity_list);
 
         mListView=(ListView)findViewById(R.id.mlist);
@@ -42,6 +54,7 @@ public class ListActivity extends ActionBarActivity {
                 finish();
             }
         });
+<<<<<<< HEAD
 
         String[] items = new String[20];
         for(int i=0; i<items.length;i++) {
@@ -68,6 +81,18 @@ public class ListActivity extends ActionBarActivity {
                         });
         mListView.setOnTouchListener(touchListner);
         mListView.setOnScrollListener(touchListner.makeScrollListener());
+=======
+=======
+        setContentView(R.layout.activity_main);
+
+        mListView=(ListView)findViewById(R.id.m_list);
+
+        mAdapter = new ListViewAdapter(this);
+        mListView.setAdapter(mAdapter);
+
+
+>>>>>>> db5829acd1c9d1f3c250030acd2a52fc94f5775b
+>>>>>>> 2a9cda3aa874f8a05670d167cf62b7ce9f05c6ca
     }
 
     private class ViewHolder {
@@ -103,11 +128,19 @@ public class ListActivity extends ActionBarActivity {
             if(convertView==null) {
                 holder = new ViewHolder();
                 LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+<<<<<<< HEAD
                 convertView = inflater.inflate(R.layout.listview_list_item, null);
 
                 holder.mIcon = (ImageView)convertView.findViewById(R.id.list_icon);
                 holder.mFirst = (TextView)convertView.findViewById(R.id.first_setting);
                 holder.mSecond = (TextView)convertView.findViewById(R.id.second_setting);
+=======
+                convertView = inflater.inflate(R.layout.listview_item, null);
+
+                holder.mIcon = (ImageView) convertView.findViewById(R.id.mImage);
+                holder.mFirst = (TextView) convertView.findViewById(R.id.mFirst);
+                holder.mSecond = (TextView) convertView.findViewById(R.id.mSecond);
+>>>>>>> db5829acd1c9d1f3c250030acd2a52fc94f5775b
 
                 convertView.setTag(holder);
             }
