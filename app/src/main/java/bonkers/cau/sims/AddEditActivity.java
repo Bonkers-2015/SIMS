@@ -23,7 +23,6 @@ public class AddEditActivity extends Activity {
 
     private String mModelName;
     private CharSequence appName;
-    List<ApplicationInfo> appList;
     private RelativeLayout mRelativeLayout;
     private int btnCount[] = {0, 0, 0};
     private ArrayList<Button> mButton = new ArrayList<Button>();
@@ -42,10 +41,6 @@ public class AddEditActivity extends Activity {
 
         // (임시로) 모델 "A" 전송
         mModelName = "A";
-
-
-
-
 
 
         mRelativeLayout = (RelativeLayout) findViewById(R.id.rl_main);
@@ -71,15 +66,16 @@ public class AddEditActivity extends Activity {
         super.onActivityResult(requestCode, resultCode, data);
         //어플 목록을 불러옴
         PackageManager packagemanager = this.getPackageManager();
-        appList = packagemanager.getInstalledApplications(0);
+        List<ApplicationInfo> appList = packagemanager.getInstalledApplications(0);
+
         switch (requestCode) {
             case LAUNCHED_ACTIVITY:
                 if (resultCode == RESULT_OK) {
-                    appName = data.getStringExtra("resultTExt");
+                    appName = data.getStringExtra("resultText");
 
 
                     for (ApplicationInfo app : appList) {
-                        CharSequence test =app.loadLabel(packagemanager);
+                        CharSequence test = app.loadLabel(packagemanager);
                         if (test.equals(appName)) {
                             mButtonMain.setBackground(app.loadIcon(packagemanager));
                             break;
