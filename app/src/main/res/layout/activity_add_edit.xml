@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="top"
                 android:layout_weight="1"
-                android:text="도움말"/>
+                android:text="Setting"/>
 
         </LinearLayout>
 
@@ -91,6 +91,7 @@
                 android:text=" "/>
 
             <Button
+                android:id="@+id/canclebtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
