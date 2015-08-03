@@ -15,7 +15,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class ListActivity extends ActionBarActivity {
 
@@ -117,28 +116,24 @@ public class ListActivity extends ActionBarActivity {
 
             ListData mData = mListData.get(position);
 
-            if(mData.mIcon!=null) {
+            if(mData.getmIcon()!=null) {
                 holder.mIcon.setVisibility(View.VISIBLE);
-                holder.mIcon.setImageDrawable(mData.mIcon);
+                holder.mIcon.setImageDrawable(mData.getmIcon());
             }
 
             else {
                 holder.mIcon.setVisibility(View.VISIBLE);
             }
 
-            holder.mFirst.setText(mData.mTitle);
-            holder.mSecond.setText(mData.mData);
+            holder.mFirst.setText(mData.getmData1());
+            holder.mSecond.setText(mData.getmData2());
 
             return convertView;
         }
 
         public void addItem(Drawable icon,String mTitle,String mData) {
             ListData addInfo = null;
-            addInfo = new ListData();
-            addInfo.mIcon=icon;
-            addInfo.mTitle=mTitle;
-            addInfo.mData=mData;
-
+            addInfo = new ListData(icon,mTitle,mData);
             mListData.add(addInfo);
 
         }
@@ -148,10 +143,6 @@ public class ListActivity extends ActionBarActivity {
             dataChange();
         }
 
-        public void sort(){
-            Collections.sort(mListData, ListData.ALPHA_COMPARATOR);
-            dataChange();
-        }
         public void dataChange() {
             mAdapter.notifyDataSetChanged();
 

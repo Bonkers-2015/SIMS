@@ -21,6 +21,9 @@ public class AddEditActivity extends Activity {
 
     private int phoneBtnCount = 3, phoneMotionCount = 3;
 
+
+
+
     private String mModelName;
     private CharSequence appName;
     private RelativeLayout mRelativeLayout;
@@ -215,6 +218,7 @@ public class AddEditActivity extends Activity {
             //데이터가 없습니다.
         }
     }
+
 
 
     private void Setting() {
