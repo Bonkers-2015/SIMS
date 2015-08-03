@@ -1,12 +1,11 @@
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="bonkers.cau.sims.AddEditActivity">
 
 
@@ -19,8 +18,8 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_weight="1"
+            android:orientation="horizontal"
             android:weightSum="100">
 
             <Button
@@ -28,43 +27,45 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="top"
                 android:layout_weight="1"
-                android:text="초기화"/>
+                android:text="초기화" />
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="top"
-                android:layout_weight="98"
-                android:text=""/>
+                android:layout_height="46dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:id="@+id/textView"
+                android:layout_weight="94" />
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="top"
-                android:layout_weight="1"
-                android:text="Setting"/>
+            <ImageButton
+                android:id="@+id/settingbtn"
+                android:layout_width="50dp"
+                android:layout_height="fill_parent"
+                android:src="@mipmap/settings2"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                android:layout_weight="10.10" />
 
         </LinearLayout>
 
         <RelativeLayout
             android:id="@+id/rl_main"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_weight="98">
 
             <ImageView
                 android:id="@+id/background_phone"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@mipmap/pp"
-            />
+                android:src="@mipmap/pp" />
+
             <Button
                 android:id="@+id/btn_main"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:text="MAIN"
+                android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true" />
+                android:text="MAIN" />
 
 
         </RelativeLayout>
@@ -72,8 +73,8 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_weight="1"
+            android:orientation="horizontal"
             android:weightSum="100">
 
             <Button
@@ -81,14 +82,14 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:layout_weight="1"
-                android:text="Save"/>
+                android:text="Save" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:layout_weight="98"
-                android:text=" "/>
+                android:text=" " />
 
             <Button
                 android:id="@+id/canclebtn"
@@ -96,11 +97,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:layout_weight="1"
-                android:text="Cancle"/>
+                android:text="Cancle" />
 
         </LinearLayout>
 
 
     </LinearLayout>
-
 </RelativeLayout>
