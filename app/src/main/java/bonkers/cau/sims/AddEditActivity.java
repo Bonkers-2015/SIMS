@@ -119,8 +119,7 @@ public class AddEditActivity extends Activity {
                             mButton.get(0).setBackgroundColor(Color.BLUE);
                         } else
                             showDialog();
-                    }
-                    else {
+                    } else {
                         btnCount[0] = 0;
                         mButton.get(0).setBackgroundColor(Color.LTGRAY);
 
@@ -129,7 +128,6 @@ public class AddEditActivity extends Activity {
                 }
             });
         }
-
 
 
         mButton.get(1).setOnClickListener(new View.OnClickListener() {
@@ -153,22 +151,21 @@ public class AddEditActivity extends Activity {
         mButton.get(2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (int a=3;a<10;a++) {
-                    if (btnCount[a] == 0) {
-                        if (btnCount[0] + btnCount[1] + btnCount[2] < 2) {
-                            btnCount[2] = 1;
-                            mButton.get(2).setBackgroundColor(Color.BLUE);
-                        } else
-                            showDialog();
+                if (btnCount[2] == 0) {
+                    if (btnCount[0] + btnCount[1] + btnCount[2] < 2) {
+                        btnCount[2] = 1;
+                        mButton.get(2).setBackgroundColor(Color.BLUE);
+                    } else
+                        showDialog();
 
-                    } else {
-                        btnCount[2] = 0;
-                        mButton.get(2).setBackgroundColor(Color.LTGRAY);
+                } else {
+                    btnCount[2] = 0;
+                    mButton.get(2).setBackgroundColor(Color.LTGRAY);
 
-                    }
                 }
-
             }
+
+
         });
 
 
