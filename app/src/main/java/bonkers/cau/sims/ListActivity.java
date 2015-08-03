@@ -2,6 +2,8 @@ package bonkers.cau.sims;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -15,11 +17,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ListActivity extends ActionBarActivity {
 
     private ListView mListView = null;
     private ListViewAdapter mAdapter=null;
+    private ListDBManager dbManager;
+    private ArrayList<ListData> listDataArrList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,11 +32,18 @@ public class ListActivity extends ActionBarActivity {
         setContentView(R.layout.activity_list);
 
         mListView=(ListView)findViewById(R.id.mlist);
-
         mAdapter = new ListViewAdapter(this);
         mListView.setAdapter(mAdapter);
-        mAdapter.addItem(getResources().getDrawable(R.mipmap.phone), "Vol-up", "Vol-down");
-        mAdapter.addItem(getResources().getDrawable(R.mipmap.kakao),"Vol-down","Vol-up");
+        PackageManager packagemanager = getApplicationContext().getPackageManager();
+        List<ApplicationInfo> appList = packagemanager.getInstalledApplications(0);
+
+        dbManager= new ListDBManager(getApplicationContext());
+        listDataArrList =dbManager.selectAll();
+        for (ListData data:listDataArrList) {
+
+            mAdapter.addItem(appList.get(data.getIndexNum()).loadIcon(packagemanager), data.getmData1(), data.getmData2());
+
+        }
         Button btn =(Button)findViewById(R.id.list_addbtn);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -22,17 +22,18 @@ public class AddEditActivity extends Activity {
     private int phoneBtnCount = 3, phoneMotionCount = 3;
 
 
-
-
+    private int index;
     private String mModelName;
     private CharSequence appName;
+    private String pressedData[] = new String[2];
+    private int pressedDataNum = 0;
     private RelativeLayout mRelativeLayout;
     private int btnCount[] = {0, 0, 0};
     private ArrayList<Button> mButton = new ArrayList<Button>();
     private ArrayList<Button> mMotion = new ArrayList<Button>();
     private ArrayList<RelativeLayout.LayoutParams> mButonParam = new ArrayList<RelativeLayout.LayoutParams>();
     private ArrayList<RelativeLayout.LayoutParams> mMotionParam = new ArrayList<RelativeLayout.LayoutParams>();
-
+    private ListDBManager dbManager;
     private Button mButtonMain;
     private Button mButtonCancle;
     // requestCode
@@ -62,13 +63,30 @@ public class AddEditActivity extends Activity {
                 startActivityForResult(i, LAUNCHED_ACTIVITY);
             }
         });
-        Button canclebtn =(Button)findViewById(R.id.canclebtn);
-        canclebtn.setOnClickListener(new View.OnClickListener() {
+        Button cancleBtn = (Button) findViewById(R.id.canclebtn);
+        cancleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent cancleintent = new Intent(AddEditActivity.this, ListActivity.class);
                 startActivity(cancleintent);
                 finish();
+            }
+        });
+        Button saveBtn = (Button) findViewById(R.id.savebtn);
+        saveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for (int i = 0; i < btnCount.length; i++) {
+                    if (btnCount[i] == 1) {
+                        pressedData[pressedDataNum] = "data"+i;
+                        pressedDataNum=1;
+                    }
+
+
+                }
+                 dbManager= new ListDBManager(getApplicationContext());
+                ListData mListData = new ListData(index, pressedData[0], pressedData[1]);
+                dbManager.insertData(mListData);
             }
         });
     }
@@ -87,10 +105,11 @@ public class AddEditActivity extends Activity {
                     appName = data.getStringExtra("resultText");
 
 
-                    for (ApplicationInfo app : appList) {
-                        CharSequence test = app.loadLabel(packagemanager);
+                    for (int i = 0; i < appList.size(); i++) {
+                        CharSequence test = appList.get(i).loadLabel(packagemanager);
                         if (test.equals(appName)) {
-                            mButtonMain.setBackground(app.loadIcon(packagemanager));
+                            mButtonMain.setBackground(appList.get(i).loadIcon(packagemanager));
+                            index = i;
                             break;
                         }
                     }
@@ -228,7 +247,6 @@ public class AddEditActivity extends Activity {
             //데이터가 없습니다.
         }
     }
-
 
 
     private void Setting() {

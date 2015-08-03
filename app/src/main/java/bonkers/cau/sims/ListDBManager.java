@@ -47,7 +47,8 @@ public class ListDBManager {
 
             String createSql = "create table " + tableName + " ("
                     + "id integer primary key autoincrement, " + "indexnum integer, "
-                    + "data1 text "+"data2 text)";
+                    + "data1 text, "+"data2 text)";
+
             arg0.execSQL(createSql);
         }
 
@@ -59,8 +60,8 @@ public class ListDBManager {
 
     // 데이터 추가
     public void insertData(ListData data) {
-        String sql = "insert into " + tableName + " values(NULL, '"
-                + data.getIndexNum() + "', " + data.getmData1() +"', " + data.getmData2() + "');";
+        String sql = "insert into " + tableName+ " values(NULL, "
+                + data.getIndexNum() + ", '" + data.getmData1() +"', '" + data.getmData2() + "');";
         db.execSQL(sql);
     }
 

@@ -1,6 +1,11 @@
 package bonkers.cau.sims;
 
+import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
+
+import java.util.List;
 
 /**
  * Created by ±è½Â¿í on 2015-07-30.
@@ -26,7 +31,14 @@ public class ListData {
         this.mData1 = mData1;
         this.mData2 = mData2;
     }
-
+    public ListData(Context context, int indexNum, String mData1, String mData2) {
+        this.indexNum = indexNum;
+        PackageManager packagemanager = context.getPackageManager();
+        List<ApplicationInfo> appList = packagemanager.getInstalledApplications(0);
+        this.mIcon=appList.get(indexNum).loadIcon(packagemanager);
+        this.mData1 = mData1;
+        this.mData2 = mData2;
+    }
     public Drawable getmIcon() {
         return mIcon;
     }
