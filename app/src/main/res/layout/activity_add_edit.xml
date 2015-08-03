@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="top"
                 android:layout_weight="1"
-                android:text="LEFT"/>
+                android:text="초기화"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="top"
                 android:layout_weight="1"
-                android:text="RIGHT"/>
+                android:text="?"/>
 
         </LinearLayout>
 
@@ -76,7 +76,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:layout_weight="1"
-                android:text="LEFT"/>
+                android:text="Save"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -90,7 +90,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:layout_weight="1"
-                android:text="RIGHT"/>
+                android:text="Cancle"/>
 
         </LinearLayout>
 
