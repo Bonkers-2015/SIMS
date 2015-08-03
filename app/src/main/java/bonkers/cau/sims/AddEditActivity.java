@@ -34,6 +34,7 @@ public class AddEditActivity extends Activity {
     private ArrayList<RelativeLayout.LayoutParams> mMotionParam = new ArrayList<RelativeLayout.LayoutParams>();
 
     private Button mButtonMain;
+    private Button mButtonCancle;
     // requestCode
     private static final int LAUNCHED_ACTIVITY = 1;
 
@@ -59,6 +60,15 @@ public class AddEditActivity extends Activity {
                 Intent i = new Intent(AddEditActivity.this, PopupActivity.class);
                 i.putExtra("myName", "superdroid");
                 startActivityForResult(i, LAUNCHED_ACTIVITY);
+            }
+        });
+        Button canclebtn =(Button)findViewById(R.id.canclebtn);
+        canclebtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent cancleintent = new Intent(AddEditActivity.this, ListActivity.class);
+                startActivity(cancleintent);
+                finish();
             }
         });
     }
@@ -98,7 +108,7 @@ public class AddEditActivity extends Activity {
                 dialog.dismiss();     //´Ý±â
             }
         });
-        alert.setMessage("don't press btn more than 2");
+        alert.setMessage("Don't press btn more than 2");
         alert.show();
     }
 
