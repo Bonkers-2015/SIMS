@@ -37,7 +37,7 @@
 
         <activity
             android:name=".ListActivity"
-            android:label="@string/title_activity_add_edit">
+            android:label="ListActivity">
 
         </activity>
 
