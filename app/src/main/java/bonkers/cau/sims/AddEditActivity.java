@@ -100,34 +100,38 @@ public class AddEditActivity extends Activity {
     }
 
     private void setLayout() {
-
+        int a;
         //Button id = 1 ~
         for (int i = 0; i < phoneBtnCount; i++) {
             mButton.add(new Button(this));
             mButton.get(i).setId(i);
             mButton.get(i).setText("'" + i + "'");
             mButonParam.add(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        }
+            mButton.get(i).setOnClickListener(new View.OnClickListener() {
 
-        mButton.get(0).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (btnCount[0] == 0) {
+                @Override
+                public void onClick(View v) {
+
                     //2개 이상 눌렸으면?
-                    if (btnCount[0] + btnCount[1] + btnCount[2] < 2) {
-                        btnCount[0] = 1;
-                        mButton.get(0).setBackgroundColor(Color.BLUE);
-                    } else
-                        showDialog();
+                    if (btnCount[0] == 0) {
+                        if (btnCount[0] + btnCount[1] + btnCount[2] < 2) {
+                            btnCount[0] = 1;
+                            mButton.get(0).setBackgroundColor(Color.BLUE);
+                        } else
+                            showDialog();
+                    }
+                    else {
+                        btnCount[0] = 0;
+                        mButton.get(0).setBackgroundColor(Color.LTGRAY);
 
-                } else {
-                    btnCount[0] = 0;
-                    mButton.get(0).setBackgroundColor(Color.LTGRAY);
+                    }
 
                 }
+            });
+        }
 
-            }
-        });
+
+
         mButton.get(1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -149,17 +153,19 @@ public class AddEditActivity extends Activity {
         mButton.get(2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (btnCount[2] == 0) {
-                    if (btnCount[0] + btnCount[1] + btnCount[2] < 2) {
-                        btnCount[2] = 1;
-                        mButton.get(2).setBackgroundColor(Color.BLUE);
-                    } else
-                        showDialog();
+                for (int a=3;a<10;a++) {
+                    if (btnCount[a] == 0) {
+                        if (btnCount[0] + btnCount[1] + btnCount[2] < 2) {
+                            btnCount[2] = 1;
+                            mButton.get(2).setBackgroundColor(Color.BLUE);
+                        } else
+                            showDialog();
 
-                } else {
-                    btnCount[2] = 0;
-                    mButton.get(2).setBackgroundColor(Color.LTGRAY);
+                    } else {
+                        btnCount[2] = 0;
+                        mButton.get(2).setBackgroundColor(Color.LTGRAY);
 
+                    }
                 }
 
             }
