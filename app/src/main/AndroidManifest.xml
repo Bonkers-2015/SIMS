@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="bonkers.cau.sims" >
 
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -22,21 +25,29 @@
             android:label="@string/title_activity_popup"
             android:theme="@android:style/Theme.Dialog"
             android:windowSoftInputMode="stateHidden" >
-
-
         </activity>
         <activity
             android:name=".AddEditActivity"
             android:label="@string/title_activity_add_edit" >
-
         </activity>
-
         <activity
             android:name=".ListActivity"
             android:label="@string/title_activity_add_edit" >
-
         </activity>
 
+        <service
+            android:name=".MainService"
+            android:label="@string/title_activity_main_service" />
+
+        <receiver
+            android:name=".StartReceiver"
+            android:enabled="true"
+            android:exported="false"
+            android:label="@string/title_activity_start_receiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
     </application>
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
 </manifest>

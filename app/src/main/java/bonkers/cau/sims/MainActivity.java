@@ -33,6 +33,12 @@ public class MainActivity extends ActionBarActivity {
             }
         });
         setContentView(myView);
+/*
+Service 부분. 실행되었을 때 backgroud 에서 실행유지
+*/
+        Intent myIntent = new Intent(getBaseContext(), MainService.class);
+        startService(myIntent);
+
 
         textView=(TextView)findViewById(R.id.model);
         textView.setText(model);
