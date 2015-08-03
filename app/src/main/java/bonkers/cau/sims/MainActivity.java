@@ -27,7 +27,7 @@ public class MainActivity extends ActionBarActivity {
         myView = inflater.inflate(R.layout.activity_main, null);
         myView.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, AddEditActivity.class);
+                Intent intent = new Intent(MainActivity.this, ListActivity.class);
                 startActivity(intent);
                 finish();
             }
