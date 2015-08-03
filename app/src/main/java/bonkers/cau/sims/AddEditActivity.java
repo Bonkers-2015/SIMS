@@ -95,7 +95,7 @@ public class AddEditActivity extends Activity {
                 dialog.dismiss();     //´Ý±â
             }
         });
-        alert.setMessage("don't press btn more than 2");
+        alert.setMessage("Don't press btn more than 2");
         alert.show();
     }
 
