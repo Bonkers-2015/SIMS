@@ -6,5 +6,6 @@
     <string name="title_activity_popup">PopupActivity</string>
     <string name="title_activity_phone">PhoneActivity</string>
     <string name="title_activity_add_edit">AddEditActivity</string>
+    <string name="title_activity_setting">SettingActivity</string>
     
 </resources>

@@ -12,6 +12,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ public class AddEditActivity extends Activity implements OnClickListener{
     private ArrayList<RelativeLayout.LayoutParams> mMotionParam = new ArrayList<RelativeLayout.LayoutParams>();
     private ListDBManager dbManager;
     private Button mButtonMain,mButtonCancle, mButtonSave;
+    private ImageButton mButtonSetting;
 
 
 
@@ -59,6 +61,16 @@ public class AddEditActivity extends Activity implements OnClickListener{
         mButtonCancle.setOnClickListener(this);
         mButtonSave = (Button) findViewById(R.id.btn_save);
         mButtonSave.setOnClickListener(this);
+
+        // 150804 KGM, Setting Button
+        mButtonSetting = (ImageButton) findViewById(R.id.btn_setting);
+        mButtonSetting.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent_setting = new Intent(AddEditActivity.this, SettingActivity.class);
+                startActivity(intent_setting);
+            }
+        });
 
         setLayout();
         phoneSetting();
