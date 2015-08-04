@@ -37,11 +37,13 @@ public class ListActivity extends ActionBarActivity {
         PackageManager packagemanager = getApplicationContext().getPackageManager();
         List<ApplicationInfo> appList = packagemanager.getInstalledApplications(0);
 
+        //DB를 받아온다
         dbManager= new ListDBManager(getApplicationContext());
         listDataArrList =dbManager.selectAll();
+
         for (ListData data:listDataArrList) {
 
-            mAdapter.addItem(appList.get(data.getIndexNum()).loadIcon(packagemanager), data.getmData1(), data.getmData2());
+            mAdapter.addItem(data.getId(),appList.get(data.getIndexNum()).loadIcon(packagemanager), data.getmData1(), data.getmData2());
 
         }
         Button btn =(Button)findViewById(R.id.list_addbtn);
@@ -72,7 +74,9 @@ public class ListActivity extends ActionBarActivity {
                             @Override
                             public void onDismiss(ListView listView,int[] reverseSortedPositions) {
                                 for (int position:reverseSortedPositions) {
+                                    dbManager.removeData(mAdapter.getItem(position).getId());
                                     mAdapter.remove(position);
+
                                 }
                                 mAdapter.notifyDataSetChanged();
                             }
@@ -91,17 +95,20 @@ public class ListActivity extends ActionBarActivity {
         private Context mContext=null;
         private ArrayList<ListData> mListData = new ArrayList<ListData>();
 
+
         public ListViewAdapter(Context mContext) {
             super();
             this.mContext = mContext;
         }
+
+
         @Override
         public int getCount() {
             return mListData.size();
         }
 
         @Override
-        public Object getItem(int position) {
+        public ListData getItem(int position) {
             return mListData.get(position);
         }
         @Override
@@ -115,6 +122,7 @@ public class ListActivity extends ActionBarActivity {
                 holder = new ViewHolder();
                 LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 convertView = inflater.inflate(R.layout.listview_list_item, null);
+
 
                 holder.mIcon = (ImageView)convertView.findViewById(R.id.list_icon);
                 holder.mFirst = (TextView)convertView.findViewById(R.id.first_setting);
@@ -143,9 +151,9 @@ public class ListActivity extends ActionBarActivity {
             return convertView;
         }
 
-        public void addItem(Drawable icon,String mTitle,String mData) {
+        public void addItem(int mId,Drawable icon,String mTitle,String mData) {
             ListData addInfo = null;
-            addInfo = new ListData(icon,mTitle,mData);
+            addInfo = new ListData(mId,icon,mTitle,mData);
             mListData.add(addInfo);
 
         }

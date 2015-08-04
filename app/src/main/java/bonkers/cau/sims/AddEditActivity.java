@@ -18,22 +18,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class AddEditActivity extends Activity implements OnClickListener{
+public class AddEditActivity extends Activity implements OnClickListener {
 
     private int phoneBtnCount = 3, phoneMotionCount = 3;
 
 
     private int index;
     private String mModelName;
-    private CharSequence appName;
+    private CharSequence appName = null;
+    private CharSequence mAppName = null;
     private String pressedData[] = new String[2];
     private int pressedDataNum = 0;
     private RelativeLayout mRelativeLayout;
+    private ArrayList<ListData> mArrayListData = new ArrayList<ListData>();
     private ArrayList<Button> mMotion = new ArrayList<Button>();
     private ArrayList<RelativeLayout.LayoutParams> mMotionParam = new ArrayList<RelativeLayout.LayoutParams>();
     private ListDBManager dbManager;
-    private Button mButtonMain,mButtonCancle, mButtonSave;
-
+    private Button mButtonMain, mButtonCancle, mButtonSave;
 
 
     private ArrayList<Buttons> mButtons = new ArrayList<Buttons>();
@@ -49,8 +50,6 @@ public class AddEditActivity extends Activity implements OnClickListener{
 
         // (임시로) 모델 "A" 전송
         mModelName = "A";
-
-
         mRelativeLayout = (RelativeLayout) findViewById(R.id.rl_main);
 
         mButtonMain = (Button) findViewById(R.id.btn_main);
@@ -80,8 +79,8 @@ public class AddEditActivity extends Activity implements OnClickListener{
 
 
                     for (int i = 0; i < appList.size(); i++) {
-                        CharSequence test = appList.get(i).loadLabel(packagemanager);
-                        if (test.equals(appName)) {
+                        mAppName = appList.get(i).loadLabel(packagemanager);
+                        if (mAppName.equals(appName)) {
                             mButtonMain.setBackground(appList.get(i).loadIcon(packagemanager));
                             index = i;
                             break;
@@ -142,7 +141,6 @@ public class AddEditActivity extends Activity implements OnClickListener{
 //            mButtons.get(0).setBackgroundResource(R.mipmap.volume_up);
 
 
-
             mButtons.get(0).params.addRule(RelativeLayout.LEFT_OF, R.id.btn_main);
             mButtons.get(0).params.addRule(RelativeLayout.ALIGN_TOP, R.id.btn_main);
             mButtons.get(1).params.addRule(RelativeLayout.RIGHT_OF, R.id.btn_main);
@@ -167,44 +165,61 @@ public class AddEditActivity extends Activity implements OnClickListener{
 
     @Override
     public void onClick(View v) {
-        int OnOffTotalCount=0;
+        int OnOffTotalCount = 0;
 
         // Main Click
-        if(v==mButtonMain){
+        if (v == mButtonMain) {
             Intent i = new Intent(AddEditActivity.this, PopupActivity.class);
-                i.putExtra("myName", "superdroid");
-                startActivityForResult(i, LAUNCHED_ACTIVITY);
+            i.putExtra("myName", "superdroid");
+            startActivityForResult(i, LAUNCHED_ACTIVITY);
 
-        // Cancle Click
-        }else if(v==mButtonCancle){
+            // Cancle Click
+        } else if (v == mButtonCancle) {
             Intent cancleintent = new Intent(AddEditActivity.this, ListActivity.class);
             startActivity(cancleintent);
             finish();
 
-        // Save Click
-        }else if(v==mButtonSave){
-            for (int i = 0; i < mButtons.size(); i++) {
+            // Save Click
+        } else if (v == mButtonSave) {
+            boolean isRepeated = false;
+            if (OnOffTotalCount == 2 && appName != null) {
+                for (int i = 0; i < mButtons.size(); i++) {
                     if (mButtons.get(i).onOff == true) {
-                        pressedData[pressedDataNum] = "data"+i;
-                        pressedDataNum=1;
+                        pressedData[pressedDataNum] = "data" + i;
+                        pressedDataNum = 1;
                     }
                 }
-                 dbManager= new ListDBManager(getApplicationContext());
-                ListData mListData = new ListData(index, pressedData[0], pressedData[1]);
-                dbManager.insertData(mListData);
+
+                dbManager = new ListDBManager(getApplicationContext());
+                mArrayListData = dbManager.selectAll();
+                for (ListData mListData : mArrayListData) {
+                    if (pressedData[0] == mListData.getmData1() && pressedData[1] == mListData.getmData2()) {
+                        showDialog();
+                        isRepeated = true;
+
+                    }
+
+                }
+                if (!isRepeated) {
+                    ListData mListData = new ListData(index, pressedData[0], pressedData[1]);
+                    dbManager.insertData(mListData);
+                }
+            }
+            else
+                showDialog();
         }
 
         // Button OnOff Total Count
-        for(int i=0; i<mButtons.size();i++){
+        for (int i = 0; i < mButtons.size(); i++) {
             if (mButtons.get(i).onOff == true) {
                 OnOffTotalCount++;
             }
         }
 
-        for(int i=0; i<mButtons.size();i++){
-            if(v == mButtons.get(i)){
+        for (int i = 0; i < mButtons.size(); i++) {
+            if (v == mButtons.get(i)) {
                 if (mButtons.get(i).onOff == false) {
-                    if (OnOffTotalCount<2) {
+                    if (OnOffTotalCount < 2) {
                         mButtons.get(i).onOff = true;
                         mButtons.get(i).setBackgroundColor(Color.BLUE);
                     } else
