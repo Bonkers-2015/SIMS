@@ -5,13 +5,18 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
@@ -20,26 +25,20 @@ import java.util.List;
 
 public class AddEditActivity extends Activity implements OnClickListener {
 
-    private int phoneBtnCount = 3, phoneMotionCount = 3;
-
-
-    private int index;
-    private String mModelName;
-    private CharSequence appName = null;
-    private CharSequence mAppName = null;
-    private String pressedData[] = new String[2];
-    private int pressedDataNum = 0;
-    private RelativeLayout mRelativeLayout;
+    private CharSequence appName = null, mAppName = null;
+    private String mModelName, pressedData[] = new String[2];
+    private RelativeLayout mRLMain;
     private ArrayList<ListData> mArrayListData = new ArrayList<ListData>();
-    private ArrayList<Button> mMotion = new ArrayList<Button>();
-    private ArrayList<RelativeLayout.LayoutParams> mMotionParam = new ArrayList<RelativeLayout.LayoutParams>();
-    private ListDBManager dbManager;
-    private Button mButtonMain, mButtonCancle, mButtonSave;
-    private int errorCheck=0;
-
-
+    private ArrayList<Motions> mMotions = new ArrayList<Motions>();
     private ArrayList<Buttons> mButtons = new ArrayList<Buttons>();
-
+    private ListDBManager dbManager;
+    private Button mButtonMain, mButtonCancle, mButtonSave, mButtonIniti;
+    private int index, pressedDataNum = 0, errorCheck=0;
+    private int phoneBtnCount = 3, phoneMotionCount = 3;
+    private ImageView mIVMain;
+    private Bitmap mainBG;
+    private Matrix bgMatrix;
+    private int viewId = 0;
 
     // requestCode
     private static final int LAUNCHED_ACTIVITY = 1;
@@ -51,17 +50,41 @@ public class AddEditActivity extends Activity implements OnClickListener {
 
         // 임시로) 모델 "A" 전송
         mModelName = "A";
-        mRelativeLayout = (RelativeLayout) findViewById(R.id.rl_main);
 
-        mButtonMain = (Button) findViewById(R.id.btn_main);
+        mRLMain = (RelativeLayout) findViewById(R.id.rl_main);
+
+
+        // Main Imageview initialize
+        mIVMain = new ImageView(AddEditActivity.this);
+        RelativeLayout.LayoutParams paramIV = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT);
+        paramIV.addRule(RelativeLayout.CENTER_HORIZONTAL);
+        paramIV.addRule(RelativeLayout.CENTER_VERTICAL);
+        mIVMain.setLayoutParams(paramIV);
+
+        // Main Button initialize
+        mButtonMain = (Button)findViewById(R.id.btn_main);
+//        mButtonMain = new Button(AddEditActivity.this);
+
+//        mButtonMain.setId(viewId);
+//        viewId++;
+
+//        RelativeLayout.LayoutParams paramBtn = new RelativeLayout.LayoutParams(350, 700);
+//        paramBtn.addRule(RelativeLayout.CENTER_HORIZONTAL);
+//        paramBtn.addRule(RelativeLayout.CENTER_VERTICAL);
+//        mButtonMain.setLayoutParams(paramBtn);
+//        mButtonMain.setText("MAIN");
         mButtonMain.setOnClickListener(this);
+
         mButtonCancle = (Button) findViewById(R.id.btn_cancle);
         mButtonCancle.setOnClickListener(this);
         mButtonSave = (Button) findViewById(R.id.btn_save);
         mButtonSave.setOnClickListener(this);
+        mButtonIniti = (Button)findViewById(R.id.btn_initi);
+        mButtonIniti.setOnClickListener(this);
 
-        setLayout();
+
         phoneSetting();
+
 
     }
 
@@ -111,29 +134,13 @@ public class AddEditActivity extends Activity implements OnClickListener {
             alert.setMessage("Don't press btn more than 2 !");
         }else if (errorCheck == 2) {
             alert.setMessage("Only two btn and one App ! ");
+        }else{
+            alert.setMessage("I don't know");
         }
 
         alert.show();
 
     }
-
-    private void setLayout() {
-
-        //Button id = 1 ~
-        for (int i = 0; i < phoneBtnCount; i++) {
-            mButtons.add(new Buttons(this));
-//            mButtons.get(i).setId(i);
-            mButtons.get(i).setText("" + i + "");
-            mButtons.get(i).setOnClickListener(this);
-
-//        //Motion button id = 10 ~
-//        for (int j = 0; j < phoneMotionCount; j++) {
-//            mMotion.add(new Button(this));
-//            mButton.get(j).setId(j * 10);
-//            mMotionParam.add(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        }
-    }
-
 
     // PhoneModel Setting
     private void phoneSetting() {
@@ -146,35 +153,82 @@ public class AddEditActivity extends Activity implements OnClickListener {
             //폰 이미지
 
             phoneBtnCount = 3;
-//            phoneMotionCount = 2;
+            phoneMotionCount = 1;
+
+            setLayout();
+
+
 
             mButtons.get(0).name = "UP";
             mButtons.get(0).keycode = KeyEvent.KEYCODE_VOLUME_UP;
             mButtons.get(0).iconName = "volume_up";
 //            mButtons.get(0).setBackgroundResource(R.mipmap.volume_up);
 
-
             mButtons.get(0).params.addRule(RelativeLayout.LEFT_OF, R.id.btn_main);
             mButtons.get(0).params.addRule(RelativeLayout.ALIGN_TOP, R.id.btn_main);
             mButtons.get(1).params.addRule(RelativeLayout.RIGHT_OF, R.id.btn_main);
-            mButtons.get(1).params.addRule(RelativeLayout.ALIGN_TOP, R.id.btn_main);
+            mButtons.get(1).params.addRule(RelativeLayout.ALIGN_TOP,R.id.btn_main);
             mButtons.get(2).params.addRule(RelativeLayout.LEFT_OF, R.id.btn_main);
             mButtons.get(2).params.addRule(RelativeLayout.ALIGN_BOTTOM, R.id.btn_main);
+
+            mMotions.get(0).name = "shake";
+//            mMotions.get(0).motioncode = 0;
+            mMotions.get(0).iconName = "shake";
+            mMotions.get(0).params.addRule(RelativeLayout.ABOVE, R.id.btn_main);
+            mMotions.get(0).params.addRule(RelativeLayout.ALIGN_RIGHT, R.id.btn_main);
 
         } else if (mModelName == "B") {
 
         } else if (mModelName == "C") {
 
         } else {
-            //데이터가 없습니다.
+            //no data
         }
 
-        // Add Button
+
+        // Set imageview bitmap   &&   Add ImageView
+        mainBG = BitmapFactory.decodeResource(getResources(), R.mipmap.pp);
+        mIVMain.setImageBitmap(mainBG);
+        mRLMain.addView(mIVMain);
+
+        // Add Main Button
+        mRLMain.removeView(mButtonMain);
+        mRLMain.addView(mButtonMain);
+
+        // Add Buttons
         for (int i = 0; i < mButtons.size(); i++) {
             mButtons.get(i).setLayoutParams(mButtons.get(i).params);
-            mRelativeLayout.addView(mButtons.get(i));
+            mRLMain.addView(mButtons.get(i));
+        }
+
+        // Add Motions
+        for (int i = 0; i < mMotions.size(); i++) {
+            mMotions.get(i).setLayoutParams(mMotions.get(i).params);
+            mRLMain.addView(mMotions.get(i));
+        }
+
+
+    }
+
+    private void setLayout() {
+
+        //Button id = 1 ~
+        for (int i = 0; i < phoneBtnCount; i++) {
+            mButtons.add(new Buttons(this));
+//            mButtons.get(i).setId(i);
+            mButtons.get(i).setText("B " + i + "");
+            mButtons.get(i).setOnClickListener(this);
+        }
+
+        //Motion  id = 10 ~
+        for (int j = 0; j < phoneMotionCount; j++) {
+            mMotions.add(new Motions(this));
+//            mButton.get(j).setId(j * 10);
+            mMotions.get(j).setText("M " + j + "");
+            mMotions.get(j).setOnClickListener(this);
         }
     }
+
 
     @Override
     public void onClick(View v) {
@@ -193,14 +247,14 @@ public class AddEditActivity extends Activity implements OnClickListener {
             i.putExtra("myName", "superdroid");
             startActivityForResult(i, LAUNCHED_ACTIVITY);
 
-            // Cancle Click
+        // Cancle Click
         } else if (v == mButtonCancle) {
             Intent cancleintent = new Intent(AddEditActivity.this, ListActivity.class);
             startActivity(cancleintent);
             errorCheck = 0;
             finish();
 
-            // Save Click
+        // Save Click
         } else if (v == mButtonSave) {
             boolean isRepeated = false;
             if (OnOffTotalCount == 2 && appName != null) {
@@ -237,10 +291,18 @@ public class AddEditActivity extends Activity implements OnClickListener {
                 showDialog();
 
 
+        }else if (v == mButtonIniti) {
+            mButtons.removeAll(mButtons);
+            mMotions.removeAll(mMotions);
+            mRLMain.removeAllViews();
+            appName = null;
+            mButtonMain.setBackground(null);
+            phoneSetting();
+
         }
 
 
-
+        // Buttons Click
         for (int i = 0; i < mButtons.size(); i++) {
             if (v == mButtons.get(i)) {
                 if (mButtons.get(i).onOff == false) {
@@ -254,6 +316,20 @@ public class AddEditActivity extends Activity implements OnClickListener {
                 } else {
                     mButtons.get(i).onOff = false;
                     mButtons.get(i).setBackgroundColor(Color.LTGRAY);
+
+                }
+            }
+        }
+
+        // Motions Cliick
+        for (int i = 0; i < mMotions.size(); i++) {
+            if (v == mMotions.get(i)) {
+                if (mMotions.get(i).onOff == false) {
+                    mMotions.get(i).onOff = true;
+                    mMotions.get(i).setBackgroundColor(Color.CYAN);
+                } else {
+                    mMotions.get(i).onOff = false;
+                    mMotions.get(i).setBackgroundColor(Color.LTGRAY);
 
                 }
             }
