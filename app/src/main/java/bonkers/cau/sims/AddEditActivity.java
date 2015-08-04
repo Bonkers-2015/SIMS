@@ -67,8 +67,8 @@ public class AddEditActivity extends Activity implements OnClickListener{
         mButtonSetting.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent_setting = new Intent(AddEditActivity.this, SettingActivity.class);
-                startActivity(intent_setting);
+                Intent intentSetting = new Intent(AddEditActivity.this, SettingActivity.class);
+                startActivity(intentSetting);
             }
         });
 
