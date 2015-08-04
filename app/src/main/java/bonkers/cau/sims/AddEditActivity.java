@@ -35,6 +35,7 @@ public class AddEditActivity extends Activity implements OnClickListener {
     private ArrayList<RelativeLayout.LayoutParams> mMotionParam = new ArrayList<RelativeLayout.LayoutParams>();
     private ListDBManager dbManager;
     private Button mButtonMain, mButtonCancle, mButtonSave;
+    private int errorCheck=0;
 
 
     private ArrayList<Buttons> mButtons = new ArrayList<Buttons>();
@@ -48,7 +49,7 @@ public class AddEditActivity extends Activity implements OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_edit);
 
-        // (ÀÓ½Ã·Î) ¸ðµ¨ "A" Àü¼Û
+        // ÀÓ½Ã·Î) ¸ðµ¨ "A" Àü¼Û
         mModelName = "A";
         mRelativeLayout = (RelativeLayout) findViewById(R.id.rl_main);
 
@@ -91,8 +92,9 @@ public class AddEditActivity extends Activity implements OnClickListener {
         }
     }
 
-    // Don't press btn more than 2
+
     private void showDialog() {
+
         AlertDialog.Builder alert = new AlertDialog.Builder(AddEditActivity.this);
         alert.setPositiveButton("ok", new DialogInterface.OnClickListener() {
             @Override
@@ -100,8 +102,19 @@ public class AddEditActivity extends Activity implements OnClickListener {
                 dialog.dismiss();     //´Ý±â
             }
         });
-        alert.setMessage("Don't press btn more than 2");
+
+        // errorCheck 0 -> No ERROR
+        // errorCheck 1 -> "Don't press btn more than 2 !"
+        // errorCheck 2 -> "Only two btn and one App !"
+
+        if(errorCheck == 1) {
+            alert.setMessage("Don't press btn more than 2 !");
+        }else if (errorCheck == 2) {
+            alert.setMessage("Only two btn and one App ! ");
+        }
+
         alert.show();
+
     }
 
     private void setLayout() {
@@ -165,7 +178,14 @@ public class AddEditActivity extends Activity implements OnClickListener {
 
     @Override
     public void onClick(View v) {
-        int OnOffTotalCount = 0;
+        int OnOffTotalCount=0;
+
+        // Button OnOff Total Count
+        for (int i = 0; i < mButtons.size(); i++) {
+            if (mButtons.get(i).onOff == true) {
+                OnOffTotalCount++;
+            }
+        }
 
         // Main Click
         if (v == mButtonMain) {
@@ -177,6 +197,7 @@ public class AddEditActivity extends Activity implements OnClickListener {
         } else if (v == mButtonCancle) {
             Intent cancleintent = new Intent(AddEditActivity.this, ListActivity.class);
             startActivity(cancleintent);
+            errorCheck = 0;
             finish();
 
             // Save Click
@@ -194,6 +215,7 @@ public class AddEditActivity extends Activity implements OnClickListener {
                 mArrayListData = dbManager.selectAll();
                 for (ListData mListData : mArrayListData) {
                     if (pressedData[0] == mListData.getmData1() && pressedData[1] == mListData.getmData2()) {
+                        errorCheck=2;
                         showDialog();
                         isRepeated = true;
 
@@ -204,17 +226,20 @@ public class AddEditActivity extends Activity implements OnClickListener {
                     ListData mListData = new ListData(index, pressedData[0], pressedData[1]);
                     dbManager.insertData(mListData);
                 }
+
+                Intent cancleintent = new Intent(AddEditActivity.this, ListActivity.class);
+                startActivity(cancleintent);
+                errorCheck = 0;
+                finish();
             }
             else
+                errorCheck=2;
                 showDialog();
+
+
         }
 
-        // Button OnOff Total Count
-        for (int i = 0; i < mButtons.size(); i++) {
-            if (mButtons.get(i).onOff == true) {
-                OnOffTotalCount++;
-            }
-        }
+
 
         for (int i = 0; i < mButtons.size(); i++) {
             if (v == mButtons.get(i)) {
@@ -222,9 +247,10 @@ public class AddEditActivity extends Activity implements OnClickListener {
                     if (OnOffTotalCount < 2) {
                         mButtons.get(i).onOff = true;
                         mButtons.get(i).setBackgroundColor(Color.BLUE);
-                    } else
+                    } else {
+                        errorCheck=1;
                         showDialog();
-
+                    }
                 } else {
                     mButtons.get(i).onOff = false;
                     mButtons.get(i).setBackgroundColor(Color.LTGRAY);
