@@ -14,6 +14,7 @@ public class MainService extends Service implements Runnable {
     //¹Ýº¹È½¼ö
     private int count = 0;
 
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -26,7 +27,7 @@ public class MainService extends Service implements Runnable {
     public void run() {
         while(true){
             try{
-                Log.i(TAG, "my service called  #" + count);
+             //   Log.i(TAG, "my service called  #" + count);
                 count++;
 
                 Thread.sleep(5000);
@@ -50,6 +51,8 @@ public class MainService extends Service implements Runnable {
     }
     @Override
     public IBinder onBind(Intent intent) {
+
+        // TODO Autu-generated method stub
         return null;
     }
 
