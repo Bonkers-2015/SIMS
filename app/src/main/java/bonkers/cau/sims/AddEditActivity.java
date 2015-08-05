@@ -134,8 +134,8 @@ public class AddEditActivity extends Activity implements OnClickListener {
             alert.setMessage("Don't press btn more than 2 !");
         }else if (errorCheck == 2) {
             alert.setMessage("Only two btn and one App ! ");
-        }else{
-            alert.setMessage("I don't know");
+        }else if (errorCheck ==3){
+            alert.setMessage("already exist button set");
         }
 
         alert.show();
@@ -268,8 +268,8 @@ public class AddEditActivity extends Activity implements OnClickListener {
                 dbManager = new ListDBManager(getApplicationContext());
                 mArrayListData = dbManager.selectAll();
                 for (ListData mListData : mArrayListData) {
-                    if (pressedData[0] == mListData.getmData1() && pressedData[1] == mListData.getmData2()) {
-                        errorCheck=2;
+                    if (pressedData[0].equals(mListData.getmData1())  && pressedData[1].equals(mListData.getmData2()) ) {
+                        errorCheck=3;
                         showDialog();
                         isRepeated = true;
 
@@ -279,16 +279,14 @@ public class AddEditActivity extends Activity implements OnClickListener {
                 if (!isRepeated) {
                     ListData mListData = new ListData(index, pressedData[0], pressedData[1]);
                     dbManager.insertData(mListData);
-                }
 
-                Intent cancleintent = new Intent(AddEditActivity.this, ListActivity.class);
-                startActivity(cancleintent);
-                errorCheck = 0;
-                finish();
+
+                    Intent cancleintent = new Intent(AddEditActivity.this, ListActivity.class);
+                    startActivity(cancleintent);
+                    errorCheck = 0;
+                    finish();
+                }
             }
-            else
-                errorCheck=2;
-                showDialog();
 
 
         }else if (v == mButtonIniti) {
