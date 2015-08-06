@@ -2,6 +2,7 @@ package bonkers.cau.sims;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.support.v7.app.ActionBarActivity;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
@@ -14,7 +15,21 @@ public class SettingActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
 
-        // 150806 KGM, the telephon manager 통화중 상태 확인
+        // 150806 KGM, Power manager 핸드폰 켜져 있는지 확인
+        PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        boolean isScreenOn = pm.isScreenOn();
+
+        // 켜져있을때
+        if(isScreenOn) {
+
+        }
+
+        // 꺼져있을때
+        else {
+
+        }
+
+        // 150806 KGM, Telephon manager 통화중인지 확인
         TelephonyManager teleManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         teleManager.listen(phoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
     }
@@ -27,7 +42,14 @@ public class SettingActivity extends ActionBarActivity {
 
         public void onCallStateChanged(int state, String incomingNumber)
         {
+            // 통화시작
+            if(state == TelephonyManager.CALL_STATE_RINGING) {
 
+            }
+            // 통화종료
+            else if(state == TelephonyManager.CALL_STATE_IDLE) {
+
+            }
         };
     };
 }
