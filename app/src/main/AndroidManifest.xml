@@ -19,7 +19,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".PopupActivity"
             android:configChanges="orientation|keyboardHidden"
@@ -27,24 +26,22 @@
             android:theme="@android:style/Theme.Dialog"
             android:windowSoftInputMode="stateHidden" >
         </activity>
-
         <activity
             android:name=".AddEditActivity"
-            android:label="@string/title_activity_add_edit">
+            android:label="@string/title_activity_add_edit" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".ListActivity"
             android:label="@string/title_activity_add_edit" >
         </activity>
 
-        <service
-            android:name=".MainService">
-            </service>
+        <service android:name=".MainService" >
+        </service>
 
         <receiver
             android:name=".StartReceiver"
@@ -53,6 +50,15 @@
             android:label="@string/title_activity_start_receiver" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
+
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name=".ButtomService"
+            android:label="@string/title_activity_buttom_service" >
+            <intent-filter>
+            <action android:name="android.intent.action.MEDIA_BUTTON" />
             </intent-filter>
         </receiver>
     </application>

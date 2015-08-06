@@ -75,6 +75,7 @@ Service 부분. 실행되었을 때 backgroud 에서 실행유지
         }
     }
 
+        //버튼 클릭시 어플실행
         @Override
         public boolean dispatchKeyEvent(KeyEvent event){
 
