@@ -21,7 +21,8 @@
             android:singleLine="false"
             android:selectAllOnFocus="false"
             android:phoneNumber="false"
-            android:paddingLeft="150dp" />
+            android:paddingLeft="150dp"
+            android:focusable="false"/>
     </LinearLayout>
 
     <LinearLayout

@@ -23,6 +23,7 @@
             android:weightSum="100">
 
             <Button
+                android:id="@+id/btn_initi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top"
@@ -50,22 +51,17 @@
         <RelativeLayout
             android:id="@+id/rl_main"
             android:layout_width="fill_parent"
-            android:layout_height="30dp"
+            android:layout_height="fill_parent"
             android:layout_weight="98">
-
-            <ImageView
-                android:id="@+id/background_phone"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@mipmap/pp" />
 
             <Button
                 android:id="@+id/btn_main"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="130dp"
+                android:layout_height="200dp"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
-                android:text="MAIN" />
+                android:text="MAIN"/>
+
 
 
         </RelativeLayout>

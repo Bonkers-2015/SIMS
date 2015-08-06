@@ -104,7 +104,7 @@ public class ListDBManager {
         ArrayList<ListData> infos = new ArrayList<ListData>();
 
         while (!results.isAfterLast()) {
-            ListData info = new ListData(results.getInt(1),results.getString(2),results.getString(3));
+            ListData info = new ListData(results.getInt(0),results.getInt(1),results.getString(2),results.getString(3));
             infos.add(info);
             results.moveToNext();
         }
