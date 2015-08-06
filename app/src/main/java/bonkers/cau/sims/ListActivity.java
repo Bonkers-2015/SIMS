@@ -1,15 +1,16 @@
 package bonkers.cau.sims;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -19,7 +20,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListActivity extends ActionBarActivity {
+public class ListActivity extends Activity {
 
     private ListView mListView = null;
     private ListViewAdapter mAdapter=null;
@@ -29,6 +30,7 @@ public class ListActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_list);
 
         mListView=(ListView)findViewById(R.id.mlist);
@@ -52,7 +54,6 @@ public class ListActivity extends ActionBarActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(ListActivity.this, AddEditActivity.class);
                 startActivity(intent);
-                finish();
             }
         });
 

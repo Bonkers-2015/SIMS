@@ -33,7 +33,7 @@ public class AddEditActivity extends Activity implements OnClickListener {
     private ArrayList<Buttons> mButtons = new ArrayList<Buttons>();
     private ListDBManager dbManager;
     private Button mButtonMain, mButtonCancle, mButtonSave, mButtonIniti;
-    private int index, pressedDataNum = 0, errorCheck=0;
+    private int index, pressedDataNum = 0, errorCheck = 0;
     private int phoneBtnCount = 3, phoneMotionCount = 3;
     private ImageView mIVMain;
     private Bitmap mainBG;
@@ -46,6 +46,7 @@ public class AddEditActivity extends Activity implements OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_add_edit);
 
         // 임시로) 모델 "A" 전송
@@ -62,7 +63,7 @@ public class AddEditActivity extends Activity implements OnClickListener {
         mIVMain.setLayoutParams(paramIV);
 
         // Main Button initialize
-        mButtonMain = (Button)findViewById(R.id.btn_main);
+        mButtonMain = (Button) findViewById(R.id.btn_main);
 //        mButtonMain = new Button(AddEditActivity.this);
 
 //        mButtonMain.setId(viewId);
@@ -79,7 +80,7 @@ public class AddEditActivity extends Activity implements OnClickListener {
         mButtonCancle.setOnClickListener(this);
         mButtonSave = (Button) findViewById(R.id.btn_save);
         mButtonSave.setOnClickListener(this);
-        mButtonIniti = (Button)findViewById(R.id.btn_initi);
+        mButtonIniti = (Button) findViewById(R.id.btn_initi);
         mButtonIniti.setOnClickListener(this);
 
 
@@ -116,7 +117,7 @@ public class AddEditActivity extends Activity implements OnClickListener {
     }
 
 
-    private void showDialog() {
+    private void showDialog(String text) {
 
         AlertDialog.Builder alert = new AlertDialog.Builder(AddEditActivity.this);
         alert.setPositiveButton("ok", new DialogInterface.OnClickListener() {
@@ -130,14 +131,7 @@ public class AddEditActivity extends Activity implements OnClickListener {
         // errorCheck 1 -> "Don't press btn more than 2 !"
         // errorCheck 2 -> "Only two btn and one App !"
 
-        if(errorCheck == 1) {
-            alert.setMessage("Don't press btn more than 2 !");
-        }else if (errorCheck == 2) {
-            alert.setMessage("Only two btn and one App ! ");
-        }else if (errorCheck ==3){
-            alert.setMessage("already exist button set");
-        }
-
+        alert.setMessage(text);
         alert.show();
 
     }
@@ -158,7 +152,6 @@ public class AddEditActivity extends Activity implements OnClickListener {
             setLayout();
 
 
-
             mButtons.get(0).name = "UP";
             mButtons.get(0).keycode = KeyEvent.KEYCODE_VOLUME_UP;
             mButtons.get(0).iconName = "volume_up";
@@ -167,7 +160,7 @@ public class AddEditActivity extends Activity implements OnClickListener {
             mButtons.get(0).params.addRule(RelativeLayout.LEFT_OF, R.id.btn_main);
             mButtons.get(0).params.addRule(RelativeLayout.ALIGN_TOP, R.id.btn_main);
             mButtons.get(1).params.addRule(RelativeLayout.RIGHT_OF, R.id.btn_main);
-            mButtons.get(1).params.addRule(RelativeLayout.ALIGN_TOP,R.id.btn_main);
+            mButtons.get(1).params.addRule(RelativeLayout.ALIGN_TOP, R.id.btn_main);
             mButtons.get(2).params.addRule(RelativeLayout.LEFT_OF, R.id.btn_main);
             mButtons.get(2).params.addRule(RelativeLayout.ALIGN_BOTTOM, R.id.btn_main);
 
@@ -232,7 +225,7 @@ public class AddEditActivity extends Activity implements OnClickListener {
 
     @Override
     public void onClick(View v) {
-        int OnOffTotalCount=0;
+        int OnOffTotalCount = 0;
 
         // Button OnOff Total Count
         for (int i = 0; i < mButtons.size(); i++) {
@@ -247,14 +240,14 @@ public class AddEditActivity extends Activity implements OnClickListener {
             i.putExtra("myName", "superdroid");
             startActivityForResult(i, LAUNCHED_ACTIVITY);
 
-        // Cancle Click
+            // Cancle Click
         } else if (v == mButtonCancle) {
-            Intent cancleintent = new Intent(AddEditActivity.this, ListActivity.class);
-            startActivity(cancleintent);
+            //Intent cancleintent = new Intent(AddEditActivity.this, ListActivity.class);
+            //startActivity(cancleintent);
             errorCheck = 0;
             finish();
 
-        // Save Click
+            // Save Click
         } else if (v == mButtonSave) {
             boolean isRepeated = false;
             if (OnOffTotalCount == 2 && appName != null) {
@@ -267,11 +260,13 @@ public class AddEditActivity extends Activity implements OnClickListener {
 
                 dbManager = new ListDBManager(getApplicationContext());
                 mArrayListData = dbManager.selectAll();
+                //DB 의 리스트와 현재 선택된 아이탬이 중복됐는지 검사
                 for (ListData mListData : mArrayListData) {
-                    if (pressedData[0].equals(mListData.getmData1())  && pressedData[1].equals(mListData.getmData2()) ) {
-                        errorCheck=3;
-                        showDialog();
+                    if (pressedData[0].equals(mListData.getmData1()) && pressedData[1].equals(mListData.getmData2())) {
+                        errorCheck = 3;
+                        showDialog("is already exist");
                         isRepeated = true;
+                        break;
 
                     }
 
@@ -287,9 +282,11 @@ public class AddEditActivity extends Activity implements OnClickListener {
                     finish();
                 }
             }
+            else
+                showDialog("select two button and app");
 
 
-        }else if (v == mButtonIniti) {
+        } else if (v == mButtonIniti) {
             mButtons.removeAll(mButtons);
             mMotions.removeAll(mMotions);
             mRLMain.removeAllViews();
@@ -308,8 +305,8 @@ public class AddEditActivity extends Activity implements OnClickListener {
                         mButtons.get(i).onOff = true;
                         mButtons.get(i).setBackgroundColor(Color.BLUE);
                     } else {
-                        errorCheck=1;
-                        showDialog();
+                        errorCheck = 1;
+                        showDialog("select two button and app");
                     }
                 } else {
                     mButtons.get(i).onOff = false;
