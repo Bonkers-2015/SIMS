@@ -7,5 +7,9 @@
     <string name="title_activity_phone">PhoneActivity</string>
     <string name="title_activity_add_edit">AddEditActivity</string>
     <string name="title_activity_setting">SettingActivity</string>
+    <string name="title_activity_main_service">MainService</string>
+    <string name="title_activity_start_receiver">StartReceiver</string>
+    <string name="title_activity_widget_provider">WidgetProvider</string>
+    <string name="title_activity_on_click_volume">OnClickVolume</string>
     
 </resources>

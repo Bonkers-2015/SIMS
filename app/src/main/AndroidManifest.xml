@@ -3,6 +3,8 @@
     package="bonkers.cau.sims" >
 
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
 
     <application
         android:allowBackup="true"
@@ -18,6 +20,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".PopupActivity"
             android:configChanges="orientation|keyboardHidden"
@@ -25,23 +28,39 @@
             android:theme="@android:style/Theme.Dialog"
             android:windowSoftInputMode="stateHidden" >
         </activity>
+
         <activity
             android:name=".AddEditActivity"
             android:label="@string/title_activity_add_edit" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".ListActivity"
             android:label="@string/title_activity_add_edit" >
         </activity>
+
         <activity
             android:name=".SettingActivity"
             android:label="@string/title_activity_setting" >
         </activity>
+
+        <service
+            android:name=".MainService">
+        </service>
+
+        <receiver
+            android:name=".StartReceiver"
+            android:enabled="true"
+            android:exported="false"
+            android:label="@string/title_activity_start_receiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
