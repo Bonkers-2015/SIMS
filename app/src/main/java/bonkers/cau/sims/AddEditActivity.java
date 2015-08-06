@@ -62,7 +62,7 @@ public class AddEditActivity extends Activity implements OnClickListener{
         mButtonSave = (Button) findViewById(R.id.btn_save);
         mButtonSave.setOnClickListener(this);
 
-        // 150804 KGM, Setting Button
+        // 150804 Kim Gwang Min : Setting Button Event
         mButtonSetting = (ImageButton) findViewById(R.id.btn_setting);
         mButtonSetting.setOnClickListener(new OnClickListener() {
             @Override
@@ -74,7 +74,6 @@ public class AddEditActivity extends Activity implements OnClickListener{
 
         setLayout();
         phoneSetting();
-
     }
 
     //PopupActivity 의 결과를 전달받기위해 overriding을 함
