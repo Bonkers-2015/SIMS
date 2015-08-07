@@ -44,6 +44,7 @@ public class SettingActivity extends ActionBarActivity {
 
         // "동영상 볼 때 기능 비활성화"에 체크 되어있으면
         if (checkVideo.isChecked()) {
+
         }
 
         // "통화중일 때 기능 비활성화"에 체크 되어있으면
@@ -54,6 +55,7 @@ public class SettingActivity extends ActionBarActivity {
         }
     }
 
+    // 폰 상태 리스터
     private PhoneStateListener phoneStateListener = new PhoneStateListener()
     {
         // TelephonyManager.CALL_STATE_RINGING : 벨소리 울리는 중

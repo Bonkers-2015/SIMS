@@ -11,5 +11,6 @@
     <string name="title_activity_start_receiver">StartReceiver</string>
     <string name="title_activity_widget_provider">WidgetProvider</string>
     <string name="title_activity_on_click_volume">OnClickVolume</string>
+    <string name="title_activity_screenshoot">ScreenshootActivity</string>
     
 </resources>
