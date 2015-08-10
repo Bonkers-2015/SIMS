@@ -57,10 +57,6 @@
             </intent-filter>
         </receiver>
 
-        <activity
-            android:name=".ScreenshootActivity"
-            android:label="@string/title_activity_screenshoot" >
-        </activity>
     </application>
 
 </manifest>

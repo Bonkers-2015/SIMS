@@ -11,9 +11,7 @@ import android.widget.CheckBox;
 
 public class SettingActivity extends ActionBarActivity {
 
-    CheckBox checkActive;
-    CheckBox checkVideo;
-    CheckBox checkCall;
+    CheckBox checkActive, checkDirect, checkCall;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,8 +20,9 @@ public class SettingActivity extends ActionBarActivity {
 
         // 150806 KGM, Checkbox
         checkActive = (CheckBox) findViewById(R.id.checkActive);
-        checkVideo = (CheckBox) findViewById(R.id.checkVideo);
         checkCall = (CheckBox) findViewById(R.id.checkCall);
+        checkDirect= (CheckBox) findViewById(R.id.checkDirect);
+
 
         // "핸드폰 켜 있을때 기능 비활성화"에 체크 되어있으면
         if (checkActive.isChecked()) {
@@ -40,11 +39,6 @@ public class SettingActivity extends ActionBarActivity {
             else {
                 // 어플 활성화
             }
-        }
-
-        // "동영상 볼 때 기능 비활성화"에 체크 되어있으면
-        if (checkVideo.isChecked()) {
-
         }
 
         // "통화중일 때 기능 비활성화"에 체크 되어있으면

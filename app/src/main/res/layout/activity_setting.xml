@@ -19,32 +19,31 @@
         android:layout_height="wrap_content" />
 
     <TextView
-        android:text="동영상 볼 때 기능 비활성화"
+        android:text="통화중일 때 기능 비활성화"
         android:textSize="18sp"
         android:paddingTop="5sp"
         android:layout_below="@id/checkActive"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <CheckBox
-        android:id="@+id/checkVideo"
+        android:id="@+id/checkCall"
         android:layout_alignParentRight="true"
         android:layout_below="@id/checkActive"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <TextView
-        android:text="통화중일 때 기능 비활성화"
+        android:text="잠금해제 없이 바로 접근"
         android:textSize="18sp"
         android:paddingTop="5sp"
-        android:layout_below="@id/checkVideo"
+        android:layout_below="@id/checkCall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <CheckBox
-        android:id="@+id/checkCall"
+        android:id="@+id/checkDirect"
         android:layout_alignParentRight="true"
-        android:layout_below="@id/checkVideo"
+        android:layout_below="@id/checkCall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-
 
 </RelativeLayout>
