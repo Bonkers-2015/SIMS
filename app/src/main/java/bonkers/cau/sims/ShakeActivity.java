@@ -7,6 +7,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 
+// KGM 150811
 public class ShakeActivity extends Activity implements SensorEventListener {
 
     private long lastTime;

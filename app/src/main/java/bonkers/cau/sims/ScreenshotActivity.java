@@ -11,6 +11,7 @@ import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+// KGM 150810
 public class ScreenshotActivity extends ActionBarActivity {
     public void screenshot(View view)throws Exception {
 

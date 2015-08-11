@@ -8,6 +8,7 @@ import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.widget.CheckBox;
 
+// KGM 150809
 public class SettingActivity extends ActionBarActivity {
 
     CheckBox checkActive, checkDirect, checkCall;
