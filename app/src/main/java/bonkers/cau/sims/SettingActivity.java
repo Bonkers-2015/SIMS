@@ -8,7 +8,6 @@ import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.widget.CheckBox;
 
-
 public class SettingActivity extends ActionBarActivity {
 
     CheckBox checkActive, checkDirect, checkCall;
@@ -22,7 +21,6 @@ public class SettingActivity extends ActionBarActivity {
         checkActive = (CheckBox) findViewById(R.id.checkActive);
         checkCall = (CheckBox) findViewById(R.id.checkCall);
         checkDirect= (CheckBox) findViewById(R.id.checkDirect);
-
 
         // "핸드폰 켜 있을때 기능 비활성화"에 체크 되어있으면
         if (checkActive.isChecked()) {
