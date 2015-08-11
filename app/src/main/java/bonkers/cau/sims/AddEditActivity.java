@@ -8,7 +8,6 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.Matrix;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
@@ -31,14 +30,13 @@ public class AddEditActivity extends Activity implements OnClickListener {
     private ArrayList<ListData> mArrayListData = new ArrayList<ListData>();
     private ArrayList<Motions> mMotions = new ArrayList<Motions>();
     private ArrayList<Buttons> mButtons = new ArrayList<Buttons>();
+    private ArrayList<ListData> listDataArrList;
     private ListDBManager dbManager;
     private Button mButtonMain, mButtonCancle, mButtonSave, mButtonIniti;
-    private int index, pressedDataNum = 0, errorCheck = 0;
+    private int index, pressedDataNum = 0;
     private int phoneBtnCount = 3, phoneMotionCount = 3;
     private ImageView mIVMain;
     private Bitmap mainBG;
-    private Matrix bgMatrix;
-    private int viewId = 0;
 
     // requestCode
     private static final int LAUNCHED_ACTIVITY = 1;
@@ -64,16 +62,6 @@ public class AddEditActivity extends Activity implements OnClickListener {
 
         // Main Button initialize
         mButtonMain = (Button) findViewById(R.id.btn_main);
-//        mButtonMain = new Button(AddEditActivity.this);
-
-//        mButtonMain.setId(viewId);
-//        viewId++;
-
-//        RelativeLayout.LayoutParams paramBtn = new RelativeLayout.LayoutParams(350, 700);
-//        paramBtn.addRule(RelativeLayout.CENTER_HORIZONTAL);
-//        paramBtn.addRule(RelativeLayout.CENTER_VERTICAL);
-//        mButtonMain.setLayoutParams(paramBtn);
-//        mButtonMain.setText("MAIN");
         mButtonMain.setOnClickListener(this);
 
         mButtonCancle = (Button) findViewById(R.id.btn_cancle);
@@ -87,7 +75,14 @@ public class AddEditActivity extends Activity implements OnClickListener {
         phoneSetting();
 
 
+        Bundle myBundle = this.getIntent().getExtras();
+        int position =  myBundle.getInt("selectedPosition");
+
+        // no select => mSelectedPosition = -1
+        if(position>-1) editSetting(position);
+
     }
+
 
     //PopupActivity 의 결과를 전달받기위해 overriding을 함
     @Override
@@ -127,14 +122,11 @@ public class AddEditActivity extends Activity implements OnClickListener {
             }
         });
 
-        // errorCheck 0 -> No ERROR
-        // errorCheck 1 -> "Don't press btn more than 2 !"
-        // errorCheck 2 -> "Only two btn and one App !"
-
         alert.setMessage(text);
         alert.show();
 
     }
+
 
     // PhoneModel Setting
     private void phoneSetting() {
@@ -209,7 +201,7 @@ public class AddEditActivity extends Activity implements OnClickListener {
         for (int i = 0; i < phoneBtnCount; i++) {
             mButtons.add(new Buttons(this));
 //            mButtons.get(i).setId(i);
-            mButtons.get(i).setText("B " + i + "");
+            mButtons.get(i).setText("B" + i + "");
             mButtons.get(i).setOnClickListener(this);
         }
 
@@ -217,12 +209,38 @@ public class AddEditActivity extends Activity implements OnClickListener {
         for (int j = 0; j < phoneMotionCount; j++) {
             mMotions.add(new Motions(this));
 //            mButton.get(j).setId(j * 10);
-            mMotions.get(j).setText("M " + j + "");
+            mMotions.get(j).setText("M" + j + "");
             mMotions.get(j).setOnClickListener(this);
         }
     }
 
+    private void editSetting(int position){
 
+        dbManager= new ListDBManager(getApplicationContext());
+        listDataArrList =dbManager.selectAll();
+
+        mButtonMain.setBackground(listDataArrList.get(position).getmIcon());
+
+        for (int i=0;i <mButtons.size();i++){
+            if(listDataArrList.get(position).getmData1().equals(mButtons.get(i).getText())){
+                mButtons.get(i).onOff=true;
+                mButtons.get(i).setBackgroundColor(Color.BLUE);
+            }
+            if(listDataArrList.get(position).getmData2().equals(mButtons.get(i).getText())){
+                mButtons.get(i).onOff=true;
+                mButtons.get(i).setBackgroundColor(Color.BLUE);
+            }
+        }
+
+
+       // 어플 이름 저장 필요
+//        appName = "";
+
+
+
+
+
+    }
     @Override
     public void onClick(View v) {
         int OnOffTotalCount = 0;
@@ -244,7 +262,6 @@ public class AddEditActivity extends Activity implements OnClickListener {
         } else if (v == mButtonCancle) {
             //Intent cancleintent = new Intent(AddEditActivity.this, ListActivity.class);
             //startActivity(cancleintent);
-            errorCheck = 0;
             finish();
 
             // Save Click
@@ -253,7 +270,7 @@ public class AddEditActivity extends Activity implements OnClickListener {
             if (OnOffTotalCount == 2 && appName != null) {
                 for (int i = 0; i < mButtons.size(); i++) {
                     if (mButtons.get(i).onOff == true) {
-                        pressedData[pressedDataNum] = "data" + i;
+                        pressedData[pressedDataNum] = "B" + i;
                         pressedDataNum = 1;
                     }
                 }
@@ -263,7 +280,6 @@ public class AddEditActivity extends Activity implements OnClickListener {
                 //DB 의 리스트와 현재 선택된 아이탬이 중복됐는지 검사
                 for (ListData mListData : mArrayListData) {
                     if (pressedData[0].equals(mListData.getmData1()) && pressedData[1].equals(mListData.getmData2())) {
-                        errorCheck = 3;
                         showDialog("is already exist");
                         isRepeated = true;
                         break;
@@ -278,7 +294,6 @@ public class AddEditActivity extends Activity implements OnClickListener {
 
                     Intent cancleintent = new Intent(AddEditActivity.this, ListActivity.class);
                     startActivity(cancleintent);
-                    errorCheck = 0;
                     finish();
                 }
             }
@@ -305,7 +320,6 @@ public class AddEditActivity extends Activity implements OnClickListener {
                         mButtons.get(i).onOff = true;
                         mButtons.get(i).setBackgroundColor(Color.BLUE);
                     } else {
-                        errorCheck = 1;
                         showDialog("select two button and app");
                     }
                 } else {
