@@ -13,5 +13,6 @@
     <string name="title_activity_on_click_volume">OnClickVolume</string>
     <string name="title_activity_screenshoot">ScreenshootActivity</string>
     <string name="title_activity_shake">ShakeActivity</string>
+    <string name="title_activity_screenshot">ScreenshotActivity</string>
     
 </resources>

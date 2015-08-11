@@ -61,6 +61,10 @@
             android:name=".ShakeActivity"
             android:label="@string/title_activity_shake" >
         </activity>
+        <activity
+            android:name=".ScreenshotActivity"
+            android:label="@string/title_activity_screenshot" >
+        </activity>
     </application>
 
 </manifest>
