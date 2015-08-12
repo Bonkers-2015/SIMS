@@ -42,16 +42,27 @@ public class MainActivity extends ActionBarActivity {
         });
         setContentView(myView);
 /*
+        ButtonService mButtonService = new ButtonService();
+        IntentFilter mediaFilter = new IntentFilter(Intent.ACTION_MEDIA_BUTTON);
+        mediaFilter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
+        mediaFilter.addAction(Intent.ACTION_BOOT_COMPLETED);
+        registerReceiver(mButtonService, mediaFilter);
+        Log.d("onCreate()", "등록됨");
+*/
+
+/*
 Service 부분. 실행되었을 때 backgroud 에서 실행유지
 */
         Intent myIntent = new Intent(getBaseContext(), MainService.class);
         startService(myIntent);
 
-
         textView = (TextView) findViewById(R.id.model);
         textView.setText(model);
 
-        packageList();
+        packageList(); // package list 불러옴
+
+
+
 
 
 

@@ -21,6 +21,7 @@ public class MainService extends Service implements Runnable {
 
         Thread myThread = new Thread(this);
         myThread.start();
+
     }
 
     //thread implement
