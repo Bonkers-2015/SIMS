@@ -1,6 +1,7 @@
 package bonkers.cau.sims;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -17,6 +18,7 @@ import java.util.TimerTask;
 public class MainActivity extends Activity implements SensorEventListener {
     String model = Build.MODEL;
     TextView textView;
+    BroadcastReceiver myReceiver = new KeyBroadCast();
 
     private long lastTime;
     private float speed;
@@ -40,6 +42,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 
         setContentView(R.layout.activity_main);
 
+
         TimerTask myTask = new TimerTask() {
             public void run() {
                 Intent intent = new Intent(MainActivity.this, ListActivity.class);
@@ -49,6 +52,9 @@ public class MainActivity extends Activity implements SensorEventListener {
         };
         Timer timer = new Timer();
         timer.schedule(myTask, 1000);
+
+
+
 
         textView = (TextView) findViewById(R.id.model);
         textView.setText(model);
