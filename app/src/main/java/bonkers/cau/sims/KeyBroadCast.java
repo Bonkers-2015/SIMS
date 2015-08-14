@@ -10,15 +10,27 @@ import android.util.Log;
  */
 public class KeyBroadCast extends BroadcastReceiver {
     @Override
-    public void onReceive(Context arg0, Intent intent) {
-        int volume = (Integer)intent.getExtras().get("android.media.EXTRA_VOLUME_STREAM_VALUE");
-        Log.d("finish", Integer.toString(volume));
-
-        if (volume == 7) {
+    public void onReceive(Context context, Intent intent) {
 
 
-        }else if (volume == 6) {
-            Log.d("start", "start");
-        }
+        int volume = (Integer)intent.getExtras().get("android.media.EXTRA_VOLUME_STREAM_TYPE");
+
+
+        Log.d("broadcastt", Integer.toString(volume));
+
+
+
     }
 }
+
+
+
+
+
+/* @Override
+    public void onReceive(Context context, Intent intent) {
+        PackageManager manager = context.getPackageManager();
+        Intent i = manager.getLaunchIntentForPackage("com.android.settings");
+        i.addCategory(Intent.CATEGORY_LAUNCHER);
+        context.startActivity(i);
+   */
