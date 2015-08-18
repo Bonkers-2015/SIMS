@@ -10,6 +10,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,7 +46,6 @@ public class PopupActivity extends Activity {
         String receivedText = intent.getStringExtra("myName");
 
 
-
         PackageManager packagemanager = this.getPackageManager();
         List<ApplicationInfo> appList = packagemanager.getInstalledApplications(0);
 
@@ -55,11 +55,11 @@ public class PopupActivity extends Activity {
         pAdapter = new PUListAdapter(this);
         mListView.setAdapter(puAdapter);
         puAdapter.addItem(getResources().getDrawable(R.mipmap.phone), "Phone");
-        for (int i = 0; i < appList.size(); i++)
+        for (int i = 0; i < appList.size(); i++) {
             puAdapter.addItem(appList.get(i).loadIcon(packagemanager),
                     appList.get(i).loadLabel(packagemanager));
-
-
+            Log.d(appList.get(i).packageName, "this");
+        }
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
@@ -69,16 +69,15 @@ public class PopupActivity extends Activity {
                     getList();
                     mListView.setAdapter(pAdapter);
 
-                }
-                else{
+                } else {
                     //Add edit Activity로 전달한 데이터 resultText Key 값의 "superdroid result" 문자열을
                     //Extra로 Intent에 담았다.
                     Intent intent = new Intent();
-                    intent.putExtra("resultText",mData.mTitle);
+                    intent.putExtra("resultText", mData.mTitle);
 
                     // 전달할 Intent를 설정하고 finish()함수를 통해
                     //B Activity를 종료시킴과 동시에 결과로 Intent를 전달하였다.
-                    setResult(RESULT_OK,intent);
+                    setResult(RESULT_OK, intent);
                     finish();
                 }
 
