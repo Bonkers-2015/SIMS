@@ -9,6 +9,7 @@
         android:background="@mipmap/sims">
     </ImageView>
 
+
     <TextView
         android:id="@+id/model"
         android:layout_width="wrap_content"
