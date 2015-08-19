@@ -43,10 +43,14 @@
                 <action android:name="android.media.VOLUME_CHANGED_ACTION" />
             </intent-filter>
         </receiver>
+        <receiver android:name=".HomeButtonReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.CLOSE_SYSTEM_DIALOGS" />
+            </intent-filter>
+        </receiver>
         <activity
             android:name=".ListActivity"
             android:label="@string/title_activity_add_edit">
-
         </activity>
 
     </application>
