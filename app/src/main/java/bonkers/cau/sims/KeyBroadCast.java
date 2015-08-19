@@ -25,10 +25,13 @@ public class KeyBroadCast extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
+        //db 생성
         dbManager = new ListDBManager(context);
         listDataArrList = dbManager.selectAll();
+        //어플리케이션 내욜을 받아오는거야
         PackageManager packagemanager = context.getPackageManager();
         List<ApplicationInfo> appList = packagemanager.getInstalledApplications(0);
+
         SharedPreferences prefs = context.getSharedPreferences("myPrefs",
                 Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
@@ -55,6 +58,8 @@ public class KeyBroadCast extends BroadcastReceiver {
                 if (list.getmData1().equals("data0")) {
                     appIndexNum = list.getIndexNum();
                     appPackageName = appList.get(appIndexNum).packageName;
+
+                    //앱실행
                     Intent i = packagemanager.getLaunchIntentForPackage(appPackageName);
                     i.addCategory(Intent.CATEGORY_LAUNCHER);
                     context.startActivity(i);
@@ -67,7 +72,7 @@ public class KeyBroadCast extends BroadcastReceiver {
             Log.d("downvol","final volume");
 
             for (ListData list : listDataArrList) {
-                if (list.getmData1() == "data1") {
+                if (list.getmData1().equals("data1")) {
                     appIndexNum = list.getIndexNum();
                     appPackageName = appList.get(appIndexNum).packageName;
                     Intent i = packagemanager.getLaunchIntentForPackage(appPackageName);
