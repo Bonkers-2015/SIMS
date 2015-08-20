@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -24,8 +25,8 @@ import java.util.List;
 
 public class AddEditActivity extends Activity implements OnClickListener {
 
-    private CharSequence appName = null, mAppName = null;
-    private String mModelName, pressedData[] = new String[2];
+    private CharSequence phoneName = null, appName = null, mAppName = null;
+    private String returnType, mModelName, pressedData[] = new String[2];
     private RelativeLayout mRLMain;
     private ArrayList<ListData> mArrayListData = new ArrayList<ListData>();
     private ArrayList<Motions> mMotions = new ArrayList<Motions>();
@@ -63,7 +64,6 @@ public class AddEditActivity extends Activity implements OnClickListener {
         // Main Button initialize
         mButtonMain = (Button) findViewById(R.id.btn_main);
         mButtonMain.setOnClickListener(this);
-
         mButtonCancle = (Button) findViewById(R.id.btn_cancle);
         mButtonCancle.setOnClickListener(this);
         mButtonSave = (Button) findViewById(R.id.btn_save);
@@ -71,9 +71,7 @@ public class AddEditActivity extends Activity implements OnClickListener {
         mButtonIniti = (Button) findViewById(R.id.btn_initi);
         mButtonIniti.setOnClickListener(this);
 
-
         phoneSetting();
-
 
         Bundle myBundle = this.getIntent().getExtras();
         int position =  myBundle.getInt("selectedPosition");
@@ -95,16 +93,26 @@ public class AddEditActivity extends Activity implements OnClickListener {
         switch (requestCode) {
             case LAUNCHED_ACTIVITY:
                 if (resultCode == RESULT_OK) {
-                    appName = data.getStringExtra("resultText");
+                    returnType = data.getStringExtra("resultType");
+                    Log.d("Name", returnType);
 
+                    if(returnType.equals("app")) {
+                        appName = data.getStringExtra("resultText");
+                        Log.d("Name", appName.toString());
 
-                    for (int i = 0; i < appList.size(); i++) {
-                        mAppName = appList.get(i).loadLabel(packagemanager);
-                        if (mAppName.equals(appName)) {
-                            mButtonMain.setBackground(appList.get(i).loadIcon(packagemanager));
-                            index = i;
-                            break;
+                        for (int i = 0; i < appList.size(); i++) {
+                            mAppName = appList.get(i).loadLabel(packagemanager);
+                            if (mAppName.equals(appName)) {
+                                mButtonMain.setBackground(appList.get(i).loadIcon(packagemanager));
+                                index = i;
+                                break;
+                            }
                         }
+                    }else if(returnType.equals("phone")){
+                        phoneName = data.getStringExtra("resultText");
+                        Log.d("Name", phoneName.toString());
+                        mButtonMain.setBackground(getResources().getDrawable(R.mipmap.human));
+                        mButtonMain.setText(phoneName.toString());
                     }
 
                 }
@@ -223,7 +231,7 @@ public class AddEditActivity extends Activity implements OnClickListener {
 
         for (int i=0;i <mButtons.size();i++){
             if(listDataArrList.get(position).getmData1().equals(mButtons.get(i).getText())){
-                mButtons.get(i).onOff=true;
+                  mButtons.get(i).onOff=true;
                 mButtons.get(i).setBackgroundColor(Color.BLUE);
             }
             if(listDataArrList.get(position).getmData2().equals(mButtons.get(i).getText())){
@@ -234,11 +242,7 @@ public class AddEditActivity extends Activity implements OnClickListener {
 
 
        // 어플 이름 저장 필요
-//        appName = "";
-
-
-
-
+       //        appName = "";
 
     }
     @Override
@@ -267,7 +271,7 @@ public class AddEditActivity extends Activity implements OnClickListener {
             // Save Click
         } else if (v == mButtonSave) {
             boolean isRepeated = false;
-            if (OnOffTotalCount == 2 && appName != null) {
+            if (OnOffTotalCount == 2 && (appName != null || phoneName != null) ) {
                 for (int i = 0; i < mButtons.size(); i++) {
                     if (mButtons.get(i).onOff == true) {
                         pressedData[pressedDataNum] = "B" + i;
@@ -306,6 +310,7 @@ public class AddEditActivity extends Activity implements OnClickListener {
             mMotions.removeAll(mMotions);
             mRLMain.removeAllViews();
             appName = null;
+            phoneName = null;
             mButtonMain.setBackground(null);
             phoneSetting();
 
@@ -343,5 +348,6 @@ public class AddEditActivity extends Activity implements OnClickListener {
                 }
             }
         }
+
     }
 }
