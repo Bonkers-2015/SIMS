@@ -18,6 +18,7 @@ public class MainService extends Service implements Runnable {
     @Override
     public void onCreate() {
         super.onCreate();
+        Log.d("service", "strat");
 
         Thread myThread = new Thread(this);
         myThread.start();
