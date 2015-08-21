@@ -11,9 +11,6 @@ import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 /**
  * Created by ±è½Â¿í on 2015-08-20.
  */
@@ -32,16 +29,9 @@ public class ShakeService extends Service  {
         // TODO Auto-generated method stub
         super.onCreate();
 
-        SharedPreferences prefs = getSharedPreferences("myPrefs",
-                Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
+
         Toast.makeText(ShakeService.this, "Shake!", Toast.LENGTH_SHORT).show();
-        TimerTask myTask = new TimerTask() {
-            public void run() {
-                editor.putInt("isShacked", 0);
-                editor.commit();
-            }
-        };
+
 
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mSensorListener = new ShakeEventListener();
@@ -49,10 +39,16 @@ public class ShakeService extends Service  {
         mSensorListener.setOnShakeListener(new ShakeEventListener.OnShakeListener() {
 
             public void onShake() {
-                editor.putInt("isShacked", 1);
+
+
+                SharedPreferences prefs = getSharedPreferences("myPrefs",
+                        Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putInt("shacked", 1);
                 editor.commit();
-                Timer timer = new Timer();
-                timer.schedule(myTask, 10000);
+                Log.d("isShaked", Integer.toString(prefs.getInt("shacked",0)));
+
+
             }
         });
     }

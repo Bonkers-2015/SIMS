@@ -37,8 +37,9 @@ public class KeyBroadCast extends BroadcastReceiver {
                 Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         oldVolume=prefs.getInt("oldVolume",0);
-        isShaked=prefs.getInt("isShaked",0);
-
+        isShaked=prefs.getInt("shacked",0);
+        Log.d("oldVolume",Integer.toString(oldVolume));
+        Log.d("isShaked",Integer.toString(isShaked));
         //부팅시 초기 값 볼륩을 받아오기
         if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)) {
 
@@ -55,10 +56,12 @@ public class KeyBroadCast extends BroadcastReceiver {
             lauchApp(packagemanager,context,appList,"data0");
 
         //마이너스 볼륨을 눌렀을때
-        } else if (volume < oldVolume&&isShaked==1||((oldVolume==minVolume)&&(oldVolume==volume)&&(isShaked==1))) {
+        } else if (volume < oldVolume&&(isShaked==1)||((oldVolume==minVolume)&&(oldVolume==volume)&&(isShaked==1))) {
             oldVolume = volume;
             lauchApp(packagemanager,context,appList,"data1");
         }
+        else
+            oldVolume = volume;
 
         editor.putInt("oldVolume", oldVolume);
         editor.commit();
