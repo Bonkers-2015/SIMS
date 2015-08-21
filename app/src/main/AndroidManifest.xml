@@ -3,6 +3,8 @@
     package="bonkers.cau.sims" >
 
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
 
     <application
         android:allowBackup="true"
@@ -52,11 +54,6 @@
             android:label="@string/title_activity_add_edit" >
         </activity>
 
-        <service
-            android:name=".MyService"
-            android:enabled="true"
-            android:exported="true" >
-        </service>
     </application>
 
 </manifest>

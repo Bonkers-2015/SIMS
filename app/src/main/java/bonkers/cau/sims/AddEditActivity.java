@@ -281,8 +281,7 @@ public class AddEditActivity extends Activity implements OnClickListener {
                     errorCheck = 0;
                     finish();
                 }
-            }
-            else
+            } else
                 showDialog("select two button and app");
 
 
