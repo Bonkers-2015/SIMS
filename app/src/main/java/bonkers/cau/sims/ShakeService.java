@@ -7,15 +7,16 @@ import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Handler;
 import android.os.IBinder;
+import android.util.Log;
 import android.widget.Toast;
 
 /**
  * Created by ±è½Â¿í on 2015-08-20.
  */
-public class back extends Service  {
+public class ShakeService extends Service  {
     SensorManager mSensorManager;
     ShakeEventListener mSensorListener;
-
+    Sensor mAccelerometer;
     @Override
     public IBinder onBind(Intent arg0) {
         // TODO Auto-generated method stub
@@ -26,13 +27,8 @@ public class back extends Service  {
     public void onCreate() {
         // TODO Auto-generated method stub
         super.onCreate();
-
-    }
-
-    @Override
-    public void onStart(Intent intent, int startId) {
-        // TODO Auto-generated method stub
-        Toast.makeText(back.this, "Service Started", Toast.LENGTH_LONG).show();
+        Log.d("service start","service start");
+        Toast.makeText(ShakeService.this, "Service Started", Toast.LENGTH_LONG).show();
 
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mSensorListener = new ShakeEventListener();
@@ -40,9 +36,27 @@ public class back extends Service  {
         mSensorListener.setOnShakeListener(new ShakeEventListener.OnShakeListener() {
 
             public void onShake() {
-                Toast.makeText(back.this, "Shake!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ShakeService.this, "Shake!", Toast.LENGTH_SHORT).show();
+
             }
         });
+    }
+
+    @Override
+    public void onStart(Intent intent, int startId) {
+        // TODO Auto-generated method stub
+        Log.d("onstart start","service start");
+/*        Toast.makeText(ShakeService.this, "Service Started", Toast.LENGTH_LONG).show();
+
+        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        mSensorListener = new ShakeEventListener();
+
+        mSensorListener.setOnShakeListener(new ShakeEventListener.OnShakeListener() {
+
+            public void onShake() {
+                Toast.makeText(ShakeService.this, "Shake!", Toast.LENGTH_SHORT).show();
+            }
+        });*/
 
     }
 
@@ -50,7 +64,7 @@ public class back extends Service  {
 
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        mSensorManager.registerListener(mShakeDetector, mAccelerometer, SensorManager.SENSOR_DELAY_UI, new Handler());
+        mSensorManager.registerListener(mSensorListener, mAccelerometer, SensorManager.SENSOR_DELAY_UI, new Handler());
 
         return START_STICKY;
     }

@@ -20,7 +20,8 @@ public class MainActivity extends Activity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        Intent serviceIntent = new Intent(this, ShakeService.class);
+        startService(serviceIntent);
         TimerTask myTask = new TimerTask() {
             public void run() {
                 Intent intent = new Intent(MainActivity.this, ListActivity.class);

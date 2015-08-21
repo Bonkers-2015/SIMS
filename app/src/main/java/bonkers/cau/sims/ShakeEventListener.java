@@ -7,6 +7,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.util.Log;
 
 /**
  * Listener that detects shake gesture.
@@ -62,6 +63,7 @@ public class ShakeEventListener implements SensorEventListener {
 
     public void setOnShakeListener(OnShakeListener listener) {
         mShakeListener = listener;
+        Log.d("shake detected","park");
     }
 
     @Override
