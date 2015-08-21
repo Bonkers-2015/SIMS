@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
+import android.os.Handler;
 import android.os.IBinder;
 import android.widget.Toast;
 
@@ -14,8 +15,6 @@ import android.widget.Toast;
 public class back extends Service  {
     SensorManager mSensorManager;
     ShakeEventListener mSensorListener;
-
-
 
     @Override
     public IBinder onBind(Intent arg0) {
@@ -47,16 +46,13 @@ public class back extends Service  {
 
     }
 
+    public int onStartCommand(Intent intent, int flags, int startId){
 
-    protected void onResume() {
-        mSensorManager.registerListener(mSensorListener,
-                mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
-                SensorManager.SENSOR_DELAY_UI);
-    }
+        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        mSensorManager.registerListener(mShakeDetector, mAccelerometer, SensorManager.SENSOR_DELAY_UI, new Handler());
 
-    protected void onPause() {
-        mSensorManager.unregisterListener(mSensorListener);
-
+        return START_STICKY;
     }
 
     @Override
