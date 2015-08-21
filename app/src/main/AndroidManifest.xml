@@ -54,6 +54,18 @@
             android:label="@string/title_activity_add_edit" >
         </activity>
 
+
+        <service
+            android:name=".MyService"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
+        <service
+            android:name=".back"
+            android:enabled="true"
+            android:exported="true">
+        </service>
+
     </application>
 
 </manifest>
