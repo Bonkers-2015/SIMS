@@ -9,7 +9,6 @@ import android.hardware.SensorManager;
 import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -35,7 +34,6 @@ public class ShakeService extends Service  {
         SharedPreferences prefs = getSharedPreferences("myPrefs",
                 Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
-        Toast.makeText(ShakeService.this, "Shake!", Toast.LENGTH_SHORT).show();
 
 
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
