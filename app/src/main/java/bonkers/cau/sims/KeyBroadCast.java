@@ -56,7 +56,7 @@ public class KeyBroadCast extends BroadcastReceiver {
             Log.d("event","event");
 
         //마이너스 볼륨을 눌렀을때
-        } else if (volume < oldVolume&&(isShaked==0) ||((oldVolume==minVolume)&&(oldVolume==volume)&&(isShaked==1))) {
+        } else if ((volume < oldVolume)&&(isShaked==0) ||((oldVolume==minVolume)&&(oldVolume==volume)&&(isShaked==1))) {
             oldVolume = volume;
             lauchApp(packagemanager,context,appList,"data1");
             Log.d("event", "event");
