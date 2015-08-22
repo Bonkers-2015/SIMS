@@ -25,7 +25,7 @@ public class KeyBroadCast extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-
+        Log.d("jjj","jjjjj");
         //db 생성
         dbManager = new ListDBManager(context);
         listDataArrList = dbManager.selectAll();
@@ -37,7 +37,7 @@ public class KeyBroadCast extends BroadcastReceiver {
                 Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         oldVolume=prefs.getInt("oldVolume",0);
-        isShaked=prefs.getInt("isShaked",0);
+        //isShaked=prefs.getInt("isShacked",0);
 
         //부팅시 초기 값 볼륩을 받아오기
         if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)) {
@@ -50,15 +50,19 @@ public class KeyBroadCast extends BroadcastReceiver {
         volume = (Integer) intent.getExtras().get("android.media.EXTRA_VOLUME_STREAM_VALUE");
 
         //플러스 볼륨을 눌렀을떄
-        if ((volume > oldVolume)&&(isShaked==1) ||((oldVolume==maxVolume)&&(oldVolume==volume)&&(isShaked==1))) {
+        if ((volume > oldVolume)&&(isShaked==0) ||((oldVolume==maxVolume)&&(oldVolume==volume)&&(isShaked==1))) {
             oldVolume = volume;
             lauchApp(packagemanager,context,appList,"data0");
+            Log.d("event","event");
 
         //마이너스 볼륨을 눌렀을때
-        } else if (volume < oldVolume&&isShaked==1||((oldVolume==minVolume)&&(oldVolume==volume)&&(isShaked==1))) {
+        } else if (volume < oldVolume&&(isShaked==0) ||((oldVolume==minVolume)&&(oldVolume==volume)&&(isShaked==1))) {
             oldVolume = volume;
             lauchApp(packagemanager,context,appList,"data1");
+            Log.d("event", "event");
         }
+        else
+            oldVolume = volume;
 
         editor.putInt("oldVolume", oldVolume);
         editor.commit();
