@@ -48,7 +48,6 @@ public class PopupActivity extends Activity {
         //intent extra로 전달한 myName 에 해당하는 값을 전달함
         String receivedText = intent.getStringExtra("myName");
 
-//        final PackageManager packagemanager = this.getPackageManager();
         PackageManager packagemanager = this.getPackageManager();
         List<ApplicationInfo> appList = packagemanager.getInstalledApplications(0);
 

@@ -4,12 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,18 +47,7 @@ public class ListActivity extends Activity implements View.OnClickListener {
         listDataArrList =dbManager.selectAll();
 
         for (ListData data:listDataArrList) {
-
-            mAdapter.addItem(data.getId(),appList.get(data.getIndexNum()).loadIcon(packagemanager), data.getmData1(), data.getmData2());
-
-
-        }
-        PackageManager pm = this.getPackageManager();
-        List<PackageInfo> packs = getPackageManager().getInstalledPackages(PackageManager.PERMISSION_GRANTED);
-        for (PackageInfo pack : packs) {
-
-            Log.i("TAG", pack.applicationInfo.loadLabel(pm).toString());
-            Log.i("TAG", pack.packageName);
-
+            mAdapter.addItem(data.getId(), data.getmData1(), data.getmData2(), data.getmAppName(), data.getmPhoneName(), data.getmPhoneNumber());
         }
 
         addBtn =(Button)findViewById(R.id.list_addbtn);
@@ -69,11 +55,6 @@ public class ListActivity extends Activity implements View.OnClickListener {
         editBtn =(Button)findViewById(R.id.list_editbtn);
         editBtn.setOnClickListener(this);
 
-
-        String[] items = new String[20];
-        for(int i=0; i<items.length;i++) {
-            items[i] = "Item" + (i+1);
-        }
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -83,6 +64,7 @@ public class ListActivity extends Activity implements View.OnClickListener {
                     if(position == i ){
                         mListView.getChildAt(i).setBackgroundColor(Color.GRAY);
                         mSelectedPosition=i;
+
                     }else{
                         mListView.getChildAt(i).setBackgroundColor(Color.TRANSPARENT);
                     }
@@ -126,13 +108,13 @@ public class ListActivity extends Activity implements View.OnClickListener {
             myData.putInt("selectedPosition", -1);
             intent.putExtras(myData);
             startActivity(intent);
-
+            finish();
         }else if(v == editBtn && mSelectedPosition>-1){
             myData.putInt("selectedPosition", mSelectedPosition);
             intent.putExtras(myData);
             startActivity(intent);
+            finish();
         }
-
     }
 
     private class ViewHolder {
@@ -187,14 +169,26 @@ public class ListActivity extends Activity implements View.OnClickListener {
 
             ListData mData = mListData.get(position);
 
-            if(mData.getmIcon()!=null) {
+
+            if(mData.getmAppName() != null) {
+                CharSequence mAppName;
+                //어플 목록을 불러옴
+                PackageManager packagemanager = ListActivity.this.getPackageManager();
+                List<ApplicationInfo> appList = packagemanager.getInstalledApplications(0);
+
+                for (int i = 0; i < appList.size(); i++) {
+                    mAppName = appList.get(i).loadLabel(packagemanager);
+                    if (mAppName.equals(mData.getmAppName())) {
+                        holder.mIcon.setVisibility(View.VISIBLE);
+                        holder.mIcon.setImageDrawable(appList.get(i).loadIcon(packagemanager));
+                        break;
+                    }
+                }
+            }else if(mData.getmPhoneName() != null) {
                 holder.mIcon.setVisibility(View.VISIBLE);
-                holder.mIcon.setImageDrawable(mData.getmIcon());
+                holder.mIcon.setImageDrawable(getResources().getDrawable(R.mipmap.human));
             }
 
-            else {
-                holder.mIcon.setVisibility(View.VISIBLE);
-            }
 
             holder.mFirst.setText(mData.getmData1());
             holder.mSecond.setText(mData.getmData2());
@@ -203,9 +197,9 @@ public class ListActivity extends Activity implements View.OnClickListener {
             return convertView;
         }
 
-        public void addItem(int mId,Drawable icon,String mTitle,String mData) {
+        public void addItem(int mId,String mTitle,String mData, String mAppName, String mPhoneName, String mPhoneNumber) {
             ListData addInfo = null;
-            addInfo = new ListData(mId,icon,mTitle,mData);
+            addInfo = new ListData(mId,mTitle,mData,mAppName,mPhoneName,mPhoneNumber);
             mListData.add(addInfo);
 
         }

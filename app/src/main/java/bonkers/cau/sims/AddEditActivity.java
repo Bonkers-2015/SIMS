@@ -10,7 +10,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -34,7 +33,7 @@ public class AddEditActivity extends Activity implements OnClickListener {
     private ArrayList<ListData> listDataArrList;
     private ListDBManager dbManager;
     private Button mButtonMain, mButtonCancle, mButtonSave, mButtonIniti;
-    private int index, pressedDataNum = 0;
+    private int index, pressedDataNum = 0 , mEditPosition=-1;
     private int phoneBtnCount = 3, phoneMotionCount = 3;
     private ImageView mIVMain;
     private Bitmap mainBG;
@@ -71,14 +70,19 @@ public class AddEditActivity extends Activity implements OnClickListener {
         mButtonIniti = (Button) findViewById(R.id.btn_initi);
         mButtonIniti.setOnClickListener(this);
 
-        phoneSetting();
 
         Bundle myBundle = this.getIntent().getExtras();
-        int position =  myBundle.getInt("selectedPosition");
+        mEditPosition =  myBundle.getInt("selectedPosition");
 
-        // no select => mSelectedPosition = -1
-        if(position>-1) editSetting(position);
-
+        // no select => mEditPosition = -1
+        if(mEditPosition==-1) {
+            phoneSetting();
+            mButtonSave.setText("Save");
+        }else{
+            // eidt일때만 save버튼 complete로 바꿈
+            editSetting();
+            mButtonSave.setText("Complete");
+        }
     }
 
 
@@ -86,31 +90,21 @@ public class AddEditActivity extends Activity implements OnClickListener {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        //어플 목록을 불러옴
-        PackageManager packagemanager = this.getPackageManager();
-        List<ApplicationInfo> appList = packagemanager.getInstalledApplications(0);
 
         switch (requestCode) {
             case LAUNCHED_ACTIVITY:
                 if (resultCode == RESULT_OK) {
                     returnType = data.getStringExtra("resultType");
-                    Log.d("Name", returnType);
 
                     if(returnType.equals("app")) {
                         appName = data.getStringExtra("resultText");
+                        phoneName = null;
+                        mButtonMainSetting();
 
-                        for (int i = 0; i < appList.size(); i++) {
-                            mAppName = appList.get(i).loadLabel(packagemanager);
-                            if (mAppName.equals(appName)) {
-                                mButtonMain.setBackground(appList.get(i).loadIcon(packagemanager));
-                                index = i;
-                                break;
-                            }
-                        }
                     }else if(returnType.equals("phone")){
                         phoneName = data.getStringExtra("resultText");
-                        mButtonMain.setBackground(getResources().getDrawable(R.mipmap.human));
-                        mButtonMain.setText(phoneName.toString());
+                        appName = null;
+                        mButtonMainSetting();
                     }
 
                 }
@@ -133,9 +127,9 @@ public class AddEditActivity extends Activity implements OnClickListener {
 
     }
 
-
     // PhoneModel Setting
     private void phoneSetting() {
+
 
         if (mModelName == "A") {
 
@@ -220,29 +214,67 @@ public class AddEditActivity extends Activity implements OnClickListener {
         }
     }
 
-    private void editSetting(int position){
+    private void editSetting(){
 
         dbManager= new ListDBManager(getApplicationContext());
         listDataArrList =dbManager.selectAll();
 
-        mButtonMain.setBackground(listDataArrList.get(position).getmIcon());
+        appName = listDataArrList.get(mEditPosition).getmAppName();
+        if(listDataArrList.get(mEditPosition).getmPhoneName() == null)
+            phoneName = null;
+        else
+            phoneName = listDataArrList.get(mEditPosition).getmPhoneName()+" / "+listDataArrList.get(mEditPosition).getmPhoneNumber() ;
 
+        mButtonMainSetting();
+        phoneSetting();
+
+        // mButtons setting
         for (int i=0;i <mButtons.size();i++){
-            if(listDataArrList.get(position).getmData1().equals(mButtons.get(i).getText())){
+            if(listDataArrList.get(mEditPosition).getmData1().equals(mButtons.get(i).getText())){
                   mButtons.get(i).onOff=true;
                 mButtons.get(i).setBackgroundColor(Color.BLUE);
             }
-            if(listDataArrList.get(position).getmData2().equals(mButtons.get(i).getText())){
+            if(listDataArrList.get(mEditPosition).getmData2().equals(mButtons.get(i).getText())){
                 mButtons.get(i).onOff=true;
                 mButtons.get(i).setBackgroundColor(Color.BLUE);
             }
         }
-
-
-       // 어플 이름 저장 필요
-       //        appName = "";
-
     }
+
+    private  void mButtonMainSetting(){
+
+        // mButtonMain setting
+        if(appName != null) {
+            //어플 목록을 불러옴
+            PackageManager packagemanager = this.getPackageManager();
+            List<ApplicationInfo> appList = packagemanager.getInstalledApplications(0);
+
+            for (int i = 0; i < appList.size(); i++) {
+                mAppName = appList.get(i).loadLabel(packagemanager);
+                if (mAppName.equals(appName)) {
+                    mButtonMain.setBackground(appList.get(i).loadIcon(packagemanager));
+                    mButtonMain.setText(appName);
+                    index = i;
+                    break;
+                }
+            }
+
+        }else if(phoneName != null) {
+            mButtonMain.setBackground(getResources().getDrawable(R.mipmap.human));
+            mButtonMain.setText(phoneName.toString());
+        }
+    }
+
+    // CharSequence to split.
+    private String[] split(CharSequence cs, String delimiter){
+
+        String[] temp;
+        // given string will be split by the argument delimiter provided.
+        temp = cs.toString().split(delimiter);
+
+        return temp;
+    }
+
     @Override
     public void onClick(View v) {
         int OnOffTotalCount = 0;
@@ -262,8 +294,8 @@ public class AddEditActivity extends Activity implements OnClickListener {
 
             // Cancle Click
         } else if (v == mButtonCancle) {
-            //Intent cancleintent = new Intent(AddEditActivity.this, ListActivity.class);
-            //startActivity(cancleintent);
+            Intent cancleintent = new Intent(AddEditActivity.this, ListActivity.class);
+            startActivity(cancleintent);
             finish();
 
             // Save Click
@@ -279,28 +311,79 @@ public class AddEditActivity extends Activity implements OnClickListener {
 
                 dbManager = new ListDBManager(getApplicationContext());
                 mArrayListData = dbManager.selectAll();
+
                 //DB 의 리스트와 현재 선택된 아이탬이 중복됐는지 검사
                 for (ListData mListData : mArrayListData) {
                     if (pressedData[0].equals(mListData.getmData1()) && pressedData[1].equals(mListData.getmData2())) {
-                        showDialog("is already exist");
                         isRepeated = true;
                         break;
+                    }
+                }
 
+                if(!isRepeated){
+                    //add
+                    if(mEditPosition == -1) {
+                        if(appName!=null){
+                            ListData listAppData = new ListData(index, pressedData[0], pressedData[1], appName.toString(), null, null);
+                            dbManager.insertAppData(listAppData);
+                        }else{
+                            // phoneName >>> "phoneName / phoneNumber"
+                            String temp[] = split(phoneName, " / ");
+                            ListData listPhoneData = new ListData(index, pressedData[0], pressedData[1], null, temp[0], temp[1]);
+
+                            dbManager.insertPhoneData(listPhoneData);
+                        }
+                    //edit
+                    }else{
+                        if(appName!=null){
+                            ListData listAppData = new ListData(index, pressedData[0], pressedData[1], appName.toString(), null, null);
+                            dbManager.updateAppData(listAppData, mEditPosition + 1);
+                        }else{
+                            // phoneName >>> "phoneName / phoneNumber"
+                            String temp[] = split(phoneName, " / ");
+                            ListData listPhoneData = new ListData(index, pressedData[0], pressedData[1], null, temp[0], temp[1]);
+
+                            dbManager.updatePhoneData(listPhoneData, mEditPosition + 1);
+                        }
                     }
 
-                }
-                if (!isRepeated) {
-                    ListData mListData = new ListData(index, pressedData[0], pressedData[1]);
-                    dbManager.insertData(mListData);
+                }else{
+                    if(mEditPosition == -1) {
+                        showDialog("is already exist");
+                        return;
+                    }else{
+                        if(appName!=null){
+                            ListData listAppData = new ListData(index, pressedData[0], pressedData[1], appName.toString(), null, null);
+                            if(mArrayListData.get(mEditPosition).getmAppName() == null){
+                                dbManager.updateAppData(listAppData, mEditPosition + 1);
+                            }else if(!mArrayListData.get(mEditPosition).getmAppName().equals(appName.toString())) {
+                                dbManager.updateAppData(listAppData, mEditPosition + 1);
+                            }else{
+                                showDialog("is already exist");
+                                return;
+                            }
+                        }else{
+                            // phoneName >>> "phoneName / phoneNumber"
+                            String temp[] = split(phoneName, " / ");
+                            ListData listPhoneData = new ListData(index, pressedData[0], pressedData[1], null, temp[0], temp[1]);
 
-
-                    Intent cancleintent = new Intent(AddEditActivity.this, ListActivity.class);
-                    startActivity(cancleintent);
-                    finish();
+                            if(mArrayListData.get(mEditPosition).getmPhoneName() == null) {
+                                dbManager.updatePhoneData(listPhoneData, mEditPosition + 1);
+                            }else if(!mArrayListData.get(mEditPosition).getmPhoneName().equals(temp[0].toString())){
+                                dbManager.updatePhoneData(listPhoneData, mEditPosition + 1);
+                            }else{
+                                showDialog("is already exist");
+                                return;
+                            }
+                        }
+                    }
                 }
+                Intent cancleintent = new Intent(AddEditActivity.this, ListActivity.class);
+                startActivity(cancleintent);
+                finish();
+
             } else
                 showDialog("select two button and app");
-
 
         } else if (v == mButtonIniti) {
             mButtons.removeAll(mButtons);
@@ -309,10 +392,10 @@ public class AddEditActivity extends Activity implements OnClickListener {
             appName = null;
             phoneName = null;
             mButtonMain.setBackground(null);
+            mButtonMain.setText("MAIN");
             phoneSetting();
 
         }
-
 
         // Buttons Click
         for (int i = 0; i < mButtons.size(); i++) {
