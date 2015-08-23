@@ -1,18 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="bonkers.cau.sims">
+    package="bonkers.cau.sims" >
+
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme" >
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -21,38 +26,41 @@
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_popup"
             android:theme="@android:style/Theme.Dialog"
-            android:windowSoftInputMode="stateHidden">
-
-
+            android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
             android:name=".AddEditActivity"
-            android:label="@string/title_activity_add_edit">
+            android:label="@string/title_activity_add_edit" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
+
         <receiver
             android:name=".KeyBroadCast"
             android:enabled="true"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.media.VOLUME_CHANGED_ACTION" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".HomeButtonReceiver" >
-            <intent-filter>
-                <action android:name="android.intent.action.CLOSE_SYSTEM_DIALOGS" />
-            </intent-filter>
-        </receiver>
+
         <activity
             android:name=".ListActivity"
-            android:label="@string/title_activity_add_edit">
+            android:label="@string/title_activity_add_edit" >
         </activity>
 
+
+        <service
+            android:name=".MyService"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
+
     </application>
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
 </manifest>

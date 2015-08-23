@@ -98,7 +98,6 @@ public class AddEditActivity extends Activity implements OnClickListener {
 
                     if(returnType.equals("app")) {
                         appName = data.getStringExtra("resultText");
-                        Log.d("Name", appName.toString());
 
                         for (int i = 0; i < appList.size(); i++) {
                             mAppName = appList.get(i).loadLabel(packagemanager);
@@ -110,7 +109,6 @@ public class AddEditActivity extends Activity implements OnClickListener {
                         }
                     }else if(returnType.equals("phone")){
                         phoneName = data.getStringExtra("resultText");
-                        Log.d("Name", phoneName.toString());
                         mButtonMain.setBackground(getResources().getDrawable(R.mipmap.human));
                         mButtonMain.setText(phoneName.toString());
                     }
@@ -300,8 +298,7 @@ public class AddEditActivity extends Activity implements OnClickListener {
                     startActivity(cancleintent);
                     finish();
                 }
-            }
-            else
+            } else
                 showDialog("select two button and app");
 
 

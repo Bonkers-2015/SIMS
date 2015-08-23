@@ -4,10 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +52,15 @@ public class ListActivity extends Activity implements View.OnClickListener {
         for (ListData data:listDataArrList) {
 
             mAdapter.addItem(data.getId(),appList.get(data.getIndexNum()).loadIcon(packagemanager), data.getmData1(), data.getmData2());
+
+
+        }
+        PackageManager pm = this.getPackageManager();
+        List<PackageInfo> packs = getPackageManager().getInstalledPackages(PackageManager.PERMISSION_GRANTED);
+        for (PackageInfo pack : packs) {
+
+            Log.i("TAG", pack.applicationInfo.loadLabel(pm).toString());
+            Log.i("TAG", pack.packageName);
 
         }
 

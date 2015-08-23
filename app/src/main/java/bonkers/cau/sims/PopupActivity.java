@@ -7,7 +7,6 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.LayoutInflater;
@@ -38,6 +37,7 @@ public class PopupActivity extends Activity {
         // 0은 "app" , 1은 "phone"
         popupType=0;
 
+
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND,
                 WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
@@ -48,7 +48,8 @@ public class PopupActivity extends Activity {
         //intent extra로 전달한 myName 에 해당하는 값을 전달함
         String receivedText = intent.getStringExtra("myName");
 
-        final PackageManager packagemanager = this.getPackageManager();
+//        final PackageManager packagemanager = this.getPackageManager();
+        PackageManager packagemanager = this.getPackageManager();
         List<ApplicationInfo> appList = packagemanager.getInstalledApplications(0);
 
         mListView = (ListView) findViewById(R.id.popup_list);
@@ -56,12 +57,12 @@ public class PopupActivity extends Activity {
         phoneAdapter = new PUListAdapter(this);
         mListView.setAdapter(appAdapter);
         appAdapter.addItem(getResources().getDrawable(R.mipmap.phone), "Phone");
-        for (int i = 0; i < appList.size(); i++)
-            appAdapter.addItem(appList.get(i).loadIcon(packagemanager),
-                    appList.get(i).loadLabel(packagemanager));
-
+        for (int i = 0; i < appList.size(); i++){
+            appAdapter.addItem(appList.get(i).loadIcon(packagemanager), appList.get(i).loadLabel(packagemanager));
+        }
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
 
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
@@ -88,46 +89,39 @@ public class PopupActivity extends Activity {
 
                     // 전달할 Intent를 설정하고 finish()함수를 통해
                     //B Activity를 종료시킴과 동시에 결과로 Intent를 전달하였다.
-                    setResult(RESULT_OK,intent);
+                    setResult(RESULT_OK, intent);
                     finish();
                 }
-
             }
         });
 
     }
 
-    private Cursor getURI() {
-        // 주소록 URI
-        Uri people = ContactsContract.Contacts.CONTENT_URI;
-
-        // 검색할 컬럼 정하기
-        String[] projection = new String[]{ContactsContract.Contacts._ID, ContactsContract.Contacts.DISPLAY_NAME, ContactsContract.Contacts.HAS_PHONE_NUMBER};
-
-        // 쿼리 날려서 커서 얻기
-        String[] selectionArgs = null;
-        String sortOrder = ContactsContract.Contacts.DISPLAY_NAME + " COLLATE LOCALIZED ASC";
-
-        // managedquery 는 activity 메소드이므로 아래와 같이 처리함
-        return getContentResolver().query(people, projection, null, selectionArgs, sortOrder);
-        // return managedQuery(people, projection, null, selectionArgs, sortOrder);
-    }
-
     public void getList() {
 
-        Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
+        String [] arrProjection = { ContactsContract.Contacts._ID, ContactsContract.Contacts.DISPLAY_NAME };
+        String [] arrPhoneProjection = { ContactsContract.CommonDataKinds.Phone.NUMBER };
 
-        Cursor cursor = getURI();                    // 전화번호부 가져오기
+        // ID와 이름 받아오는 Cursor
+        Cursor clsCursor = getContentResolver().query( ContactsContract.Contacts.CONTENT_URI, arrProjection
+                , ContactsContract.Contacts.HAS_PHONE_NUMBER + "=1" , null, null );
 
+        while( clsCursor.moveToNext() )
+        {
+            String strContactId = clsCursor.getString( 0 );
 
-        if (cursor.moveToFirst()) {
-            do {
-                phoneAdapter.addItem(getResources().getDrawable(R.mipmap.human), cursor.getString(1) + "/" + cursor.getString(0) + "/" + cursor.getString(2));
-            } while (cursor.moveToNext());
+            // PHoneNumber를 받아오는 Cursor
+            Cursor clsPhoneCursor = getContentResolver().query( ContactsContract.CommonDataKinds.Phone.CONTENT_URI, arrPhoneProjection
+                    , ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = " + strContactId, null, null );
+
+            while( clsPhoneCursor.moveToNext() )
+            {
+                // Adapter에 Item 추가
+                phoneAdapter.addItem(getResources().getDrawable(R.mipmap.human), clsCursor.getString(1) + " / " + clsPhoneCursor.getString(0));
+            }
+            clsPhoneCursor.close();
         }
-
-
-
+        clsCursor.close( );
     }
 
     private class ViewHolder {
