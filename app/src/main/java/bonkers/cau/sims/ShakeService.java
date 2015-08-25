@@ -8,7 +8,6 @@ import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Handler;
 import android.os.IBinder;
-import android.util.Log;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -49,7 +48,7 @@ public class ShakeService extends Service  {
                         SharedPreferences.Editor editor = prefs.edit();
                         editor.putInt("isShacked", 0);
                         editor.commit();
-                        Log.d("start","start");
+
                     }
                 };
                 SharedPreferences prefs = getSharedPreferences("myPrefs",
@@ -58,28 +57,12 @@ public class ShakeService extends Service  {
                 editor.putInt("isShacked", 1);
                 editor.commit();
                 Timer timer = new Timer();
-                timer.schedule(myTask, 10000);
+                timer.schedule(myTask, 1000);
             }
         });
     }
 
-    @Override
-    public void onStart(Intent intent, int startId) {
-        // TODO Auto-generated method stub
-        Log.d("onstart start","service start");
-/*        Toast.makeText(ShakeService.this, "Service Started", Toast.LENGTH_LONG).show();
 
-        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        mSensorListener = new ShakeEventListener();
-
-        mSensorListener.setOnShakeListener(new ShakeEventListener.OnShakeListener() {
-
-            public void onShake() {
-                Toast.makeText(ShakeService.this, "Shake!", Toast.LENGTH_SHORT).show();
-            }
-        });*/
-
-    }
 
     public int onStartCommand(Intent intent, int flags, int startId){
 
