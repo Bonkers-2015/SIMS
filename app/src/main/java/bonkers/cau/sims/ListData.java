@@ -21,8 +21,8 @@ public class ListData {
         this.mPhoneNumber = mPhoneNumber;
     }
     public ListData(int mId,int mIndexNum, String mData1, String mData2, String mAppName, String mPhoneName, String mPhoneNumber) {
-        this.indexNum=mIndexNum;
         this.id = mId;
+        this.indexNum=mIndexNum;
         this.mData1 = mData1;
         this.mData2 = mData2;
         this.mAppName = mAppName;

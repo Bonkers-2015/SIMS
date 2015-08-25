@@ -47,7 +47,7 @@ public class ListActivity extends Activity implements View.OnClickListener {
         listDataArrList =dbManager.selectAll();
 
         for (ListData data:listDataArrList) {
-            mAdapter.addItem(data.getId(), data.getmData1(), data.getmData2(), data.getmAppName(), data.getmPhoneName(), data.getmPhoneNumber());
+            mAdapter.addItem(data.getId(), data.getIndexNum(), data.getmData1(), data.getmData2(), data.getmAppName(), data.getmPhoneName(), data.getmPhoneNumber());
         }
 
         addBtn =(Button)findViewById(R.id.list_addbtn);
@@ -85,7 +85,6 @@ public class ListActivity extends Activity implements View.OnClickListener {
                             @Override
                             public void onDismiss(ListView listView,int[] reverseSortedPositions) {
                                 for (int position:reverseSortedPositions) {
-
                                     dbManager.removeData(mAdapter.getItem(position).getId());
                                     mAdapter.remove(position);
 
@@ -197,9 +196,9 @@ public class ListActivity extends Activity implements View.OnClickListener {
             return convertView;
         }
 
-        public void addItem(int mId,String mTitle,String mData, String mAppName, String mPhoneName, String mPhoneNumber) {
+        public void addItem(int mId,int mIndexNum,String mTitle,String mData, String mAppName, String mPhoneName, String mPhoneNumber) {
             ListData addInfo = null;
-            addInfo = new ListData(mId,mTitle,mData,mAppName,mPhoneName,mPhoneNumber);
+            addInfo = new ListData(mId,mIndexNum,mTitle,mData,mAppName,mPhoneName,mPhoneNumber);
             mListData.add(addInfo);
 
         }
