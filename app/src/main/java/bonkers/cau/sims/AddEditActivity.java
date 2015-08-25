@@ -231,13 +231,27 @@ public class AddEditActivity extends Activity implements OnClickListener {
         // mButtons setting
         for (int i=0;i <mButtons.size();i++){
             if(listDataArrList.get(mEditPosition).getmData1().equals(mButtons.get(i).getText())){
-                  mButtons.get(i).onOff=true;
+                mButtons.get(i).onOff=true;
                 mButtons.get(i).setBackgroundColor(Color.BLUE);
             }
             if(listDataArrList.get(mEditPosition).getmData2().equals(mButtons.get(i).getText())){
                 mButtons.get(i).onOff=true;
                 mButtons.get(i).setBackgroundColor(Color.BLUE);
             }
+            mButtons.get(i).setEnabled(false);
+        }
+
+        // mMuttons setting
+        for (int i=0;i <mMotions.size();i++){
+            if(listDataArrList.get(mEditPosition).getmData1().equals(mMotions.get(i).getText())){
+                mMotions.get(i).onOff=true;
+                mMotions.get(i).setBackgroundColor(Color.CYAN);
+            }
+            if(listDataArrList.get(mEditPosition).getmData2().equals(mMotions.get(i).getText())){
+                mMotions.get(i).onOff=true;
+                mMotions.get(i).setBackgroundColor(Color.CYAN);
+            }
+            mMotions.get(i).setEnabled(false);
         }
     }
 
@@ -312,70 +326,39 @@ public class AddEditActivity extends Activity implements OnClickListener {
                 dbManager = new ListDBManager(getApplicationContext());
                 mArrayListData = dbManager.selectAll();
 
-                //DB 의 리스트와 현재 선택된 아이탬이 중복됐는지 검사
-                for (ListData mListData : mArrayListData) {
-                    if (pressedData[0].equals(mListData.getmData1()) && pressedData[1].equals(mListData.getmData2())) {
-                        isRepeated = true;
-                        break;
-                    }
-                }
 
-                if(!isRepeated){
-                    //add
-                    if(mEditPosition == -1) {
-                        if(appName!=null){
-                            ListData listAppData = new ListData(index, pressedData[0], pressedData[1], appName.toString(), null, null);
-                            dbManager.insertAppData(listAppData);
-                        }else{
-                            // phoneName >>> "phoneName / phoneNumber"
-                            String temp[] = split(phoneName, " / ");
-                            ListData listPhoneData = new ListData(index, pressedData[0], pressedData[1], null, temp[0], temp[1]);
-
-                            dbManager.insertPhoneData(listPhoneData);
+                //add
+                if(mEditPosition ==-1){
+                    for (ListData mListData : mArrayListData) {
+                        //DB 의 리스트와 현재 선택된 아이탬이 중복됐는지 검사
+                        if (pressedData[0].equals(mListData.getmData1()) && pressedData[1].equals(mListData.getmData2())) {
+                            isRepeated = true;
+                            showDialog("is already exist");
+                            return;
                         }
-                    //edit
+                    }
+                    if(appName!=null){
+                        ListData listAppData = new ListData(index, pressedData[0], pressedData[1], appName.toString(), null, null);
+                        dbManager.insertAppData(listAppData);
                     }else{
-                        if(appName!=null){
-                            ListData listAppData = new ListData(index, pressedData[0], pressedData[1], appName.toString(), null, null);
-                            dbManager.updateAppData(listAppData, mEditPosition + 1);
-                        }else{
-                            // phoneName >>> "phoneName / phoneNumber"
-                            String temp[] = split(phoneName, " / ");
-                            ListData listPhoneData = new ListData(index, pressedData[0], pressedData[1], null, temp[0], temp[1]);
+                        // phoneName >>> "phoneName / phoneNumber"
+                        String temp[] = split(phoneName, " / ");
+                        ListData listPhoneData = new ListData(index, pressedData[0], pressedData[1], null, temp[0], temp[1]);
 
-                            dbManager.updatePhoneData(listPhoneData, mEditPosition + 1);
-                        }
+                        dbManager.insertPhoneData(listPhoneData);
                     }
 
+                //edit
                 }else{
-                    if(mEditPosition == -1) {
-                        showDialog("is already exist");
-                        return;
+                    if(appName!=null){
+                        ListData listAppData = new ListData(index, pressedData[0], pressedData[1], appName.toString(), null, null);
+                        dbManager.updateAppData(listAppData, mEditPosition + 1);
                     }else{
-                        if(appName!=null){
-                            ListData listAppData = new ListData(index, pressedData[0], pressedData[1], appName.toString(), null, null);
-                            if(mArrayListData.get(mEditPosition).getmAppName() == null){
-                                dbManager.updateAppData(listAppData, mEditPosition + 1);
-                            }else if(!mArrayListData.get(mEditPosition).getmAppName().equals(appName.toString())) {
-                                dbManager.updateAppData(listAppData, mEditPosition + 1);
-                            }else{
-                                showDialog("is already exist");
-                                return;
-                            }
-                        }else{
-                            // phoneName >>> "phoneName / phoneNumber"
-                            String temp[] = split(phoneName, " / ");
-                            ListData listPhoneData = new ListData(index, pressedData[0], pressedData[1], null, temp[0], temp[1]);
+                        //  >>> "phoneName / phoneNumber"
+                        String temp[] = split(phoneName, " / ");
+                        ListData listPhoneData = new ListData(index, pressedData[0], pressedData[1], null, temp[0], temp[1]);
 
-                            if(mArrayListData.get(mEditPosition).getmPhoneName() == null) {
-                                dbManager.updatePhoneData(listPhoneData, mEditPosition + 1);
-                            }else if(!mArrayListData.get(mEditPosition).getmPhoneName().equals(temp[0].toString())){
-                                dbManager.updatePhoneData(listPhoneData, mEditPosition + 1);
-                            }else{
-                                showDialog("is already exist");
-                                return;
-                            }
-                        }
+                        dbManager.updatePhoneData(listPhoneData, mEditPosition + 1);
                     }
                 }
                 Intent cancleintent = new Intent(AddEditActivity.this, ListActivity.class);
