@@ -25,8 +25,7 @@ import java.util.List;
 
 public class PopupActivity extends Activity {
     private ListView mListView = null;
-    private PUListAdapter appAdapter = null;
-    private PUListAdapter phoneAdapter = null;
+    private PUListAdapter menuAdapter = null,appAdapter = null, phoneAdapter= null, additionAdapter= null;
     private int popupType=0;
 
     @Override
@@ -34,8 +33,8 @@ public class PopupActivity extends Activity {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
 
-        // 0은 "app" , 1은 "phone"
-        popupType=0;
+        // -1은 menu(초기)상태, 0은 "app" , 1은 "phone", 2는 "addition"
+        popupType=-1;
 
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -48,79 +47,109 @@ public class PopupActivity extends Activity {
         //intent extra로 전달한 myName 에 해당하는 값을 전달함
         String receivedText = intent.getStringExtra("myName");
 
-        PackageManager packagemanager = this.getPackageManager();
-        List<ApplicationInfo> appList = packagemanager.getInstalledApplications(0);
-
         mListView = (ListView) findViewById(R.id.popup_list);
+        menuAdapter = new PUListAdapter(this);
         appAdapter = new PUListAdapter(this);
         phoneAdapter = new PUListAdapter(this);
-        mListView.setAdapter(appAdapter);
-        appAdapter.addItem(getResources().getDrawable(R.mipmap.phone), "Phone");
-        for (int i = 0; i < appList.size(); i++){
-            appAdapter.addItem(appList.get(i).loadIcon(packagemanager), appList.get(i).loadLabel(packagemanager));
-        }
+        additionAdapter = new PUListAdapter(this);
+        mListView.setAdapter(menuAdapter);
+
+        menuAdapter.addItem(getResources().getDrawable(R.mipmap.applist), "App");
+        menuAdapter.addItem(getResources().getDrawable(R.mipmap.phone), "Phone");
+        menuAdapter.addItem(getResources().getDrawable(R.mipmap.addition), "Addition");
+
+        mListView.setAdapter(menuAdapter);
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
 
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                PopupListdata mData = appAdapter.mPopupListdata.get(position);
-                if ("Phone" == mData.mTitle) {
-                    popupType=1;
-                    getList();
-                    mListView.setAdapter(phoneAdapter);
-                }
-                else{
+
+                PopupListdata mData;
+
+                if(popupType ==-1) {
+                    mData = menuAdapter.mPopupListdata.get(position);
+                    if ("App" == mData.mTitle) {
+                        popupType = 0;
+                        getList("app");
+                        mListView.setAdapter(appAdapter);
+
+                    } else if ("Phone" == mData.mTitle) {
+                        popupType = 1;
+                        getList("phone");
+                        mListView.setAdapter(phoneAdapter);
+
+                    } else if ("Addition" == mData.mTitle) {
+                        popupType = 2;
+                        getList("addtion");
+                        mListView.setAdapter(additionAdapter);
+                    }
+                }else {
                     //Add edit Activity로 전달한 데이터 resultText Key 값의 "superdroid result" 문자열을
                     //Extra로 Intent에 담았다.
                     Intent intent = new Intent();
 
-                    if(popupType==0) {
+                    if (popupType == 0) {
                         mData = appAdapter.mPopupListdata.get(position);
                         intent.putExtra("resultText", mData.mTitle);
                         intent.putExtra("resultType", "app");
-                    }else if(popupType==1){
+                    } else if (popupType == 1) {
                         mData = phoneAdapter.mPopupListdata.get(position);
                         intent.putExtra("resultText", mData.mTitle);
                         intent.putExtra("resultType", "phone");
+                    } else if (popupType == 2) {
+                        mData = additionAdapter.mPopupListdata.get(position);
+                        intent.putExtra("resultText", mData.mTitle);
+                        intent.putExtra("resultType", "addition");
                     }
-
                     // 전달할 Intent를 설정하고 finish()함수를 통해
                     //B Activity를 종료시킴과 동시에 결과로 Intent를 전달하였다.
                     setResult(RESULT_OK, intent);
                     finish();
                 }
+
             }
         });
 
     }
 
-    public void getList() {
+    public void getList(String menu) {
 
-        String [] arrProjection = { ContactsContract.Contacts._ID, ContactsContract.Contacts.DISPLAY_NAME };
-        String [] arrPhoneProjection = { ContactsContract.CommonDataKinds.Phone.NUMBER };
+        if(menu == "app"){
+            PackageManager packagemanager = this.getPackageManager();
+            List<ApplicationInfo> appList = packagemanager.getInstalledApplications(0);
 
-        // ID와 이름 받아오는 Cursor
-        Cursor clsCursor = getContentResolver().query( ContactsContract.Contacts.CONTENT_URI, arrProjection
-                , ContactsContract.Contacts.HAS_PHONE_NUMBER + "=1" , null, null );
-
-        while( clsCursor.moveToNext() )
-        {
-            String strContactId = clsCursor.getString( 0 );
-
-            // PHoneNumber를 받아오는 Cursor
-            Cursor clsPhoneCursor = getContentResolver().query( ContactsContract.CommonDataKinds.Phone.CONTENT_URI, arrPhoneProjection
-                    , ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = " + strContactId, null, null );
-
-            while( clsPhoneCursor.moveToNext() )
-            {
-                // Adapter에 Item 추가
-                phoneAdapter.addItem(getResources().getDrawable(R.mipmap.human), clsCursor.getString(1) + " / " + clsPhoneCursor.getString(0));
+            for (int i = 0; i < appList.size(); i++){
+                appAdapter.addItem(appList.get(i).loadIcon(packagemanager), appList.get(i).loadLabel(packagemanager));
             }
-            clsPhoneCursor.close();
+
+        }else if(menu == "phone") {
+
+            String[] arrProjection = {ContactsContract.Contacts._ID, ContactsContract.Contacts.DISPLAY_NAME};
+            String[] arrPhoneProjection = {ContactsContract.CommonDataKinds.Phone.NUMBER};
+
+            // ID와 이름 받아오는 Cursor
+            Cursor clsCursor = getContentResolver().query(ContactsContract.Contacts.CONTENT_URI, arrProjection
+                    , ContactsContract.Contacts.HAS_PHONE_NUMBER + "=1", null, null);
+
+            while (clsCursor.moveToNext()) {
+                String strContactId = clsCursor.getString(0);
+
+                // PHoneNumber를 받아오는 Cursor
+                Cursor clsPhoneCursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, arrPhoneProjection
+                        , ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = " + strContactId, null, null);
+
+                while (clsPhoneCursor.moveToNext()) {
+                    // Adapter에 Item 추가
+                    phoneAdapter.addItem(getResources().getDrawable(R.mipmap.human), clsCursor.getString(1) + " / " + clsPhoneCursor.getString(0));
+                }
+                clsPhoneCursor.close();
+            }
+            clsCursor.close();
+        }else if(menu == "addition"){
+
         }
-        clsCursor.close( );
     }
 
     private class ViewHolder {
