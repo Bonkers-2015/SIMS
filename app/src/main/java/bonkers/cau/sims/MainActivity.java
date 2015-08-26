@@ -10,7 +10,6 @@ import android.widget.TextView;
 import java.util.Timer;
 import java.util.TimerTask;
 
-
 public class MainActivity extends Activity  {
     String model = Build.MODEL;
     TextView textView;
@@ -19,7 +18,6 @@ public class MainActivity extends Activity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
         TimerTask myTask = new TimerTask() {
             public void run() {
