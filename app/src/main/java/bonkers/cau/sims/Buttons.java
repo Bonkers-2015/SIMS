@@ -1,6 +1,7 @@
 package bonkers.cau.sims;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -14,18 +15,17 @@ public class Buttons extends Button{
     public String name;
     public boolean onOff;
     public RelativeLayout.LayoutParams params;
-    public int keycode;
-    public String iconName;
+    public int onImage,offImage, color;
 
     public Buttons(Context context) {
         super(context);
 
-
-        this.name = new String("NULL");
+        this.name = new String("");
         this.onOff = false;
         this.params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        this.keycode=0;
-
+        onImage = R.mipmap.ic_launcher;
+        offImage = R.mipmap.ic_launcher;
+        color = Color.LTGRAY;
     }
 
 }

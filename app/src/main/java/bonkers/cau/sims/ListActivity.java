@@ -152,13 +152,11 @@ public class ListActivity extends Activity implements View.OnClickListener {
             if(convertView==null) {
                 holder = new ViewHolder();
                 LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                convertView = inflater.inflate(R.layout.listview_list_item, null);
-
-
+                convertView = inflater.inflate(R.layout.listview_list_item, null)
+;
                 holder.mIcon = (ImageView)convertView.findViewById(R.id.list_icon);
                 holder.mFirst = (TextView)convertView.findViewById(R.id.first_setting);
                 holder.mSecond = (TextView)convertView.findViewById(R.id.second_setting);
-
 
                 convertView.setTag(holder);
             }
@@ -167,6 +165,7 @@ public class ListActivity extends Activity implements View.OnClickListener {
             }
 
             ListData mData = mListData.get(position);
+
 
 
             if(mData.getmAppName() != null) {
