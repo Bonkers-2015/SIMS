@@ -6,7 +6,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="bonkers.cau.sims.AddEditActivity">
+    tools:context="bonkers.cau.sims.AddEditActivity"
+    android:background="#ff000000">
 
 
     <LinearLayout
@@ -15,89 +16,202 @@
         android:orientation="vertical"
         android:weightSum="100">
 
+
+        <!--<LinearLayout-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:weightSum="100">-->
+
+            <!--<Button-->
+                <!--android:id="@+id/btn_initi"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="top"-->
+                <!--android:layout_weight="1"-->
+                <!--android:text="초기화" />-->
+
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="46dp"-->
+                <!--android:textAppearance="?android:attr/textAppearanceSmall"-->
+                <!--android:id="@+id/textView"-->
+                <!--android:layout_weight="94" />-->
+
+            <!--<ImageButton-->
+                <!--android:id="@+id/btn_setting"-->
+                <!--android:layout_width="50dp"-->
+                <!--android:layout_height="fill_parent"-->
+                <!--android:src="@mipmap/settings2"-->
+                <!--android:adjustViewBounds="true"-->
+                <!--android:scaleType="fitXY"-->
+                <!--android:layout_weight="10.10" />-->
+
+        <!--</LinearLayout>-->
+
+
         <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="10"
             android:weightSum="100">
 
-            <Button
-                android:id="@+id/btn_initi"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="top"
-                android:layout_weight="1"
-                android:text="초기화" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="46dp"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:id="@+id/textView"
-                android:layout_weight="94" />
-
-            <ImageButton
-                android:id="@+id/btn_setting"
-                android:layout_width="50dp"
+            <LinearLayout
+                android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:src="@mipmap/settings2"
-                android:adjustViewBounds="true"
-                android:scaleType="fitXY"
-                android:layout_weight="10.10" />
+                android:orientation="vertical"
+                android:background="#ffffffff"
+                android:clickable="true"
+                android:layout_marginRight="2dp"
+                android:layout_marginBottom="2dp"
+                android:layout_weight="35"
+                android:weightSum="100"
 
+                android:padding="20dp"
+                >
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:layout_weight="60"
+                    >
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/abc_btn_check_to_on_mtrl_015"/>
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="volume up"
+                            />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/abc_btn_check_to_on_mtrl_015"/>
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="volume do"
+                            />
+                    </LinearLayout>
+
+
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="40">
+
+                    <Button
+                        android:id="@+id/btn_main"
+                        android:layout_width="120dp"
+                        android:layout_height="170dp"
+                        android:layout_centerHorizontal="true"
+                        android:text="MAIN"
+                        />
+
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:orientation="vertical"
+                android:layout_marginBottom="2dp"
+                android:background="#ffffffff"
+                android:gravity="center_vertical|center_horizontal"
+                android:layout_weight="65"
+                android:weightSum="99"
+                android:padding="15dp"
+                >
+
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="33"
+                    android:layout_marginBottom="30dp"
+                    />
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="33"
+                    android:layout_marginBottom="30dp"
+                    />
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="33"
+                    android:layout_marginBottom="30dp"
+                    />
+
+
+
+            </LinearLayout>
         </LinearLayout>
 
-        <RelativeLayout
-            android:id="@+id/rl_main"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="98">
-
-            <Button
-                android:id="@+id/btn_main"
-                android:layout_width="130dp"
-                android:layout_height="200dp"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:text="MAIN"
-                android:layout_margin="5dp" />
-
-
-
-        </RelativeLayout>
-
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:weightSum="100">
-
-            <Button
-                android:id="@+id/btn_save"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_weight="1"
-                android:text="Save" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_weight="98"
-                android:text=" " />
+            android:layout_weight="90"
+            android:weightSum="100"
+            android:background="#ffffffff"
+            android:padding="10dp">
 
             <Button
                 android:id="@+id/btn_cancle"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:layout_weight="1"
+                android:layout_weight="35"
+                android:background="#ffffffff"
                 android:text="Cancle" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_weight="30"
+                android:text=" " />
+
+
+            <Button
+                android:id="@+id/btn_save"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_weight="35"
+                android:background="#ffffffff"
+                android:text="Save" />
+
+
+
+
         </LinearLayout>
+
 
 
     </LinearLayout>

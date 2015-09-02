@@ -9,7 +9,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -86,7 +85,6 @@ public class AddEditActivity extends Activity implements OnClickListener {
 
     }
 
-
     //PopupActivity 의 결과를 전달받기위해 overriding을 함
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -112,7 +110,6 @@ public class AddEditActivity extends Activity implements OnClickListener {
         }
     }
 
-
     private void showDialog(String text) {
 
         AlertDialog.Builder alert = new AlertDialog.Builder(AddEditActivity.this);
@@ -125,7 +122,6 @@ public class AddEditActivity extends Activity implements OnClickListener {
 
         alert.setMessage(text);
         alert.show();
-
     }
 
     // PhoneModel Setting
@@ -137,7 +133,6 @@ public class AddEditActivity extends Activity implements OnClickListener {
             phoneBtnCount = 6;
 
             setLayout();
-
 
             mButtons.get(0).name = "VolumeUP";
             mButtons.get(0).offImage = R.mipmap.volume_up_off;
@@ -177,7 +172,6 @@ public class AddEditActivity extends Activity implements OnClickListener {
         } else {
             //no data
         }
-
 
         // Set imageview bitmap   &&   Add ImageView
         mainBG = BitmapFactory.decodeResource(getResources(), R.mipmap.pp);
@@ -221,7 +215,7 @@ public class AddEditActivity extends Activity implements OnClickListener {
         mButtonMainSetting();
         phoneSetting();
 
-        // mButtons setting
+            // mButtons setting
         for (int i=0;i <mButtons.size();i++){
             if(listDataArrList.get(mEditPosition).getmData1().equals(mButtons.get(i).name)){
                 mButtons.get(i).onOff=true;
