@@ -66,8 +66,8 @@ public class AddEditActivity extends Activity implements OnClickListener {
         mButtonCancle.setOnClickListener(this);
         mButtonSave = (Button) findViewById(R.id.btn_save);
         mButtonSave.setOnClickListener(this);
-        mButtonIniti = (Button) findViewById(R.id.btn_initi);
-        mButtonIniti.setOnClickListener(this);
+//        mButtonIniti = (Button) findViewById(R.id.btn_initi);
+//        mButtonIniti.setOnClickListener(this);
 
 
         Bundle myBundle = this.getIntent().getExtras();
@@ -345,14 +345,14 @@ public class AddEditActivity extends Activity implements OnClickListener {
             } else
                 showDialog("select two button and app");
 
-        } else if (v == mButtonIniti) {
-            mButtons.removeAll(mButtons);
-            mRLMain.removeAllViews();
-            appName = null;
-            phoneName = null;
-            mButtonMain.setBackground(null);
-            mButtonMain.setText("MAIN");
-            phoneSetting();
+//        } else if (v == mButtonIniti) {
+//            mButtons.removeAll(mButtons);
+//            mRLMain.removeAllViews();
+//            appName = null;
+//            phoneName = null;
+//            mButtonMain.setBackground(null);
+//            mButtonMain.setText("MAIN");
+//            phoneSetting();
 
         }
 

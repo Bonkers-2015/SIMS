@@ -56,9 +56,9 @@
 
 
         <service
-            android:name=".MyService"
+            android:name=".ShakeService"
             android:enabled="true"
-            android:exported="true" >
+            android:exported="true">
         </service>
 
     </application>
