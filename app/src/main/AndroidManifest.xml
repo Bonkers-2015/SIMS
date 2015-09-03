@@ -5,7 +5,6 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -54,13 +53,20 @@
             android:label="@string/title_activity_add_edit" >
         </activity>
 
-
         <service
             android:name=".ShakeService"
             android:enabled="true"
-            android:exported="true">
+            android:exported="true" >
         </service>
 
+        <activity
+            android:name=".motionActivity"
+            android:label="@string/title_activity_motion" >
+        </activity>
+        <activity
+            android:name=".touchActivity"
+            android:label="@string/title_activity_touch" >
+        </activity>
     </application>
 
 </manifest>
