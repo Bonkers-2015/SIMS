@@ -8,6 +8,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Handler;
 import android.os.IBinder;
+import android.util.Log;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -41,13 +42,14 @@ public class ShakeService extends Service  {
         mSensorListener.setOnShakeListener(new ShakeEventListener.OnShakeListener() {
 
             public void onShake() {
+                Log.d("mylog","isShaked");
                 TimerTask myTask = new TimerTask() {
                     public void run() {
                         SharedPreferences prefs = getSharedPreferences("myPrefs",
                                 Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = prefs.edit();
-                        editor.putInt("isShacked", 0);
                         editor.commit();
+                        Log.d("mylog","end");
 
                     }
                 };
@@ -57,7 +59,7 @@ public class ShakeService extends Service  {
                 editor.putInt("isShacked", 1);
                 editor.commit();
                 Timer timer = new Timer();
-                timer.schedule(myTask, 1000);
+                timer.schedule(myTask, 10000);
             }
         });
     }

@@ -8,7 +8,6 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.Matrix;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
@@ -25,20 +24,19 @@ import java.util.List;
 
 public class AddEditActivity extends Activity implements OnClickListener {
 
-    private CharSequence appName = null, mAppName = null;
-    private String mModelName, pressedData[] = new String[2];
+    private CharSequence phoneName = null, appName = null, mAppName = null;
+    private String returnType, mModelName, pressedData[] = new String[2];
     private RelativeLayout mRLMain;
     private ArrayList<ListData> mArrayListData = new ArrayList<ListData>();
     private ArrayList<Motions> mMotions = new ArrayList<Motions>();
     private ArrayList<Buttons> mButtons = new ArrayList<Buttons>();
+    private ArrayList<ListData> listDataArrList;
     private ListDBManager dbManager;
     private Button mButtonMain, mButtonCancle, mButtonSave, mButtonIniti;
-    private int index, pressedDataNum = 0, errorCheck = 0;
+    private int index, pressedDataNum = 0 , mEditPosition=-1;
     private int phoneBtnCount = 3, phoneMotionCount = 3;
     private ImageView mIVMain;
     private Bitmap mainBG;
-    private Matrix bgMatrix;
-    private int viewId = 0;
 
     // requestCode
     private static final int LAUNCHED_ACTIVITY = 1;
@@ -64,18 +62,7 @@ public class AddEditActivity extends Activity implements OnClickListener {
 
         // Main Button initialize
         mButtonMain = (Button) findViewById(R.id.btn_main);
-//        mButtonMain = new Button(AddEditActivity.this);
-
-//        mButtonMain.setId(viewId);
-//        viewId++;
-
-//        RelativeLayout.LayoutParams paramBtn = new RelativeLayout.LayoutParams(350, 700);
-//        paramBtn.addRule(RelativeLayout.CENTER_HORIZONTAL);
-//        paramBtn.addRule(RelativeLayout.CENTER_VERTICAL);
-//        mButtonMain.setLayoutParams(paramBtn);
-//        mButtonMain.setText("MAIN");
         mButtonMain.setOnClickListener(this);
-
         mButtonCancle = (Button) findViewById(R.id.btn_cancle);
         mButtonCancle.setOnClickListener(this);
         mButtonSave = (Button) findViewById(R.id.btn_save);
@@ -84,32 +71,40 @@ public class AddEditActivity extends Activity implements OnClickListener {
         mButtonIniti.setOnClickListener(this);
 
 
-        phoneSetting();
+        Bundle myBundle = this.getIntent().getExtras();
+        mEditPosition =  myBundle.getInt("selectedPosition");
 
-
+        // no select => mEditPosition = -1
+        if(mEditPosition==-1) {
+            phoneSetting();
+            mButtonSave.setText("Save");
+        }else{
+            // eidt일때만 save버튼 complete로 바꿈
+            editSetting();
+            mButtonSave.setText("Complete");
+        }
     }
+
 
     //PopupActivity 의 결과를 전달받기위해 overriding을 함
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        //어플 목록을 불러옴
-        PackageManager packagemanager = this.getPackageManager();
-        List<ApplicationInfo> appList = packagemanager.getInstalledApplications(0);
 
         switch (requestCode) {
             case LAUNCHED_ACTIVITY:
                 if (resultCode == RESULT_OK) {
-                    appName = data.getStringExtra("resultText");
+                    returnType = data.getStringExtra("resultType");
 
+                    if(returnType.equals("app")) {
+                        appName = data.getStringExtra("resultText");
+                        phoneName = null;
+                        mButtonMainSetting();
 
-                    for (int i = 0; i < appList.size(); i++) {
-                        mAppName = appList.get(i).loadLabel(packagemanager);
-                        if (mAppName.equals(appName)) {
-                            mButtonMain.setBackground(appList.get(i).loadIcon(packagemanager));
-                            index = i;
-                            break;
-                        }
+                    }else if(returnType.equals("phone")){
+                        phoneName = data.getStringExtra("resultText");
+                        appName = null;
+                        mButtonMainSetting();
                     }
 
                 }
@@ -127,10 +122,6 @@ public class AddEditActivity extends Activity implements OnClickListener {
             }
         });
 
-        // errorCheck 0 -> No ERROR
-        // errorCheck 1 -> "Don't press btn more than 2 !"
-        // errorCheck 2 -> "Only two btn and one App !"
-
         alert.setMessage(text);
         alert.show();
 
@@ -138,6 +129,7 @@ public class AddEditActivity extends Activity implements OnClickListener {
 
     // PhoneModel Setting
     private void phoneSetting() {
+
 
         if (mModelName == "A") {
 
@@ -209,7 +201,7 @@ public class AddEditActivity extends Activity implements OnClickListener {
         for (int i = 0; i < phoneBtnCount; i++) {
             mButtons.add(new Buttons(this));
 //            mButtons.get(i).setId(i);
-            mButtons.get(i).setText("B " + i + "");
+            mButtons.get(i).setText("B" + i + "");
             mButtons.get(i).setOnClickListener(this);
         }
 
@@ -217,11 +209,71 @@ public class AddEditActivity extends Activity implements OnClickListener {
         for (int j = 0; j < phoneMotionCount; j++) {
             mMotions.add(new Motions(this));
 //            mButton.get(j).setId(j * 10);
-            mMotions.get(j).setText("M " + j + "");
+            mMotions.get(j).setText("M" + j + "");
             mMotions.get(j).setOnClickListener(this);
         }
     }
 
+    private void editSetting(){
+
+        dbManager= new ListDBManager(getApplicationContext());
+        listDataArrList =dbManager.selectAll();
+
+        appName = listDataArrList.get(mEditPosition).getmAppName();
+        if(listDataArrList.get(mEditPosition).getmPhoneName() == null)
+            phoneName = null;
+        else
+            phoneName = listDataArrList.get(mEditPosition).getmPhoneName()+" / "+listDataArrList.get(mEditPosition).getmPhoneNumber() ;
+
+        mButtonMainSetting();
+        phoneSetting();
+
+        // mButtons setting
+        for (int i=0;i <mButtons.size();i++){
+            if(listDataArrList.get(mEditPosition).getmData1().equals(mButtons.get(i).getText())){
+                  mButtons.get(i).onOff=true;
+                mButtons.get(i).setBackgroundColor(Color.BLUE);
+            }
+            if(listDataArrList.get(mEditPosition).getmData2().equals(mButtons.get(i).getText())){
+                mButtons.get(i).onOff=true;
+                mButtons.get(i).setBackgroundColor(Color.BLUE);
+            }
+        }
+    }
+
+    private  void mButtonMainSetting(){
+
+        // mButtonMain setting
+        if(appName != null) {
+            //어플 목록을 불러옴
+            PackageManager packagemanager = this.getPackageManager();
+            List<ApplicationInfo> appList = packagemanager.getInstalledApplications(0);
+
+            for (int i = 0; i < appList.size(); i++) {
+                mAppName = appList.get(i).loadLabel(packagemanager);
+                if (mAppName.equals(appName)) {
+                    mButtonMain.setBackground(appList.get(i).loadIcon(packagemanager));
+                    mButtonMain.setText(appName);
+                    index = i;
+                    break;
+                }
+            }
+
+        }else if(phoneName != null) {
+            mButtonMain.setBackground(getResources().getDrawable(R.mipmap.human));
+            mButtonMain.setText(phoneName.toString());
+        }
+    }
+
+    // CharSequence to split.
+    private String[] split(CharSequence cs, String delimiter){
+
+        String[] temp;
+        // given string will be split by the argument delimiter provided.
+        temp = cs.toString().split(delimiter);
+
+        return temp;
+    }
 
     @Override
     public void onClick(View v) {
@@ -242,59 +294,108 @@ public class AddEditActivity extends Activity implements OnClickListener {
 
             // Cancle Click
         } else if (v == mButtonCancle) {
-            //Intent cancleintent = new Intent(AddEditActivity.this, ListActivity.class);
-            //startActivity(cancleintent);
-            errorCheck = 0;
+            Intent cancleintent = new Intent(AddEditActivity.this, ListActivity.class);
+            startActivity(cancleintent);
             finish();
 
             // Save Click
         } else if (v == mButtonSave) {
             boolean isRepeated = false;
-            if (OnOffTotalCount == 2 && appName != null) {
+            if (OnOffTotalCount == 2 && (appName != null || phoneName != null) ) {
                 for (int i = 0; i < mButtons.size(); i++) {
                     if (mButtons.get(i).onOff == true) {
-                        pressedData[pressedDataNum] = "data" + i;
+                        pressedData[pressedDataNum] = "B" + i;
                         pressedDataNum = 1;
                     }
                 }
 
                 dbManager = new ListDBManager(getApplicationContext());
                 mArrayListData = dbManager.selectAll();
+
                 //DB 의 리스트와 현재 선택된 아이탬이 중복됐는지 검사
                 for (ListData mListData : mArrayListData) {
                     if (pressedData[0].equals(mListData.getmData1()) && pressedData[1].equals(mListData.getmData2())) {
-                        errorCheck = 3;
-                        showDialog("is already exist");
                         isRepeated = true;
                         break;
+                    }
+                }
 
+                if(!isRepeated){
+                    //add
+                    if(mEditPosition == -1) {
+                        if(appName!=null){
+                            ListData listAppData = new ListData(index, pressedData[0], pressedData[1], appName.toString(), null, null);
+                            dbManager.insertAppData(listAppData);
+                        }else{
+                            // phoneName >>> "phoneName / phoneNumber"
+                            String temp[] = split(phoneName, " / ");
+                            ListData listPhoneData = new ListData(index, pressedData[0], pressedData[1], null, temp[0], temp[1]);
+
+                            dbManager.insertPhoneData(listPhoneData);
+                        }
+                    //edit
+                    }else{
+                        if(appName!=null){
+                            ListData listAppData = new ListData(index, pressedData[0], pressedData[1], appName.toString(), null, null);
+                            dbManager.updateAppData(listAppData, mEditPosition + 1);
+                        }else{
+                            // phoneName >>> "phoneName / phoneNumber"
+                            String temp[] = split(phoneName, " / ");
+                            ListData listPhoneData = new ListData(index, pressedData[0], pressedData[1], null, temp[0], temp[1]);
+
+                            dbManager.updatePhoneData(listPhoneData, mEditPosition + 1);
+                        }
                     }
 
-                }
-                if (!isRepeated) {
-                    ListData mListData = new ListData(index, pressedData[0], pressedData[1]);
-                    dbManager.insertData(mListData);
+                }else{
+                    if(mEditPosition == -1) {
+                        showDialog("is already exist");
+                        return;
+                    }else{
+                        if(appName!=null){
+                            ListData listAppData = new ListData(index, pressedData[0], pressedData[1], appName.toString(), null, null);
+                            if(mArrayListData.get(mEditPosition).getmAppName() == null){
+                                dbManager.updateAppData(listAppData, mEditPosition + 1);
+                            }else if(!mArrayListData.get(mEditPosition).getmAppName().equals(appName.toString())) {
+                                dbManager.updateAppData(listAppData, mEditPosition + 1);
+                            }else{
+                                showDialog("is already exist");
+                                return;
+                            }
+                        }else{
+                            // phoneName >>> "phoneName / phoneNumber"
+                            String temp[] = split(phoneName, " / ");
+                            ListData listPhoneData = new ListData(index, pressedData[0], pressedData[1], null, temp[0], temp[1]);
 
-
-                    Intent cancleintent = new Intent(AddEditActivity.this, ListActivity.class);
-                    startActivity(cancleintent);
-                    errorCheck = 0;
-                    finish();
+                            if(mArrayListData.get(mEditPosition).getmPhoneName() == null) {
+                                dbManager.updatePhoneData(listPhoneData, mEditPosition + 1);
+                            }else if(!mArrayListData.get(mEditPosition).getmPhoneName().equals(temp[0].toString())){
+                                dbManager.updatePhoneData(listPhoneData, mEditPosition + 1);
+                            }else{
+                                showDialog("is already exist");
+                                return;
+                            }
+                        }
+                    }
                 }
+                Intent cancleintent = new Intent(AddEditActivity.this, ListActivity.class);
+                startActivity(cancleintent);
+                finish();
+
             } else
                 showDialog("select two button and app");
-
 
         } else if (v == mButtonIniti) {
             mButtons.removeAll(mButtons);
             mMotions.removeAll(mMotions);
             mRLMain.removeAllViews();
             appName = null;
+            phoneName = null;
             mButtonMain.setBackground(null);
+            mButtonMain.setText("MAIN");
             phoneSetting();
 
         }
-
 
         // Buttons Click
         for (int i = 0; i < mButtons.size(); i++) {
@@ -304,7 +405,6 @@ public class AddEditActivity extends Activity implements OnClickListener {
                         mButtons.get(i).onOff = true;
                         mButtons.get(i).setBackgroundColor(Color.BLUE);
                     } else {
-                        errorCheck = 1;
                         showDialog("select two button and app");
                     }
                 } else {
@@ -328,5 +428,6 @@ public class AddEditActivity extends Activity implements OnClickListener {
                 }
             }
         }
+
     }
 }

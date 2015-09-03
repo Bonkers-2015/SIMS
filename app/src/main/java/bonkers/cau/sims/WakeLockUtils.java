@@ -1,42 +1,32 @@
 package bonkers.cau.sims;
 
 import android.content.Context;
-import android.os.Build;
 import android.os.PowerManager;
 
 /**
  * Created by redpe_000 on 2015-08-24.
  */
-public class WakeLockUtils { private PowerManager powerManager = null;
+public class WakeLockUtils
+{
+    private PowerManager powerManager = null;
 
     public WakeLockUtils(Context paramContext)
     {
-        this.powerManager = ((PowerManager)paramContext.getSystemService("power"));
+        // 여기도 고침
+        this.powerManager = ((PowerManager)paramContext.getSystemService(Context.POWER_SERVICE));
+
     }
 
     public boolean checkScreenOn()
     {
         boolean bool = true;
         if (!this.powerManager.isScreenOn()) {
-            label32:
+
             bool = false;
         }
+        return bool;
 
-/*        if (Build.VERSION.SDK_INT >= 20) {
-            if (!this.powerManager.isInteractive()) {
-                break label32;
-            }
-        }
-        for (;;)
-        {
-            return bool;
-            if (!this.powerManager.isScreenOn()) {
-                label32:
-                bool = false;
-            }
-        }*/
     }
-
     public void unLockScreen()
     {
         PowerManager.WakeLock localWakeLock = this.powerManager.newWakeLock(268435482, "UNLOCK_SCREEN");
