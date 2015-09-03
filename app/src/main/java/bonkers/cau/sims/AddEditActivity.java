@@ -141,7 +141,6 @@ public class AddEditActivity extends Activity implements OnClickListener {
 //            mButtons.get(i).button.setText(mButtons.get(i).title);
             mButtons.get(i).button.setOnClickListener(this);
         }
-
     }
 
     private void editSetLayout(){
@@ -275,6 +274,21 @@ public class AddEditActivity extends Activity implements OnClickListener {
 
                     //edit
                 } else {
+                    for (ListData mListData : mArrayListData) {
+                        //DB 의 리스트와 현재 선택된 아이탬이 중복됐는지 검사
+                        if (pressedData[0].equals(mListData.getmData1()) && pressedData[1].equals(mListData.getmData2())) {
+
+                            //main만 수정을 원하는 경우 제외
+                            if (pressedData[0].equals(mArrayListData.get(mEditPosition).getmData1()) && pressedData[1].equals(mArrayListData.get(mEditPosition).getmData2())) {
+                                continue;
+                            }else{
+                                isRepeated = true;
+                                showDialog("is already exist");
+                                return;
+                            }
+                        }
+                    }
+
                     if (appName != null) {
                         ListData listAppData = new ListData(index, pressedData[0], pressedData[1], appName.toString(), null, null);
                         dbManager.updateAppData(listAppData, mArrayListData.get(mEditPosition).getId());
