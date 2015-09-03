@@ -55,7 +55,7 @@ public class AddEditActivity extends Activity implements OnClickListener {
         }else{
             // eidt일때만 save버튼 complete로 바꿈
             editSetLayout();
-            mBtnSave.setText("Complete");
+            mBtnSave.setText("Edit");
         }
 
     }
