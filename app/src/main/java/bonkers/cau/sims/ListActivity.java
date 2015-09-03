@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,7 +26,7 @@ public class ListActivity extends Activity implements View.OnClickListener {
     private ListViewAdapter mAdapter=null;
     private ListDBManager dbManager;
     private ArrayList<ListData> listDataArrList;
-    private Button addBtn,editBtn;
+    private Button addBtn;
     private int mSelectedPosition=-1;
 
     @Override
@@ -52,23 +51,18 @@ public class ListActivity extends Activity implements View.OnClickListener {
 
         addBtn =(Button)findViewById(R.id.list_addbtn);
         addBtn.setOnClickListener(this);
-        editBtn =(Button)findViewById(R.id.list_editbtn);
-        editBtn.setOnClickListener(this);
-
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                for (int i = 0; i < mListView.getChildCount(); i++) {
-                    if(position == i ){
-                        mListView.getChildAt(i).setBackgroundColor(Color.GRAY);
-                        mSelectedPosition=i;
+                Intent intent = new Intent(ListActivity.this ,AddEditActivity.class);
+                Bundle myData = new Bundle();
+                myData.putInt("selectedPosition", position);
+                intent.putExtras(myData);
+                startActivity(intent);
+                finish();
 
-                    }else{
-                        mListView.getChildAt(i).setBackgroundColor(Color.TRANSPARENT);
-                    }
-                }
             }
         });
 
@@ -99,17 +93,10 @@ public class ListActivity extends Activity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
 
-        // no select => mSelectedPosition = -1
-
         Intent intent = new Intent(ListActivity.this ,AddEditActivity.class);
         Bundle myData = new Bundle();
         if(v == addBtn) {
             myData.putInt("selectedPosition", -1);
-            intent.putExtras(myData);
-            startActivity(intent);
-            finish();
-        }else if(v == editBtn && mSelectedPosition>-1){
-            myData.putInt("selectedPosition", mSelectedPosition);
             intent.putExtras(myData);
             startActivity(intent);
             finish();

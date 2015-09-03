@@ -11,7 +11,9 @@ import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,13 +22,14 @@ import java.util.List;
 public class AddEditActivity extends Activity implements OnClickListener {
 
     private CharSequence phoneName = null, appName = null, mAppName = null;
-    private String returnType, mModelName, pressedData[] = new String[2];
+    private String phoneNumber, returnType, mModelName, pressedData[] = new String[2];
     private RelativeLayout mRLMain;
     private ArrayList<ListData> mArrayListData = new ArrayList<ListData>();
     private ArrayList<ListData> listDataArrList;
     private ArrayList<Buttons> mButtons = new ArrayList<Buttons>();
     private ListDBManager dbManager;
     private Button mBtnMain, mBtnCancle, mBtnSave, mBtnIniti;
+    private ImageView mIvMain;
     private int index, pressedDataNum = 0 , mEditPosition=-1;
     private int phoneBtnCount = 3, phoneMotionCount = 3;
     private Bitmap mainBG;
@@ -74,6 +77,11 @@ public class AddEditActivity extends Activity implements OnClickListener {
 
                     }else if(returnType.equals("phone")){
                         phoneName = data.getStringExtra("resultText");
+
+                        // phoneName >>> "phoneName / phoneNumber"
+                        String temp[] = split(phoneName, " / ");
+                        phoneNumber=temp[1];
+
                         appName = null;
                         mBtnMainSetting();
                     }
@@ -105,19 +113,24 @@ public class AddEditActivity extends Activity implements OnClickListener {
         mBtnCancle.setOnClickListener(this);
         mBtnSave = (Button) findViewById(R.id.btn_save);
         mBtnSave.setOnClickListener(this);
+
+        mIvMain = (ImageView)findViewById(R.id.IV_main);
+        mIvMain.setOnClickListener(this);
+
+
 //        mButtonIniti = (Button) findViewById(R.id.btn_initi);
 //        mButtonIniti.setOnClickListener(this);
 
-        mButtons.add(0,new Buttons("volume up","VolumeUP",(Button)findViewById(R.id.btn_volume_up)));
+        mButtons.add(0, new Buttons("volume up", "volumeUP", (Button) findViewById(R.id.btn_volume_up)));
         mButtons.get(0).offImage = R.mipmap.volume_up_off;
         mButtons.get(0).onImage = R.mipmap.volume_up_on;
-        mButtons.add(1, new Buttons("volume dn","VolumeDown",(Button) findViewById(R.id.btn_volume_down)));
+        mButtons.add(1, new Buttons("volume dn","volumeDown",(Button) findViewById(R.id.btn_volume_down)));
         mButtons.get(1).offImage = R.mipmap.volume_down_off;
         mButtons.get(1).onImage = R.mipmap.volume_down_on;
-        mButtons.add(2,new Buttons("","touch",(Button)findViewById(R.id.btn_touch)));
+        mButtons.add(2,new Buttons("","touch",(Button)findViewById(R.id.btn_touch),(TextView)findViewById(R.id.btn_touch_txt)));
         mButtons.get(2).offImage = R.mipmap.touch_off;
         mButtons.get(2).onImage = R.mipmap.touch_on;
-        mButtons.add(3,new Buttons("","motion",(Button)findViewById(R.id.btn_motion)));
+        mButtons.add(3,new Buttons("","motion",(Button)findViewById(R.id.btn_motion),(TextView)findViewById(R.id.btn_motion_txt)));
         mButtons.get(3).offImage = R.mipmap.motion_off;
         mButtons.get(3).onImage = R.mipmap.motion_on;
         mButtons.add(4,new Buttons("","earphone",(Button)findViewById(R.id.btn_earphone)));
@@ -150,10 +163,18 @@ public class AddEditActivity extends Activity implements OnClickListener {
             if(listDataArrList.get(mEditPosition).getmData1().equals(mButtons.get(i).name)){
                 mButtons.get(i).onOff=true;
                 mButtons.get(i).button.setBackground(getResources().getDrawable(mButtons.get(i).onImage));
+
+                if(mButtons.get(i).textView!=null){
+                    mButtons.get(i).textView.setText("CHECK");
+                }
             }
             if(listDataArrList.get(mEditPosition).getmData2().equals(mButtons.get(i).name)){
                 mButtons.get(i).onOff=true;
                 mButtons.get(i).button.setBackground(getResources().getDrawable(mButtons.get(i).onImage));
+
+                if(mButtons.get(i).textView!=null){
+                    mButtons.get(i).textView.setText("CHECK");
+                }
             }
         }
     }
@@ -179,6 +200,7 @@ public class AddEditActivity extends Activity implements OnClickListener {
         }else if(phoneName != null) {
             mBtnMain.setBackground(getResources().getDrawable(R.mipmap.human));
             mBtnMain.setText(phoneName.toString());
+
         }
     }
 
@@ -204,7 +226,7 @@ public class AddEditActivity extends Activity implements OnClickListener {
         }
 
         // Main Click
-        if (v == mBtnMain) {
+        if (v == mIvMain || v==mBtnMain) {
             Intent i = new Intent(AddEditActivity.this, PopupActivity.class);
             i.putExtra("myName", "superdroid");
             startActivityForResult(i, LAUNCHED_ACTIVITY);
@@ -291,6 +313,11 @@ public class AddEditActivity extends Activity implements OnClickListener {
                     if (OnOffTotalCount < 2) {
                         mButtons.get(i).onOff = true;
                         mButtons.get(i).button.setBackground(getResources().getDrawable(mButtons.get(i).onImage));
+
+                        if(mButtons.get(i).textView!=null){
+                            mButtons.get(i).textView.setText("CHECK");
+                        }
+
                     } else {
                         showDialog("select two button and app");
                     }
@@ -298,6 +325,9 @@ public class AddEditActivity extends Activity implements OnClickListener {
                     mButtons.get(i).onOff = false;
                     mButtons.get(i).button.setBackground(getResources().getDrawable(mButtons.get(i).offImage));
 
+                    if(mButtons.get(i).textView!=null){
+                        mButtons.get(i).textView.setText("");
+                    }
                 }
             }
         }
