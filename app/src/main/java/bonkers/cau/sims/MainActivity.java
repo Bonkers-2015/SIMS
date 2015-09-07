@@ -3,6 +3,8 @@ package bonkers.cau.sims;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.widget.TextView;
@@ -18,7 +20,7 @@ public class MainActivity extends Activity  {
 <<<<<<< HEAD
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-=======
+
 
     private long lastTime;
     private float speed;

@@ -25,43 +25,24 @@ public class KeyBroadCast extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-<<<<<<< HEAD
         Log.d("mylog","button selected");
-=======
-
-        Log.d("okokok", "okokok");
-
->>>>>>> origin/Isco
         //db 생성
         dbManager = new ListDBManager(context);
         listDataArrList = dbManager.selectAll();
-        //어플리케이션 내욜
+        //어플리케이션 내욜을 받아오는거야
         PackageManager packagemanager = context.getPackageManager();
         List<ApplicationInfo> appList = packagemanager.getInstalledApplications(0);
-
         SharedPreferences prefs = context.getSharedPreferences("myPrefs",
                 Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         oldVolume=prefs.getInt("oldVolume",0);
-<<<<<<< HEAD
 
-=======
-        isShaked=prefs.getInt("shacked",0);
-        Log.d("oldVolume",Integer.toString(oldVolume));
-        Log.d("isShaked",Integer.toString(isShaked));
+
         //부팅시 초기 값 볼륩을 받아오기
         if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)) {
-<<<<<<< HEAD
->>>>>>> origin/master
-
-=======
-
-            oldVolume = (Integer) intent.getExtras().get("android.media.EXTRA_VOLUME_STREAM_VALUE");
-            editor.putInt("oldVolume", oldVolume);
-            editor.commit();
 
         }
->>>>>>> origin/Isco
+
 
 
         volume = (Integer) intent.getExtras().get("android.media.EXTRA_VOLUME_STREAM_VALUE");
@@ -74,38 +55,16 @@ public class KeyBroadCast extends BroadcastReceiver {
             oldVolume = volume;
             lauchApp(packagemanager, context, appList, "data0");
 
-        }
-        //마이너스 볼륨을 눌렀을때
-<<<<<<< HEAD
-<<<<<<< HEAD
+            //마이너스 볼륨을 눌렀을때
         } else if ((volume < oldVolume)&&(isShaked==1) ||((oldVolume==minVolume)&&(oldVolume==volume)&&(isShaked==1))) {
             oldVolume = volume;
             lauchApp(packagemanager, context, appList, "data1");
-;
         }
-        else {
-=======
-        } else if (volume < oldVolume&&(isShaked==1)||((oldVolume==minVolume)&&(oldVolume==volume)&&(isShaked==1))) {
->>>>>>> origin/master
-            oldVolume = volume;
-        }
-<<<<<<< HEAD
-=======
         else
             oldVolume = volume;
 
->>>>>>> origin/master
-=======
-        else if (volume < oldVolume||(oldVolume==minVolume&&oldVolume==volume)) {
-            oldVolume = volume;
-            lauchApp(packagemanager,context,appList,"data1");
-
-        }
->>>>>>> origin/Isco
         editor.putInt("oldVolume", oldVolume);
         editor.commit();
-
-
     }
 
 
@@ -118,7 +77,6 @@ public class KeyBroadCast extends BroadcastReceiver {
                 appIndexNum = list.getIndexNum();
                 appPackageName = appList.get(appIndexNum).packageName;
                 //앱실행
-
                 Intent i = packagemanager.getLaunchIntentForPackage(appPackageName);
                 i.addCategory(Intent.CATEGORY_LAUNCHER);
                 context.startActivity(i);
