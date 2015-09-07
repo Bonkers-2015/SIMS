@@ -10,7 +10,6 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
 
-import java.util.Timer;
 import java.util.TimerTask;
 
 /**
@@ -31,9 +30,11 @@ public class ShakeService extends Service  {
         // TODO Auto-generated method stub
         super.onCreate();
 
+
         SharedPreferences prefs = getSharedPreferences("myPrefs",
                 Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
+
 
 
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -42,6 +43,7 @@ public class ShakeService extends Service  {
         mSensorListener.setOnShakeListener(new ShakeEventListener.OnShakeListener() {
 
             public void onShake() {
+
                 Log.d("mylog","isShaked");
                 TimerTask myTask = new TimerTask() {
                     public void run() {
@@ -56,9 +58,11 @@ public class ShakeService extends Service  {
                         Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putInt("isShacked", 1);
+
                 editor.commit();
-                Timer timer = new Timer();
-                timer.schedule(myTask, 10000);
+                Log.d("isShaked", Integer.toString(prefs.getInt("shacked",0)));
+
+
             }
         });
     }

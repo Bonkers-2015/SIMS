@@ -43,7 +43,6 @@
             android:id="@+id/list_icon"
             android:layout_width="63dp"
             android:layout_height="45dp"
-            android:src="@mipmap/kakao"
             android:paddingLeft="10dp"
             android:gravity="center_vertical"/>
 

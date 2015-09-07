@@ -6,5 +6,7 @@
     <string name="title_activity_popup">PopupActivity</string>
     <string name="title_activity_phone">PhoneActivity</string>
     <string name="title_activity_add_edit">AddEditActivity</string>
+    <string name="title_activity_motion">motionActivity</string>
+    <string name="title_activity_touch">touchActivity</string>
     
 </resources>

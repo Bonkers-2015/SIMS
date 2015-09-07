@@ -53,6 +53,7 @@
         <service
             android:name=".ShakeService"
             android:enabled="true"
+
             android:exported="true" >
         </service>
         <service
@@ -83,6 +84,17 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+
+
+        <activity
+            android:name=".motionActivity"
+            android:label="@string/title_activity_motion" >
+        </activity>
+        <activity
+            android:name=".touchActivity"
+            android:label="@string/title_activity_touch" >
+        </activity>
+
     </application>
 
 </manifest>
