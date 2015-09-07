@@ -157,7 +157,7 @@ public class AddEditActivity extends Activity implements OnClickListener {
         setLayout();
         mBtnMainSetting();
 
-            // mButtons setting
+        // mButtons setting
         for (int i=0;i <mButtons.size();i++){
             if(listDataArrList.get(mEditPosition).getmData1().equals(mButtons.get(i).name)){
                 mButtons.get(i).onOff=true;
@@ -320,20 +320,9 @@ public class AddEditActivity extends Activity implements OnClickListener {
 
         }
 
-<<<<<<< HEAD
         // Buttons Click
         for (int i = 0; i < mButtons.size(); i++) {
             if (v == mButtons.get(i).button) {
-=======
-
-
-
-
-
-        // Buttons Click
-        for(int i = 0; i < mButtons.size(); i++) {
-            if (v == mButtons.get(i)) {
->>>>>>> origin/Isco
                 if (mButtons.get(i).onOff == false) {
                     if (OnOffTotalCount < 2) {
                         mButtons.get(i).onOff = true;
@@ -359,4 +348,3 @@ public class AddEditActivity extends Activity implements OnClickListener {
 
     }
 }
-
