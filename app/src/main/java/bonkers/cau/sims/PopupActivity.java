@@ -7,6 +7,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.LayoutInflater;
@@ -48,7 +49,7 @@ public class PopupActivity extends Activity {
         //intent extraï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ myName ï¿½ï¿½ ï¿½Ø´ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         String receivedText = intent.getStringExtra("myName");
 
-<<<<<<< HEAD
+
         mListView = (ListView) findViewById(R.id.popup_list);
         menuAdapter = new PUListAdapter(this);
         appAdapter = new PUListAdapter(this);
@@ -59,8 +60,8 @@ public class PopupActivity extends Activity {
         menuAdapter.addItem(getResources().getDrawable(R.mipmap.applist), "App");
         menuAdapter.addItem(getResources().getDrawable(R.mipmap.phone), "Phone");
         menuAdapter.addItem(getResources().getDrawable(R.mipmap.addition), "Addition");
-=======
-        //ì‹¤í–‰ê°€ëŠ¥í•œ ì•±ëª©ë¡ ë°›ì•„ì˜¤ëŠ”ë¶€ë¶„.
+
+        //?‹¤?–‰ê°??Š¥?•œ ?•±ëª©ë¡ ë°›ì•„?˜¤?Š”ë¶?ë¶?.
         PackageManager packagemanager = this.getPackageManager();
         List<ApplicationInfo> installedApps = getApplicationContext().getPackageManager().getInstalledApplications(PackageManager.PERMISSION_GRANTED);
         List<ApplicationInfo> launchableInstalledApps = new ArrayList<ApplicationInfo>();
@@ -72,12 +73,9 @@ public class PopupActivity extends Activity {
             }
         }
 
->>>>>>> origin/Isco
-
         mListView.setAdapter(menuAdapter);
 
-<<<<<<< HEAD
-=======
+
         mListView = (ListView) findViewById(R.id.popup_list);
         puAdapter = new PUListAdapter(this);
         pAdapter = new PUListAdapter(this);
@@ -88,14 +86,12 @@ public class PopupActivity extends Activity {
 
 
         }
->>>>>>> origin/Isco
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
 
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 
-<<<<<<< HEAD
                 PopupListdata mData;
 
                 if(popupType ==-1) {
@@ -118,14 +114,14 @@ public class PopupActivity extends Activity {
                 }else {
                     //Add edit Activity·Î Àü´ÞÇÑ µ¥ÀÌÅÍ resultText Key °ªÀÇ "superdroid result" ¹®ÀÚ¿­À»
                     //Extra·Î Intent¿¡ ´ã¾Ò´Ù.
-=======
+
                 } else {
                     //Add edit Activityï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ resultText Key ï¿½ï¿½ï¿½ï¿½ "superdroid result" ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½
-                    //Extraï¿½ï¿½ Intentï¿½ï¿½ ï¿½ï¿½Ò´ï¿½.
->>>>>>> origin/Isco
+                    //Extraï¿½ï¿½ Intentï¿½ï¿½ ï¿½ï¿½Ò´ï¿?.
+
                     Intent intent = new Intent();
 
-<<<<<<< HEAD
+
                     if (popupType == 0) {
                         mData = appAdapter.mPopupListdata.get(position);
                         intent.putExtra("resultText", mData.mTitle);
@@ -141,10 +137,10 @@ public class PopupActivity extends Activity {
                     }
                     // Àü´ÞÇÒ Intent¸¦ ¼³Á¤ÇÏ°í finish()ÇÔ¼ö¸¦ ÅëÇØ
                     //B Activity¸¦ Á¾·á½ÃÅ´°ú µ¿½Ã¿¡ °á°ú·Î Intent¸¦ Àü´ÞÇÏ¿´´Ù.
-=======
+
                     // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Intentï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ finish()ï¿½Ô¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
-                    //B Activityï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Å´ï¿½ï¿½ ï¿½ï¿½ï¿½Ã¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ Intentï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ï¿½ï¿½.
->>>>>>> origin/Isco
+                    //B Activityï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Å´ï¿½ï¿? ï¿½ï¿½ï¿½Ã¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿? Intentï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ï¿½ï¿½.
+
                     setResult(RESULT_OK, intent);
                     finish();
                 }
@@ -154,7 +150,7 @@ public class PopupActivity extends Activity {
 
     }
 
-<<<<<<< HEAD
+
     public void getList(String menu) {
 
         if(menu == "app"){
@@ -164,7 +160,7 @@ public class PopupActivity extends Activity {
             for (int i = 0; i < appList.size(); i++){
                 appAdapter.addItem(appList.get(i).loadIcon(packagemanager), appList.get(i).loadLabel(packagemanager));
             }
-=======
+
     private Cursor getURI() {
         // ï¿½Ö¼Ò·ï¿½ URI
         Uri people = ContactsContract.Contacts.CONTENT_URI;
@@ -172,7 +168,7 @@ public class PopupActivity extends Activity {
         // ï¿½Ë»ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ ï¿½ï¿½ï¿½Ï±ï¿½
         String[] projection = new String[]{ContactsContract.Contacts._ID, ContactsContract.Contacts.DISPLAY_NAME, ContactsContract.Contacts.HAS_PHONE_NUMBER};
 
-        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ä¿ï¿½ï¿½ ï¿½ï¿½ï¿½
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ä¿ï¿½ï¿½ ï¿½ï¿½ï¿?
         String[] selectionArgs = null;
         String sortOrder = ContactsContract.Contacts.DISPLAY_NAME + " COLLATE LOCALIZED ASC";
 
@@ -180,7 +176,7 @@ public class PopupActivity extends Activity {
         return getContentResolver().query(people, projection, null, selectionArgs, sortOrder);
         // return managedQuery(people, projection, null, selectionArgs, sortOrder);
     }
->>>>>>> origin/Isco
+
 
         }else if(menu == "phone") {
 
