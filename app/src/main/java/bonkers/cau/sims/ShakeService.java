@@ -49,7 +49,6 @@ public class ShakeService extends Service  {
                                 Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = prefs.edit();
                         editor.commit();
-                        Log.d("mylog","end");
 
                     }
                 };

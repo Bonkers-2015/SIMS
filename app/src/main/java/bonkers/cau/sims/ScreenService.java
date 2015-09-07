@@ -1,12 +1,9 @@
 package bonkers.cau.sims;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.IBinder;
-import android.os.SystemClock;
 import android.util.Log;
 
 
@@ -36,10 +33,6 @@ public class ScreenService extends Service {
     }
 
     public void onTaskRemoved(Intent paramIntent) {
-        Intent localIntent = new Intent(getApplicationContext(), getClass());
-        localIntent.setPackage(getPackageName());
-        PendingIntent localPendingIntent = PendingIntent.getService(getApplicationContext(), 1, localIntent, PendingIntent.FLAG_ONE_SHOT);
-        ((AlarmManager) getApplicationContext().getSystemService(ALARM_SERVICE)).set(3, 500L + SystemClock.elapsedRealtime(), localPendingIntent);
-        super.onTaskRemoved(paramIntent);
+
     }
 }

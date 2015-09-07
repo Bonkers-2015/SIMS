@@ -12,6 +12,5 @@ public class BootReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
 
             context.startService(new Intent(context, ScreenService.class));
-            context.startService(new Intent(context, SoundService.class));
     }
 }

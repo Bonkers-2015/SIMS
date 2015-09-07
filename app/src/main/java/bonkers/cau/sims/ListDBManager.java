@@ -44,10 +44,6 @@ public class ListDBManager {
         public void onCreate(SQLiteDatabase arg0) {
             // String dropSql = "drop table if exists " + tableName;
             // db.execSQL(dropSql);
-//
-//            String createSql = "create table " + tableName + " ("
-//                    + "id integer primary key autoincrement, " + "indexnum integer, "
-//                    + "data1 text, "+"data2 text)";
 
             String createSql = "create table " + tableName + " (id integer primary key autoincrement," +
                     "indexnum integer, data1 text, data2 text, appName text, phoneName text, phoneNumber text);";
@@ -63,8 +59,6 @@ public class ListDBManager {
 
     // 데이터 추가
     public void insertAppData(ListData data) {
-//        String sql = "insert into " + tableName+ " values(NULL, "
-//                + data.getIndexNum() + ", '" + data.getmData1() +"', '" + data.getmData2() + "');";
         String sql = "insert into " + tableName+ " values(NULL, "
                 + data.getIndexNum() + ", '" + data.getmData1() +"', '" + data.getmData2() + "', '" + data.getmAppName() + "', NULL,NULL);";
 
@@ -80,8 +74,6 @@ public class ListDBManager {
 
     // 데이터 갱신
     public void updateAppData(ListData data, int index) {
-//        String sql = "update " + tableName + " set indexnum = '" + data.getIndexNum()
-//                + "', data1 = " + data.getmData1()+ "', data2 = " + data.getmData2()+ "' where id = " + index + ";";
         String sql = "update " + tableName + " set indexnum = " + data.getIndexNum()
                 + ", data1 = '" + data.getmData1()+ "', data2 = '" + data.getmData2()+ "', appName = '" + data.getmAppName()
                 + "', phoneName = NULL, phoneNumber = NULL where id = " + index + ";";

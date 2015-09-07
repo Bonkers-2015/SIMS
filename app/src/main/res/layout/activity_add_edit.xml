@@ -60,7 +60,8 @@
                 android:layout_height="200dp"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
-                android:text="MAIN"/>
+                android:text="MAIN"
+                android:layout_margin="5dp" />
 
 
 
