@@ -8,5 +8,11 @@
     <string name="title_activity_add_edit">AddEditActivity</string>
     <string name="title_activity_motion">motionActivity</string>
     <string name="title_activity_touch">touchActivity</string>
+    <string name="title_activity_main_service">MainService</string>
+    <string name="title_activity_start_receiver">StartReceiver</string>
+    <string name="title_activity_widget_provider">WidgetProvider</string>
+    <string name="title_activity_on_click_volume">OnClickVolume</string>
+    <string name="title_activity_buttom_service">ButtomService</string>
+    <string name="title_activity_sims_widget">SimsWidget</string>
     
 </resources>
