@@ -1,46 +1,63 @@
 package bonkers.cau.sims;
 
-import android.content.Context;
+import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
-public class MainActivity extends ActionBarActivity {
-
+public class MainActivity extends Activity implements SensorEventListener {
     String model = Build.MODEL;
     TextView textView;
+    BroadcastReceiver myReceiver = new KeyBroadCast();
+
+
+    private long lastTime;
+    private float speed;
+    private float lastX;
+    private float lastY;
+    private float lastZ;
+    private float x, y, z;
+
+    private static final int SHAKE_THRESHOLD = 800;
+    private static final int DATA_X = SensorManager.DATA_X;
+    private static final int DATA_Y = SensorManager.DATA_Y;
+    private static final int DATA_Z = SensorManager.DATA_Z;
+
+    private SensorManager sensorManager;
+    private Sensor accelerormeterSensor;
+
 
 
     @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        accelerormeterSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
 
-        LayoutInflater inflater = (LayoutInflater) getApplicationContext().
-                getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        setContentView(R.layout.activity_main);
 
-        View myView;
-        myView = inflater.inflate(R.layout.activity_main, null);
-        myView.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
+
+        TimerTask myTask = new TimerTask() {
+            public void run() {
                 Intent intent = new Intent(MainActivity.this, ListActivity.class);
                 startActivity(intent);
                 finish();
             }
-        });
-        setContentView(myView);
+        };
+        Timer timer = new Timer();
+        timer.schedule(myTask, 1000);
 
 
 /*
@@ -52,50 +69,49 @@ Service 부분. 실행되었을 때 backgroud 에서 실행유지
         textView = (TextView) findViewById(R.id.model);
         textView.setText(model);
 
-        packageList(); // package list 불러옴
-
-
 
     }
 
-     //package list
-    public void packageList() {
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (accelerormeterSensor != null)
+            sensorManager.registerListener(this, accelerormeterSensor, SensorManager.SENSOR_DELAY_GAME);
+    }
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (sensorManager != null)
+            sensorManager.unregisterListener(this);
+    }
 
-        long keyPressedTime = 0;
-        Toast toast;
-        Context context = null;
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
-        PackageManager pm = this.getPackageManager();
-        List<PackageInfo> packs = getPackageManager().getInstalledPackages(PackageManager.PERMISSION_GRANTED);
-        for (PackageInfo pack : packs) {
+    }
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            long currentTime = System.currentTimeMillis();
+            long gabOfTime = (currentTime - lastTime);
+            if (gabOfTime > 100) {
+                lastTime = currentTime;
+                x = event.values[SensorManager.DATA_X];
+                y = event.values[SensorManager.DATA_Y];
+                z = event.values[SensorManager.DATA_Z];
 
-            Log.i("TAG", pack.applicationInfo.loadLabel(pm).toString());
+                speed = Math.abs(x + y + z - lastX - lastY - lastZ) / gabOfTime * 10000;
 
-            Log.i("TAG", pack.packageName);
+                if (speed > SHAKE_THRESHOLD) {
+                    // 이벤트발생!!
+                }
+
+                lastX = event.values[DATA_X];
+                lastY = event.values[DATA_Y];
+                lastZ = event.values[DATA_Z];
+            }
 
         }
-    }
-
-        //버튼 클릭시 어플실행
-        @Override
-        public boolean dispatchKeyEvent(KeyEvent event){
-
-            Context context = getApplicationContext();
-
-            //버튼선택
-            if (event.getKeyCode() == KeyEvent.KEYCODE_VOLUME_UP) {
-
-                //버튼이눌렸을 때
-                if(event.getAction() == KeyEvent.ACTION_DOWN){
-
-
-                    Intent intent = context.getPackageManager().getLaunchIntentForPackage("com.android.settings");
-                    startActivity(intent);
-
-                }
-                return true;
-            }
-            return super.dispatchKeyEvent(event);
 
     }
 

@@ -1,8 +1,5 @@
 package bonkers.cau.sims;
 
-/**
- * Created by ±è½Â¿í on 2015-07-31.
- */
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
@@ -13,7 +10,6 @@ import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
-import android.view.ViewPropertyAnimator;
 import android.widget.AbsListView;
 import android.widget.ListView;
 
@@ -21,45 +17,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * A {@link View.OnTouchListener} that makes the list items in a {@link ListView}
- * dismissable. {@link ListView} is given special treatment because by default it handles touches
- * for its list items... i.e. it's in charge of drawing the pressed state (the list selector),
- * handling list item clicks, etc.
- *
- * <p>After creating the listener, the caller should also call
- * {@link ListView#setOnScrollListener(AbsListView.OnScrollListener)}, passing
- * in the scroll listener returned by {@link #makeScrollListener()}. If a scroll listener is
- * already assigned, the caller should still pass scroll changes through to this listener. This will
- * ensure that this {@link SwipeDismissListViewTouchListener} is paused during list view
- * scrolling.</p>
- *
- * <p>Example usage:</p>
- *
- * <pre>
- * SwipeDismissListViewTouchListener touchListener =
- *         new SwipeDismissListViewTouchListener(
- *                 listView,
- *                 new SwipeDismissListViewTouchListener.OnDismissCallback() {
- *                     public void onDismiss(ListView listView, int[] reverseSortedPositions) {
- *                         for (int position : reverseSortedPositions) {
- *                             adapter.remove(adapter.getItem(position));
- *                         }
- *                         adapter.notifyDataSetChanged();
- *                     }
- *                 });
- * listView.setOnTouchListener(touchListener);
- * listView.setOnScrollListener(touchListener.makeScrollListener());
- * </pre>
- *
- * <p>This class Requires API level 12 or later due to use of {@link
- * ViewPropertyAnimator}.</p>
- *
- * <p>For a generalized {@link View.OnTouchListener} that makes any view dismissable,
- * see {@link SwipeDismissTouchListener}.</p>
- *
- * @see SwipeDismissTouchListener
- */
+
 public class SwipeDismissListViewTouchListener implements View.OnTouchListener {
     // Cached ViewConfiguration and system-wide constant values
     private int mSlop;
@@ -84,34 +42,14 @@ public class SwipeDismissListViewTouchListener implements View.OnTouchListener {
     private View mDownView;
     private boolean mPaused;
 
-    /**
-     * The callback interface used by {@link SwipeDismissListViewTouchListener} to inform its client
-     * about a successful dismissal of one or more list item positions.
-     */
+
     public interface DismissCallbacks {
-        /**
-         * Called to determine whether the given position can be dismissed.
-         */
+
         boolean canDismiss(int position);
 
-        /**
-         * Called when the user has indicated they she would like to dismiss one or more list item
-         * positions.
-         *
-         * @param listView               The originating {@link ListView}.
-         * @param reverseSortedPositions An array of positions to dismiss, sorted in descending
-         *                               order for convenience.
-         */
         void onDismiss(ListView listView, int[] reverseSortedPositions);
     }
 
-    /**
-     * Constructs a new swipe-to-dismiss touch listener for the given list view.
-     *
-     * @param listView  The list view whose items should be dismissable.
-     * @param callbacks The callback to trigger when the user has indicated that she would like to
-     *                  dismiss one or more list items.
-     */
     public SwipeDismissListViewTouchListener(ListView listView, DismissCallbacks callbacks) {
         ViewConfiguration vc = ViewConfiguration.get(listView.getContext());
         mSlop = vc.getScaledTouchSlop();
@@ -123,24 +61,10 @@ public class SwipeDismissListViewTouchListener implements View.OnTouchListener {
         mCallbacks = callbacks;
     }
 
-    /**
-     * Enables or disables (pauses or resumes) watching for swipe-to-dismiss gestures.
-     *
-     * @param enabled Whether or not to watch for gestures.
-     */
     public void setEnabled(boolean enabled) {
         mPaused = !enabled;
     }
 
-    /**
-     * Returns an {@link AbsListView.OnScrollListener} to be added to the {@link
-     * ListView} using {@link ListView#setOnScrollListener(AbsListView.OnScrollListener)}.
-     * If a scroll listener is already assigned, the caller should still pass scroll changes through
-     * to this listener. This will ensure that this {@link SwipeDismissListViewTouchListener} is
-     * paused during list view scrolling.</p>
-     *
-     * @see SwipeDismissListViewTouchListener
-     */
     public AbsListView.OnScrollListener makeScrollListener() {
         return new AbsListView.OnScrollListener() {
             @Override
@@ -168,8 +92,7 @@ public class SwipeDismissListViewTouchListener implements View.OnTouchListener {
 
                 // TODO: ensure this is a finger, and set a flag
 
-                // Find the child view that was touched (perform a hit test)
-                Rect rect = new Rect();
+            Rect rect = new Rect();
                 int childCount = mListView.getChildCount();
                 int[] listViewCoords = new int[2];
                 mListView.getLocationOnScreen(listViewCoords);

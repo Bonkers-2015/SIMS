@@ -1,13 +1,16 @@
 package bonkers.cau.sims;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -15,31 +18,44 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.List;
 
-public class ListActivity extends ActionBarActivity {
+public class ListActivity extends Activity {
 
     private ListView mListView = null;
     private ListViewAdapter mAdapter=null;
+    private ListDBManager dbManager;
+    private ArrayList<ListData> listDataArrList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_list);
 
         mListView=(ListView)findViewById(R.id.mlist);
-
         mAdapter = new ListViewAdapter(this);
         mListView.setAdapter(mAdapter);
-        mAdapter.addItem(getResources().getDrawable(R.mipmap.phone), "Vol-up", "Vol-down");
-        mAdapter.addItem(getResources().getDrawable(R.mipmap.kakao),"Vol-down","Vol-up");
+        PackageManager packagemanager = getApplicationContext().getPackageManager();
+        List<ApplicationInfo> appList = packagemanager.getInstalledApplications(0);
+
+        //DB를 받아온다
+        dbManager= new ListDBManager(getApplicationContext());
+        listDataArrList =dbManager.selectAll();
+
+        for (ListData data:listDataArrList) {
+
+            mAdapter.addItem(data.getId(),appList.get(data.getIndexNum()).loadIcon(packagemanager), data.getmData1(), data.getmData2());
+
+
+        }
+
         Button btn =(Button)findViewById(R.id.list_addbtn);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ListActivity.this, AddEditActivity.class);
                 startActivity(intent);
-                finish();
             }
         });
 
@@ -61,7 +77,9 @@ public class ListActivity extends ActionBarActivity {
                             @Override
                             public void onDismiss(ListView listView,int[] reverseSortedPositions) {
                                 for (int position:reverseSortedPositions) {
+                                    dbManager.removeData(mAdapter.getItem(position).getId());
                                     mAdapter.remove(position);
+
                                 }
                                 mAdapter.notifyDataSetChanged();
                             }
@@ -80,17 +98,20 @@ public class ListActivity extends ActionBarActivity {
         private Context mContext=null;
         private ArrayList<ListData> mListData = new ArrayList<ListData>();
 
+
         public ListViewAdapter(Context mContext) {
             super();
             this.mContext = mContext;
         }
+
+
         @Override
         public int getCount() {
             return mListData.size();
         }
 
         @Override
-        public Object getItem(int position) {
+        public ListData getItem(int position) {
             return mListData.get(position);
         }
         @Override
@@ -105,6 +126,7 @@ public class ListActivity extends ActionBarActivity {
                 LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 convertView = inflater.inflate(R.layout.listview_list_item, null);
 
+
                 holder.mIcon = (ImageView)convertView.findViewById(R.id.list_icon);
                 holder.mFirst = (TextView)convertView.findViewById(R.id.first_setting);
                 holder.mSecond = (TextView)convertView.findViewById(R.id.second_setting);
@@ -117,28 +139,24 @@ public class ListActivity extends ActionBarActivity {
 
             ListData mData = mListData.get(position);
 
-            if(mData.mIcon!=null) {
+            if(mData.getmIcon()!=null) {
                 holder.mIcon.setVisibility(View.VISIBLE);
-                holder.mIcon.setImageDrawable(mData.mIcon);
+                holder.mIcon.setImageDrawable(mData.getmIcon());
             }
 
             else {
                 holder.mIcon.setVisibility(View.VISIBLE);
             }
 
-            holder.mFirst.setText(mData.mTitle);
-            holder.mSecond.setText(mData.mData);
+            holder.mFirst.setText(mData.getmData1());
+            holder.mSecond.setText(mData.getmData2());
 
             return convertView;
         }
 
-        public void addItem(Drawable icon,String mTitle,String mData) {
+        public void addItem(int mId,Drawable icon,String mTitle,String mData) {
             ListData addInfo = null;
-            addInfo = new ListData();
-            addInfo.mIcon=icon;
-            addInfo.mTitle=mTitle;
-            addInfo.mData=mData;
-
+            addInfo = new ListData(mId,icon,mTitle,mData);
             mListData.add(addInfo);
 
         }
@@ -148,10 +166,6 @@ public class ListActivity extends ActionBarActivity {
             dataChange();
         }
 
-        public void sort(){
-            Collections.sort(mListData, ListData.ALPHA_COMPARATOR);
-            dataChange();
-        }
         public void dataChange() {
             mAdapter.notifyDataSetChanged();
 
