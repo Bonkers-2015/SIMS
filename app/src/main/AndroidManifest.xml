@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
 
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -83,6 +84,15 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+
+        <activity
+            android:name=".motionActivity"
+            android:label="@string/title_activity_motion" >
+        </activity>
+        <activity
+            android:name=".touchActivity"
+            android:label="@string/title_activity_touch" >
+        </activity>
     </application>
 
 </manifest>

@@ -18,8 +18,12 @@ public class MainActivity extends Activity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+<<<<<<< HEAD
         startService(new Intent(this, ScreenService.class));
         startService(new Intent(this, SoundService.class));
+=======
+
+>>>>>>> f90826051d59cb4ae31c7af2f5f988540f758277
         Intent serviceIntent = new Intent(this, ShakeService.class);
         startService(serviceIntent);
 

@@ -6,16 +6,14 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,18 +22,16 @@ import java.util.List;
 public class AddEditActivity extends Activity implements OnClickListener {
 
     private CharSequence phoneName = null, appName = null, mAppName = null;
-    private String returnType, mModelName, pressedData[] = new String[2];
+    private String phoneNumber, returnType, mModelName, pressedData[] = new String[2];
     private RelativeLayout mRLMain;
     private ArrayList<ListData> mArrayListData = new ArrayList<ListData>();
-    private ArrayList<Buttons> mButtons = new ArrayList<Buttons>();
-
-
     private ArrayList<ListData> listDataArrList;
+    private ArrayList<Buttons> mButtons = new ArrayList<Buttons>();
     private ListDBManager dbManager;
-    private Button mButtonMain, mButtonCancle, mButtonSave, mButtonIniti;
+    private Button mBtnMain, mBtnCancle, mBtnSave, mBtnIniti;
+    private ImageView mIvMain;
     private int index, pressedDataNum = 0 , mEditPosition=-1;
     private int phoneBtnCount = 3, phoneMotionCount = 3;
-    private ImageView mIVMain;
     private Bitmap mainBG;
 
     // requestCode
@@ -47,45 +43,22 @@ public class AddEditActivity extends Activity implements OnClickListener {
 
         setContentView(R.layout.activity_add_edit);
 
-        // 임시로) 모델 "A" 전송
-        mModelName = "A";
-
-        mRLMain = (RelativeLayout) findViewById(R.id.rl_main);
-
-
-        // Main Imageview initialize
-        mIVMain = new ImageView(AddEditActivity.this);
-        RelativeLayout.LayoutParams paramIV = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT);
-        paramIV.addRule(RelativeLayout.CENTER_HORIZONTAL);
-        paramIV.addRule(RelativeLayout.CENTER_VERTICAL);
-        mIVMain.setLayoutParams(paramIV);
-
-        // Main Button initialize
-        mButtonMain = (Button) findViewById(R.id.btn_main);
-        mButtonMain.setOnClickListener(this);
-        mButtonCancle = (Button) findViewById(R.id.btn_cancle);
-        mButtonCancle.setOnClickListener(this);
-        mButtonSave = (Button) findViewById(R.id.btn_save);
-        mButtonSave.setOnClickListener(this);
-        mButtonIniti = (Button) findViewById(R.id.btn_initi);
-        mButtonIniti.setOnClickListener(this);
-
 
         Bundle myBundle = this.getIntent().getExtras();
         mEditPosition =  myBundle.getInt("selectedPosition");
 
+
         // no select => mEditPosition = -1
         if(mEditPosition==-1) {
-            phoneSetting();
-            mButtonSave.setText("Save");
+            setLayout();
+            mBtnSave.setText("Save");
         }else{
             // eidt일때만 save버튼 complete로 바꿈
-            editSetting();
-            mButtonSave.setText("Complete");
+            editSetLayout();
+            mBtnSave.setText("Edit");
         }
 
     }
-
 
     //PopupActivity 의 결과를 전달받기위해 overriding을 함
     @Override
@@ -100,18 +73,22 @@ public class AddEditActivity extends Activity implements OnClickListener {
                     if(returnType.equals("app")) {
                         appName = data.getStringExtra("resultText");
                         phoneName = null;
-                        mButtonMainSetting();
+                        mBtnMainSetting();
 
                     }else if(returnType.equals("phone")){
                         phoneName = data.getStringExtra("resultText");
+
+                        // phoneName >>> "phoneName / phoneNumber"
+                        String temp[] = split(phoneName, " / ");
+                        phoneNumber=temp[1];
+
                         appName = null;
-                        mButtonMainSetting();
+                        mBtnMainSetting();
                     }
 
                 }
         }
     }
-
 
     private void showDialog(String text) {
 
@@ -125,89 +102,48 @@ public class AddEditActivity extends Activity implements OnClickListener {
 
         alert.setMessage(text);
         alert.show();
-
-    }
-
-    // PhoneModel Setting
-    private void phoneSetting() {
-
-        if (mModelName == "A") {
-
-            // volume_up, volume_down, motion, earphone, touch, null
-            phoneBtnCount = 6;
-
-            setLayout();
-
-
-            mButtons.get(0).name = "VolumeUP";
-            mButtons.get(0).offImage = R.mipmap.volume_up_off;
-            mButtons.get(0).params.addRule(RelativeLayout.LEFT_OF, R.id.btn_main);
-            mButtons.get(0).params.addRule(RelativeLayout.ALIGN_TOP, R.id.btn_main);
-
-            mButtons.get(1).name = "VolumeDown";
-            mButtons.get(1).offImage = R.mipmap.volume_down_off;
-            mButtons.get(1).params.addRule(RelativeLayout.LEFT_OF, R.id.btn_main);
-            mButtons.get(1).params.addRule(RelativeLayout.CENTER_VERTICAL, R.id.btn_main);
-
-            mButtons.get(2).name = "Motion";
-            mButtons.get(2).offImage = R.mipmap.motion_off;
-            mButtons.get(2).params.addRule(RelativeLayout.RIGHT_OF, R.id.btn_main);
-            mButtons.get(2).params.addRule(RelativeLayout.ALIGN_TOP, R.id.btn_main);
-
-            mButtons.get(3).name = "Earphone";
-            mButtons.get(3).offImage = R.mipmap.earphone_off;
-            mButtons.get(3).params.addRule(RelativeLayout.ABOVE, R.id.btn_main);
-            mButtons.get(3).params.addRule(RelativeLayout.ALIGN_LEFT, R.id.btn_main);
-
-            mButtons.get(4).name = "Touch";
-            mButtons.get(4).offImage = R.mipmap.touch_off;
-            mButtons.get(4).params.addRule(RelativeLayout.BELOW, R.id.btn_main);
-            mButtons.get(4).params.addRule(RelativeLayout.CENTER_HORIZONTAL, R.id.btn_main);
-
-            mButtons.get(5).name = "NULL";
-            mButtons.get(5).offImage = R.mipmap.null_off;
-            mButtons.get(5).params.addRule(RelativeLayout.RIGHT_OF, R.id.btn_main);
-            mButtons.get(5).params.addRule(RelativeLayout.ALIGN_BOTTOM, R.id.btn_main);
-
-
-        } else if (mModelName == "B") {
-
-        } else if (mModelName == "C") {
-
-        } else {
-            //no data
-        }
-
-
-        // Set imageview bitmap   &&   Add ImageView
-        mainBG = BitmapFactory.decodeResource(getResources(), R.mipmap.pp);
-        mIVMain.setImageBitmap(mainBG);
-        mRLMain.addView(mIVMain);
-
-        // Add Main Button
-        mRLMain.removeView(mButtonMain);
-        mRLMain.addView(mButtonMain);
-
-        // Add Buttons
-        for (int i = 0; i < mButtons.size(); i++) {
-            mButtons.get(i).setLayoutParams(mButtons.get(i).params);
-            mButtons.get(i).setBackground(getResources().getDrawable(mButtons.get(i).offImage));
-//            mButtons.get(i).setText(mButtons.get(i).name);
-            mRLMain.addView(mButtons.get(i));
-        }
-
     }
 
     private void setLayout() {
 
-        for (int i = 0; i < phoneBtnCount; i++) {
-            mButtons.add(new Buttons(this));
-            mButtons.get(i).setText(mButtons.get(i).name);
-            mButtons.get(i).setOnClickListener(this);
+        mRLMain = (RelativeLayout) findViewById(R.id.rl_main);
+        mBtnMain = (Button) findViewById(R.id.btn_main);
+        mBtnMain.setOnClickListener(this);
+        mBtnCancle = (Button) findViewById(R.id.btn_cancle);
+        mBtnCancle.setOnClickListener(this);
+        mBtnSave = (Button) findViewById(R.id.btn_save);
+        mBtnSave.setOnClickListener(this);
+
+        mIvMain = (ImageView)findViewById(R.id.IV_main);
+        mIvMain.setOnClickListener(this);
+
+
+//        mButtonIniti = (Button) findViewById(R.id.btn_initi);
+//        mButtonIniti.setOnClickListener(this);
+
+        mButtons.add(0, new Buttons("volume up", "volumeUP", (Button) findViewById(R.id.btn_volume_up)));
+        mButtons.get(0).offImage = R.mipmap.volume_up_off;
+        mButtons.get(0).onImage = R.mipmap.volume_up_on;
+        mButtons.add(1, new Buttons("volume dn","volumeDown",(Button) findViewById(R.id.btn_volume_down)));
+        mButtons.get(1).offImage = R.mipmap.volume_down_off;
+        mButtons.get(1).onImage = R.mipmap.volume_down_on;
+        mButtons.add(2,new Buttons("","touch",(Button)findViewById(R.id.btn_touch),(TextView)findViewById(R.id.btn_touch_txt)));
+        mButtons.get(2).offImage = R.mipmap.touch_off;
+        mButtons.get(2).onImage = R.mipmap.touch_on;
+        mButtons.add(3,new Buttons("","motion",(Button)findViewById(R.id.btn_motion),(TextView)findViewById(R.id.btn_motion_txt)));
+        mButtons.get(3).offImage = R.mipmap.motion_off;
+        mButtons.get(3).onImage = R.mipmap.motion_on;
+        mButtons.add(4,new Buttons("","earphone",(Button)findViewById(R.id.btn_earphone)));
+        mButtons.get(4).offImage = R.mipmap.earphone_off;
+        mButtons.get(4).onImage = R.mipmap.earphone_on;
+
+        for (int i = 0; i < mButtons.size(); i++) {
+//            mButtons.get(i).button.setText(mButtons.get(i).title);
+            mButtons.get(i).button.setOnClickListener(this);
         }
     }
 
-    private void editSetting(){
+    private void editSetLayout(){
 
         dbManager= new ListDBManager(getApplicationContext());
         listDataArrList =dbManager.selectAll();
@@ -218,26 +154,31 @@ public class AddEditActivity extends Activity implements OnClickListener {
         else
             phoneName = listDataArrList.get(mEditPosition).getmPhoneName()+" / "+listDataArrList.get(mEditPosition).getmPhoneNumber() ;
 
-        mButtonMainSetting();
-        phoneSetting();
+        setLayout();
+        mBtnMainSetting();
 
-        // mButtons setting
+            // mButtons setting
         for (int i=0;i <mButtons.size();i++){
             if(listDataArrList.get(mEditPosition).getmData1().equals(mButtons.get(i).name)){
                 mButtons.get(i).onOff=true;
-                mButtons.get(i).setBackground(getResources().getDrawable(mButtons.get(i).onImage));
+                mButtons.get(i).button.setBackground(getResources().getDrawable(mButtons.get(i).onImage));
+
+                if(mButtons.get(i).textView!=null){
+                    mButtons.get(i).textView.setText("CHECK");
+                }
             }
             if(listDataArrList.get(mEditPosition).getmData2().equals(mButtons.get(i).name)){
                 mButtons.get(i).onOff=true;
-                mButtons.get(i).setBackground(getResources().getDrawable(mButtons.get(i).onImage));
+                mButtons.get(i).button.setBackground(getResources().getDrawable(mButtons.get(i).onImage));
+
+                if(mButtons.get(i).textView!=null){
+                    mButtons.get(i).textView.setText("CHECK");
+                }
             }
-            mButtons.get(i).setEnabled(false);
         }
-
-
     }
 
-    private  void mButtonMainSetting(){
+    private  void mBtnMainSetting(){
 
         // mButtonMain setting
         if(appName != null) {
@@ -248,16 +189,17 @@ public class AddEditActivity extends Activity implements OnClickListener {
             for (int i = 0; i < appList.size(); i++) {
                 mAppName = appList.get(i).loadLabel(packagemanager);
                 if (mAppName.equals(appName)) {
-                    mButtonMain.setBackground(appList.get(i).loadIcon(packagemanager));
-                    mButtonMain.setText(appName);
+                    mBtnMain.setBackground(appList.get(i).loadIcon(packagemanager));
+                    mBtnMain.setText(appName);
                     index = i;
                     break;
                 }
             }
 
         }else if(phoneName != null) {
-            mButtonMain.setBackground(getResources().getDrawable(R.mipmap.human));
-            mButtonMain.setText(phoneName.toString());
+            mBtnMain.setBackground(getResources().getDrawable(R.mipmap.human));
+            mBtnMain.setText(phoneName.toString());
+
         }
     }
 
@@ -283,19 +225,19 @@ public class AddEditActivity extends Activity implements OnClickListener {
         }
 
         // Main Click
-        if (v == mButtonMain) {
+        if (v == mIvMain || v==mBtnMain) {
             Intent i = new Intent(AddEditActivity.this, PopupActivity.class);
             i.putExtra("myName", "superdroid");
             startActivityForResult(i, LAUNCHED_ACTIVITY);
 
             // Cancle Click
-        } else if (v == mButtonCancle) {
+        } else if (v == mBtnCancle) {
             Intent cancleintent = new Intent(AddEditActivity.this, ListActivity.class);
             startActivity(cancleintent);
             finish();
 
             // Save Click
-        } else if (v == mButtonSave) {
+        } else if (v == mBtnSave) {
             boolean isRepeated = false;
             if (OnOffTotalCount == 2 && (appName != null || phoneName != null) ) {
                 for (int i = 0; i < mButtons.size(); i++) {
@@ -310,7 +252,7 @@ public class AddEditActivity extends Activity implements OnClickListener {
 
 
                 //add
-                if(mEditPosition ==-1){
+                if (mEditPosition == -1) {
                     for (ListData mListData : mArrayListData) {
                         //DB 의 리스트와 현재 선택된 아이탬이 중복됐는지 검사
                         if (pressedData[0].equals(mListData.getmData1()) && pressedData[1].equals(mListData.getmData2())) {
@@ -319,10 +261,10 @@ public class AddEditActivity extends Activity implements OnClickListener {
                             return;
                         }
                     }
-                    if(appName!=null){
+                    if (appName != null) {
                         ListData listAppData = new ListData(index, pressedData[0], pressedData[1], appName.toString(), null, null);
                         dbManager.insertAppData(listAppData);
-                    }else{
+                    } else {
                         // phoneName >>> "phoneName / phoneNumber"
                         String temp[] = split(phoneName, " / ");
                         ListData listPhoneData = new ListData(index, pressedData[0], pressedData[1], null, temp[0], temp[1]);
@@ -330,13 +272,28 @@ public class AddEditActivity extends Activity implements OnClickListener {
                         dbManager.insertPhoneData(listPhoneData);
                     }
 
-                //edit
-                }else{
-                    if(appName!=null){
+                    //edit
+                } else {
+                    for (ListData mListData : mArrayListData) {
+                        //DB 의 리스트와 현재 선택된 아이탬이 중복됐는지 검사
+                        if (pressedData[0].equals(mListData.getmData1()) && pressedData[1].equals(mListData.getmData2())) {
+
+                            //main만 수정을 원하는 경우 제외
+                            if (pressedData[0].equals(mArrayListData.get(mEditPosition).getmData1()) && pressedData[1].equals(mArrayListData.get(mEditPosition).getmData2())) {
+                                continue;
+                            }else{
+                                isRepeated = true;
+                                showDialog("is already exist");
+                                return;
+                            }
+                        }
+                    }
+
+                    if (appName != null) {
                         ListData listAppData = new ListData(index, pressedData[0], pressedData[1], appName.toString(), null, null);
                         dbManager.updateAppData(listAppData, mArrayListData.get(mEditPosition).getId());
 
-                    }else{
+                    } else {
                         //  >>> "phoneName / phoneNumber"
                         String temp[] = split(phoneName, " / ");
                         ListData listPhoneData = new ListData(index, pressedData[0], pressedData[1], null, temp[0], temp[1]);
@@ -347,35 +304,44 @@ public class AddEditActivity extends Activity implements OnClickListener {
                 Intent cancleintent = new Intent(AddEditActivity.this, ListActivity.class);
                 startActivity(cancleintent);
                 finish();
-
+//            }else if(v == mButtons.get(0)){
+//
             } else
                 showDialog("select two button and app");
 
-        } else if (v == mButtonIniti) {
-            mButtons.removeAll(mButtons);
-            mRLMain.removeAllViews();
-            appName = null;
-            phoneName = null;
-            mButtonMain.setBackground(null);
-            mButtonMain.setText("MAIN");
-            phoneSetting();
+//        } else if (v == mButtonIniti) {
+//            mButtons.removeAll(mButtons);
+//            mRLMain.removeAllViews();
+//            appName = null;
+//            phoneName = null;
+//            mButtonMain.setBackground(null);
+//            mButtonMain.setText("MAIN");
+//            phoneSetting();
 
         }
 
         // Buttons Click
         for (int i = 0; i < mButtons.size(); i++) {
-            if (v == mButtons.get(i)) {
+            if (v == mButtons.get(i).button) {
                 if (mButtons.get(i).onOff == false) {
                     if (OnOffTotalCount < 2) {
                         mButtons.get(i).onOff = true;
-                        mButtons.get(i).setBackground(getResources().getDrawable( mButtons.get(i).onImage));
+                        mButtons.get(i).button.setBackground(getResources().getDrawable(mButtons.get(i).onImage));
+
+                        if(mButtons.get(i).textView!=null){
+                            mButtons.get(i).textView.setText("CHECK");
+                        }
+
                     } else {
                         showDialog("select two button and app");
                     }
                 } else {
                     mButtons.get(i).onOff = false;
-                    mButtons.get(i).setBackground(getResources().getDrawable( mButtons.get(i).offImage));
+                    mButtons.get(i).button.setBackground(getResources().getDrawable(mButtons.get(i).offImage));
 
+                    if(mButtons.get(i).textView!=null){
+                        mButtons.get(i).textView.setText("");
+                    }
                 }
             }
         }
