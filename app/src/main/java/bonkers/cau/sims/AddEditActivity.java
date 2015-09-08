@@ -47,24 +47,6 @@ public class AddEditActivity extends Activity implements OnClickListener {
         Bundle myBundle = this.getIntent().getExtras();
         mEditPosition =  myBundle.getInt("selectedPosition");
 
-<<<<<<< HEAD
-//        RelativeLayout.LayoutParams paramBtn = new RelativeLayout.LayoutParams(350, 700);
-//        paramBtn.addRule(RelativeLayout.CENTER_HORIZONTAL);
-//        paramBtn.addRule(RelativeLayout.CENTER_VERTICAL);
-//        mButtonMain.setLayoutParams(paramBtn);
-//        mButtonMain.setText("MAIN");
-        mButtonMain.setOnClickListener(this);
-
-        mButtonCancle = (Button) findViewById(R.id.btn_cancle);
-        mButtonCancle.setOnClickListener(this);
-        mButtonSave = (Button) findViewById(R.id.btn_save);
-        mButtonSave.setOnClickListener(this);
-        mButtonIniti = (Button) findViewById(R.id.btn_initi);
-        mButtonIniti.setOnClickListener(this);
-
-        phoneSetting();
-=======
-
         // no select => mEditPosition = -1
         if(mEditPosition==-1) {
             setLayout();
@@ -74,8 +56,6 @@ public class AddEditActivity extends Activity implements OnClickListener {
             editSetLayout();
             mBtnSave.setText("Edit");
         }
-
->>>>>>> origin/parkbeomseok
     }
 
     //PopupActivity 의 결과를 전달받기위해 overriding을 함
@@ -319,14 +299,9 @@ public class AddEditActivity extends Activity implements OnClickListener {
                         dbManager.updatePhoneData(listPhoneData, mArrayListData.get(mEditPosition).getId());
                     }
                 }
-<<<<<<< HEAD
-=======
                 Intent cancleintent = new Intent(AddEditActivity.this, ListActivity.class);
                 startActivity(cancleintent);
                 finish();
-//            }else if(v == mButtons.get(0)){
-//
->>>>>>> origin/parkbeomseok
             } else
                 showDialog("select two button and app");
 
