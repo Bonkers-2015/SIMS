@@ -46,12 +46,32 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="50dp"
+        android:weightSum="99">
 
-        <Button
+
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="add.."
-            android:id="@+id/list_addbtn" />
+            android:layout_gravity="bottom"
+            android:layout_weight="47"
+            android:text="" />
+
+        <Button
+            android:id="@+id/list_addbtn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="add"
+            android:layout_gravity="bottom"
+            android:layout_weight="5" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:layout_weight="47"
+            android:text="" />
+
+
     </LinearLayout>
 </LinearLayout>

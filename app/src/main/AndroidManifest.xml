@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
 
 
     <application
@@ -17,12 +18,9 @@
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <action android:name="android.intent.action.MEDIA_BUTTON" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".PopupActivity"
             android:configChanges="orientation|keyboardHidden"
@@ -30,16 +28,24 @@
             android:theme="@android:style/Theme.Dialog"
             android:windowSoftInputMode="stateHidden" >
         </activity>
-
         <activity
             android:name=".AddEditActivity"
             android:label="@string/title_activity_add_edit" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <receiver
+            android:name=".KeyBroadCast"
+            android:enabled="true"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.media.VOLUME_CHANGED_ACTION" />
+            </intent-filter>
+        </receiver>
 
         <activity
             android:name=".ListActivity"
@@ -51,35 +57,52 @@
             android:label="@string/title_activity_setting" >
         </activity>
 
-        <service android:name=".MainService" >
+        <service android:name=".MainService">
         </service>
-
-        <receiver
-            android:name=".StartReceiver"
-            android:enabled="true"
-            android:exported="false"
-            android:label="@string/title_activity_start_receiver" >
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-        </receiver>
-
-        <receiver
-            android:name=".KeyBroadCast"
-            android:enabled="true"
-            android:exported="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.MEDIA_BUTTON" />
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="android.media.VOLUME_CHANGED_ACTION" />
-            </intent-filter>
-        </receiver>
-
         <service
-            android:name=".MyService"
+            android:name=".ShakeService"
+            android:enabled="true"
+
+            android:exported="true" >
+        </service>
+        <service
+            android:name=".SoundService"
             android:enabled="true"
             android:exported="true" >
         </service>
+        <service
+            android:name=".ScreenService"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
+
+        <receiver
+            android:name=".ScreenReceiver"
+            android:enabled="true"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.SCREEN_ON" />
+                <action android:name="android.intent.action.SCREEN_OFF" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".BootReceiver"
+            android:enabled="true"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+
+        <activity
+            android:name=".motionActivity"
+            android:label="@string/title_activity_motion" >
+        </activity>
+        <activity
+            android:name=".touchActivity"
+            android:label="@string/title_activity_touch" >
+        </activity>
 
     </application>
 

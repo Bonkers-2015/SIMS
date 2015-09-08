@@ -2,49 +2,48 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="horizontal"
-    android:weightSum="1">
+    android:orientation="horizontal">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:id="@+id/linearlayout"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center">
+        android:gravity="left">
 
         <TextView
             android:id="@+id/first_setting"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:textSize="20dp"
-            android:paddingLeft="30dp"
+            android:paddingLeft="10dp"
             android:gravity="center_vertical"/>
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="+"
             android:textSize="20dp"
-            android:paddingLeft="30dp"
+            android:paddingLeft="10dp"
             android:gravity="center_vertical"/>
         <TextView
             android:id="@+id/second_setting"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:textSize="20dp"
-            android:paddingLeft="30dp"
+            android:paddingLeft="10dp"
             android:gravity="center_vertical"/>
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="|"
             android:textSize="20dp"
-            android:paddingLeft="30dp"
+            android:paddingLeft="10dp"
             android:gravity="center_vertical"/>
         <ImageView
             android:id="@+id/list_icon"
             android:layout_width="63dp"
             android:layout_height="45dp"
-            android:src="@mipmap/kakao"
-            android:paddingLeft="30dp"
+            android:paddingLeft="10dp"
             android:gravity="center_vertical"/>
 
 

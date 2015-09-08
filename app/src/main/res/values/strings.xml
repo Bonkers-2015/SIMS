@@ -6,13 +6,23 @@
     <string name="title_activity_popup">PopupActivity</string>
     <string name="title_activity_phone">PhoneActivity</string>
     <string name="title_activity_add_edit">AddEditActivity</string>
+<<<<<<< HEAD
     <string name="title_activity_setting">SettingActivity</string>
+=======
+    <string name="title_activity_motion">motionActivity</string>
+    <string name="title_activity_touch">touchActivity</string>
+>>>>>>> origin/parkbeomseok
     <string name="title_activity_main_service">MainService</string>
     <string name="title_activity_start_receiver">StartReceiver</string>
     <string name="title_activity_widget_provider">WidgetProvider</string>
     <string name="title_activity_on_click_volume">OnClickVolume</string>
+<<<<<<< HEAD
     <string name="title_activity_screenshoot">ScreenshootActivity</string>
     <string name="title_activity_shake">ShakeActivity</string>
     <string name="title_activity_screenshot">ScreenshotActivity</string>
+=======
+    <string name="title_activity_buttom_service">ButtomService</string>
+    <string name="title_activity_sims_widget">SimsWidget</string>
+>>>>>>> origin/parkbeomseok
     
 </resources>

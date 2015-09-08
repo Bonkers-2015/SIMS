@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+<<<<<<< HEAD
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.hardware.Sensor;
@@ -21,10 +22,21 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class MainActivity extends Activity implements SensorEventListener {
+=======
+import android.os.Build;
+import android.os.Bundle;
+import android.widget.TextView;
+
+import java.util.Timer;
+import java.util.TimerTask;
+
+public class MainActivity extends Activity  {
+>>>>>>> origin/parkbeomseok
     String model = Build.MODEL;
     TextView textView;
     BroadcastReceiver myReceiver = new KeyBroadCast();
 
+<<<<<<< HEAD
     private long lastTime;
     private float speed;
     private float lastX;
@@ -40,12 +52,17 @@ public class MainActivity extends Activity implements SensorEventListener {
     private SensorManager sensorManager;
     private Sensor accelerormeterSensor;
 
+=======
+>>>>>>> origin/parkbeomseok
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        accelerormeterSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-
         setContentView(R.layout.activity_main);
+<<<<<<< HEAD
+=======
+        startService(new Intent(this, ScreenService.class));
+        Intent serviceIntent = new Intent(this, ShakeService.class);
+        startService(serviceIntent);
+>>>>>>> origin/parkbeomseok
 
         TimerTask myTask = new TimerTask() {
             public void run() {
@@ -60,6 +77,7 @@ public class MainActivity extends Activity implements SensorEventListener {
         textView = (TextView) findViewById(R.id.model);
         textView.setText(model);
 
+<<<<<<< HEAD
         packageList();
     }
 
@@ -118,5 +136,7 @@ public class MainActivity extends Activity implements SensorEventListener {
                 lastZ = event.values[DATA_Z];
             }
         }
+=======
+>>>>>>> origin/parkbeomseok
     }
 }
