@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -209,6 +210,25 @@ public class AddEditActivity extends Activity implements OnClickListener {
         temp = cs.toString().split(delimiter);
 
         return temp;
+    }
+
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        if (event.getAction() == KeyEvent.ACTION_DOWN) {
+            switch (event.getKeyCode()) {
+//                case KeyEvent.KEYCODE_BACK:
+                    // 단말기의 BACK버튼
+//                    return true;
+                case KeyEvent.KEYCODE_MENU:
+                    // 단말기의 메뉴버튼
+
+                    // 150804 Kim Gwang Min : Setting Button Event
+                    Intent intentSetting = new Intent(AddEditActivity.this, SettingActivity.class);
+                    startActivity(intentSetting);
+                    return true;
+            }
+        }
+        return super.dispatchKeyEvent(event);
     }
 
     @Override
