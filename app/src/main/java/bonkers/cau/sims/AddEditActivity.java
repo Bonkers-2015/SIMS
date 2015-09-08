@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
@@ -22,7 +23,7 @@ import java.util.List;
 
 public class AddEditActivity extends Activity implements OnClickListener {
 
-    private CharSequence phoneName = null, appName = null, mAppName = null;
+    private CharSequence additionName = null, phoneName = null, appName = null, mAppName = null;
     private String phoneNumber, returnType, mModelName, pressedData[] = new String[2];
     private RelativeLayout mRLMain;
     private ArrayList<ListData> mArrayListData = new ArrayList<ListData>();
@@ -30,6 +31,7 @@ public class AddEditActivity extends Activity implements OnClickListener {
     private ArrayList<Buttons> mButtons = new ArrayList<Buttons>();
     private ListDBManager dbManager;
     private Button mBtnMain, mBtnCancle, mBtnSave, mBtnIniti;
+    private TextView mTxtMain;
     private ImageView mIvMain;
     private int index, pressedDataNum = 0 , mEditPosition=-1;
     private int phoneBtnCount = 3, phoneMotionCount = 3;
@@ -72,6 +74,7 @@ public class AddEditActivity extends Activity implements OnClickListener {
                     if(returnType.equals("app")) {
                         appName = data.getStringExtra("resultText");
                         phoneName = null;
+                        additionName = null;
                         mBtnMainSetting();
 
                     }else if(returnType.equals("phone")){
@@ -82,6 +85,12 @@ public class AddEditActivity extends Activity implements OnClickListener {
                         phoneNumber=temp[1];
 
                         appName = null;
+                        additionName = null;
+                        mBtnMainSetting();
+                    }else if(returnType.equals("addition")){
+                        additionName = data.getStringExtra("resultText");
+                        appName = null;
+                        phoneName = null;
                         mBtnMainSetting();
                     }
 
@@ -108,6 +117,8 @@ public class AddEditActivity extends Activity implements OnClickListener {
         mRLMain = (RelativeLayout) findViewById(R.id.rl_main);
         mBtnMain = (Button) findViewById(R.id.btn_main);
         mBtnMain.setOnClickListener(this);
+        mTxtMain = (TextView)findViewById(R.id.btn_main_txt);
+
         mBtnCancle = (Button) findViewById(R.id.btn_cancle);
         mBtnCancle.setOnClickListener(this);
         mBtnSave = (Button) findViewById(R.id.btn_save);
@@ -179,6 +190,10 @@ public class AddEditActivity extends Activity implements OnClickListener {
 
     private  void mBtnMainSetting(){
 
+        mBtnMain.setBackgroundColor(Color.WHITE);
+        mTxtMain.setText("");
+        mBtnMain.setText("");
+
         // mButtonMain setting
         if(appName != null) {
             //어플 목록을 불러옴
@@ -189,7 +204,7 @@ public class AddEditActivity extends Activity implements OnClickListener {
                 mAppName = appList.get(i).loadLabel(packagemanager);
                 if (mAppName.equals(appName)) {
                     mBtnMain.setBackground(appList.get(i).loadIcon(packagemanager));
-                    mBtnMain.setText(appName);
+                    mTxtMain.setText(appName);
                     index = i;
                     break;
                 }
@@ -198,6 +213,10 @@ public class AddEditActivity extends Activity implements OnClickListener {
         }else if(phoneName != null) {
             mBtnMain.setBackground(getResources().getDrawable(R.mipmap.human));
             mBtnMain.setText(phoneName.toString());
+
+        }else if(additionName != null){
+            mBtnMain.setBackground(getResources().getDrawable(R.mipmap.addition));
+            mTxtMain.setText(additionName.toString());
 
         }
     }

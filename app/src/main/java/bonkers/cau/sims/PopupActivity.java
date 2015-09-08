@@ -26,7 +26,7 @@ import java.util.List;
 public class PopupActivity extends Activity {
     private ListView mListView = null;
     private PUListAdapter2 menuAdapter = null;
-    private PUListAdapter appAdapter = null, phoneAdapter= null, additionAdapter= null;
+    private PUListAdapter appAdapter = null, phoneAdapter= null;
     private int popupType=0;
 
     @Override
@@ -51,7 +51,6 @@ public class PopupActivity extends Activity {
         menuAdapter = new PUListAdapter2(this);
         appAdapter = new PUListAdapter(this);
         phoneAdapter = new PUListAdapter(this);
-        additionAdapter = new PUListAdapter(this);
 
         menuAdapter.addItem("App");
         menuAdapter.addItem("Phone");
@@ -69,6 +68,10 @@ public class PopupActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 
+
+                //Add edit Activity로 전달한 데이터 resultText Key 값의 "superdroid result" 문자열을
+                //Extra로 Intent에 담았다.
+                Intent intent = new Intent();
                 PopupListdata mData;
 
                 if(popupType ==-1) {
@@ -78,37 +81,22 @@ public class PopupActivity extends Activity {
                         popupType = 0;
                         getList(mData.mTitle.toString());
                         mListView.setAdapter(appAdapter);
+                        return;
                     } else if ("Phone" == mData.mTitle) {
                         popupType = 1;
                         getList(mData.mTitle.toString());
                         mListView.setAdapter(phoneAdapter);
-                    } else if ("Screen Shot" == mData.mTitle) {
+                        return;
+                    } else{
                         popupType = 2;
-                        getList(mData.mTitle.toString());
-                        mListView.setAdapter(additionAdapter);
-                    } else if ("Screen Lock" == mData.mTitle) {
-                        popupType = 3;
-                        getList(mData.mTitle.toString());
-                        mListView.setAdapter(additionAdapter);
-                    } else if ("Wifi on/off" == mData.mTitle) {
-                        popupType = 4;
-                        getList(mData.mTitle.toString());
-                        mListView.setAdapter(additionAdapter);
-                    }  else if ("Bluetooth" == mData.mTitle) {
-                        popupType = 5;
-                        getList(mData.mTitle.toString());
-                        mListView.setAdapter(additionAdapter);
-                    } else if ("Silent" == mData.mTitle) {
-                        popupType = 6;
-                        getList(mData.mTitle.toString());
-                        mListView.setAdapter(additionAdapter);
+                        intent.putExtra("resultText", mData.mTitle);
+                        intent.putExtra("resultType", "addition");
                     }
-
+                    // 전달할 Intent를 설정하고 finish()함수를 통해
+                    //B Activity를 종료시킴과 동시에 결과로 Intent를 전달하였다.
+                    setResult(RESULT_OK, intent);
+                    finish();
                 }else {
-                    //Add edit Activity로 전달한 데이터 resultText Key 값의 "superdroid result" 문자열을
-                    //Extra로 Intent에 담았다.
-                    Intent intent = new Intent();
-
                     if (popupType == 0) {
                         mData = appAdapter.mPopupListdata.get(position);
                         intent.putExtra("resultText", mData.mTitle);
@@ -117,26 +105,6 @@ public class PopupActivity extends Activity {
                         mData = phoneAdapter.mPopupListdata.get(position);
                         intent.putExtra("resultText", mData.mTitle);
                         intent.putExtra("resultType", "phone");
-                    } else if (popupType == 2) {
-                        mData = additionAdapter.mPopupListdata.get(position);
-                        intent.putExtra("resultText", mData.mTitle);
-                        intent.putExtra("resultType", "screenshot");
-                    } else if (popupType == 3) {
-                        mData = additionAdapter.mPopupListdata.get(position);
-                        intent.putExtra("resultText", mData.mTitle);
-                        intent.putExtra("resultType", "screenlock");
-                    } else if (popupType == 4) {
-                        mData = additionAdapter.mPopupListdata.get(position);
-                        intent.putExtra("resultText", mData.mTitle);
-                        intent.putExtra("resultType", "wifi");
-                    } else if (popupType == 5) {
-                        mData = additionAdapter.mPopupListdata.get(position);
-                        intent.putExtra("resultText", mData.mTitle);
-                        intent.putExtra("resultType", "bluetooth");
-                    } else if (popupType == 6) {
-                        mData = additionAdapter.mPopupListdata.get(position);
-                        intent.putExtra("resultText", mData.mTitle);
-                        intent.putExtra("resultType", "silent");
                     }
                     // 전달할 Intent를 설정하고 finish()함수를 통해
                     //B Activity를 종료시킴과 동시에 결과로 Intent를 전달하였다.
