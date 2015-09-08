@@ -17,5 +17,4 @@ public class StartReceiver extends BroadcastReceiver {
            context.startActivity(i);
        }
    }
-
 }

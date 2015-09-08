@@ -25,14 +25,12 @@ public class SettingActivity extends ActionBarActivity {
         checkUseCall.setChecked(isCallChecked);
         checkUseEarphone.setChecked(isEarphoneChecked);
 
-        /*
         // "통화중일 때 기능 비활성화"에 체크 되어있으면
         if (checkUseCall.isChecked()) {
             // 150806 KGM, Telephon manager 통화중인지 확인
-            TelephonyManager teleManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-            teleManager.listen(phoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
+            // TelephonyManager teleManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+            // teleManager.listen(phoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
         }
-        */
     }
 
     @Override
@@ -71,24 +69,6 @@ public class SettingActivity extends ActionBarActivity {
                 // 어플 활성화
             }
         };
-
-    };*/
-
-            /*
-        // "핸드폰 켜 있을때 기능 비활성화"에 체크 되어있으면
-        if (checkActive.isChecked()) {
-
-            // 150806 KGM, Power manager 핸드폰 켜져 있는지 확인
-            PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-            boolean isScreenOn = pm.isScreenOn();
-
-            // 켜져있을때
-            if (isScreenOn) {
-
-            }
-            // 꺼져있을때
-            else {
-                // 어플 활성화
-            }
-        }*/
+    };
+    */
 }

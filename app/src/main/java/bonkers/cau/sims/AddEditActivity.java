@@ -16,7 +16,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -34,7 +33,6 @@ public class AddEditActivity extends Activity implements OnClickListener {
     private ArrayList<Buttons> mButtons = new ArrayList<Buttons>();
     private ListDBManager dbManager;
     private Button mButtonMain, mButtonCancle, mButtonSave, mButtonIniti;
-    private ImageButton mButtonSetting;
     private int index, pressedDataNum = 0, errorCheck = 0;
     private int phoneBtnCount = 3, phoneMotionCount = 3;
     private ImageView mIVMain;
@@ -86,16 +84,6 @@ public class AddEditActivity extends Activity implements OnClickListener {
         mButtonIniti.setOnClickListener(this);
 
         phoneSetting();
-
-        // 150804 Kim Gwang Min : Setting Button Event
-        mButtonSetting = (ImageButton) findViewById(R.id.btn_setting);
-        mButtonSetting.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intentSetting = new Intent(AddEditActivity.this, SettingActivity.class);
-                startActivity(intentSetting);
-            }
-        });
     }
 
     //PopupActivity 의 결과를 전달받기위해 overriding을 함

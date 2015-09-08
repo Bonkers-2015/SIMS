@@ -37,15 +37,6 @@
                 android:id="@+id/textView"
                 android:layout_weight="94" />
 
-            <ImageButton
-                android:id="@+id/btn_setting"
-                android:layout_width="40dp"
-                android:layout_height="fill_parent"
-                android:src="@mipmap/settings2"
-                android:adjustViewBounds="true"
-                android:scaleType="fitXY"
-                android:layout_weight="10.10" />
-
         </LinearLayout>
 
         <RelativeLayout
