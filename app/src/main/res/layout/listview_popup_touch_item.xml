@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="100"
+    tools:context=".PopupTouchActivity">
+
+    <TextView
+        android:id="@+id/popup_touch_list_text"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_weight="0"
+        android:textSize="20dp"
+        android:textColor="#FF000000"
+        android:gravity="center_vertical"
+        android:background="#FFFFFFFF"/>
+</LinearLayout>

@@ -16,7 +16,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,17 +23,15 @@ import java.util.List;
 
 public class AddEditActivity extends Activity implements OnClickListener {
 
-    private CharSequence additionName = null, phoneName = null, appName = null, mAppName = null;
+    private CharSequence touchName = null, additionName = null, phoneName = null, appName = null, mAppName = null;
     private String phoneNumber, returnType, mModelName, pressedData[] = new String[2];
-    private String touchName = null,touchPath=null;
-    private TextView EditTouch=null;
     private RelativeLayout mRLMain;
     private ArrayList<ListData> mArrayListData = new ArrayList<ListData>();
     private ArrayList<ListData> listDataArrList;
     private ArrayList<Buttons> mButtons = new ArrayList<Buttons>();
     private ListDBManager dbManager;
     private Button mBtnMain, mBtnCancle, mBtnSave, mBtnIniti;
-    private TextView mTxtMain;
+    private TextView mTxtMain,mTxtTouch=null;
     private ImageView mIvMain;
     private int index, pressedDataNum = 0, mEditPosition = -1;
     private int phoneBtnCount = 3, phoneMotionCount = 3;
@@ -99,10 +96,9 @@ public class AddEditActivity extends Activity implements OnClickListener {
                     //터치인경우
                     else if (returnType.equals("touch")){
                         touchName =data.getStringExtra("resultName");
-                        touchPath=data.getStringExtra("resultPath");
-                        EditTouch=(TextView)findViewById(R.id.btn_touch_txt);
-                        EditTouch.setText(touchName);
-                        Toast.makeText (getApplicationContext(), touchName+"\n"+touchPath, Toast.LENGTH_LONG).show();
+                        mTxtTouch=(TextView)findViewById(R.id.btn_touch_txt);
+                        mTxtTouch.setText(touchName);
+//                        Toast.makeText (getApplicationContext(), touchName, Toast.LENGTH_LONG).show();
                     }
 
                 }
@@ -275,7 +271,6 @@ public class AddEditActivity extends Activity implements OnClickListener {
         // Main Click
         if (v == mIvMain || v == mBtnMain) {
             Intent i = new Intent(AddEditActivity.this, PopupActivity.class);
-            i.putExtra("myName", "superdroid");
             startActivityForResult(i, LAUNCHED_ACTIVITY);
 
             // Cancle Click
@@ -365,11 +360,11 @@ public class AddEditActivity extends Activity implements OnClickListener {
 //            phoneSetting();
 
         }
+
         //touch버튼 눌렸을떄
         if (v == mButtons.get(2).button) {
-            Intent touchIntent = new Intent(AddEditActivity.this, TouchActivity.class);
+            Intent touchIntent = new Intent(AddEditActivity.this, PopupTouchActivity.class);
             startActivityForResult(touchIntent, LAUNCHED_ACTIVITY);
-
         }
         // Buttons Click
         for (int i = 0; i < mButtons.size(); i++) {

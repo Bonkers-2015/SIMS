@@ -12,7 +12,7 @@ import java.util.ArrayList;
  */
 public class TouchDBManager {
     // DB관련 상수 선언
-    private static final String dbName = "SimsInfo.db";
+    private static final String dbName = "SimsInfo2.db";
     private static final String tableName = "TouchData";
     public static final int dbVersion = 1;
 
