@@ -213,14 +213,13 @@
                     <Button
                         android:id="@+id/btn_motion"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="20"
+                        android:layout_height="90dp"
                         android:background="@mipmap/motion_off"
                         />
                     <TextView
                         android:id="@+id/btn_motion_txt"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
                         android:layout_weight="80"
                         />

@@ -36,7 +36,7 @@ public class KeyBroadCast extends BroadcastReceiver {
                 Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         oldVolume=prefs.getInt("oldVolume",0);
-
+;
 
         //부팅시 초기 값 볼륩을 받아오기
         if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)) {
@@ -51,14 +51,19 @@ public class KeyBroadCast extends BroadcastReceiver {
         Log.d("mylog","oldVolume="+Integer.toString(oldVolume));
         Log.d("mylog","volume="+Integer.toString(volume));
         //플러스 볼륨을 눌렀을떄
-        if ((volume > oldVolume)&&(isShaked==1) ||((oldVolume==maxVolume)&&(oldVolume==volume)&&(isShaked==1))) {
+        if (volume > oldVolume) {
+            //if문해서 터치인지 검사
+            context.startService(new Intent(context, TouchService.class));
+
             oldVolume = volume;
+
             lauchApp(packagemanager, context, appList, "data0");
 
             //마이너스 볼륨을 눌렀을때
-        } else if ((volume < oldVolume)&&(isShaked==1) ||((oldVolume==minVolume)&&(oldVolume==volume)&&(isShaked==1))) {
+        } else if (volume <= oldVolume) {
             oldVolume = volume;
-            lauchApp(packagemanager, context, appList, "data1");
+            context.startService(new Intent(context, TouchService.class));
+
         }
         else
             oldVolume = volume;
