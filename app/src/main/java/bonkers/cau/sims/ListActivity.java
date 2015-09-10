@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -26,7 +26,7 @@ public class ListActivity extends Activity implements View.OnClickListener {
     private ListViewAdapter mAdapter=null;
     private ListDBManager dbManager;
     private ArrayList<ListData> listDataArrList;
-    private Button addBtn;
+    private ImageButton addBtn;
     private int mSelectedPosition=-1;
 
     @Override
@@ -49,7 +49,7 @@ public class ListActivity extends Activity implements View.OnClickListener {
             mAdapter.addItem(data.getId(), data.getIndexNum(), data.getmData1(), data.getmData2(), data.getmAppName(), data.getmPhoneName(), data.getmPhoneNumber());
         }
 
-        addBtn =(Button)findViewById(R.id.list_addbtn);
+        addBtn =(ImageButton)findViewById(R.id.list_add_btn);
         addBtn.setOnClickListener(this);
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

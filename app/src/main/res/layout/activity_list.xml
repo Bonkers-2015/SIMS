@@ -1,71 +1,48 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:weightSum="1">
+    android:layout_height="fill_parent">
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="50dp">
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/name_sims"
-            android:text="SIMS"
-            android:textColor="#ff7aa0ff"
-            android:textSize="30dp"
-            android:singleLine="false"
-            android:selectAllOnFocus="false"
-            android:phoneNumber="false"
-            android:paddingLeft="150dp"
-            android:focusable="false"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="470dp">
-
-        <ListView
-            android:id="@+id/mlist"
-            android:layout_width="wrap_content"
-            android:layout_height="470dp">
-        </ListView>
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
+    <RelativeLayout
+        android:id="@+id/list_relativelayout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:weightSum="99">
+        android:background="#916dfa"
+        android:orientation="horizontal"
+        android:layout_marginBottom="20dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@mipmap/simslogo" />
+
+    </RelativeLayout>
 
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="bottom"
-            android:layout_weight="47"
-            android:text="" />
+    <ListView
+        android:id="@+id/mlist"
+        android:layout_width="wrap_content"
+        android:layout_height="470dp"
+        android:layout_below="@+id/list_relativelayout"
+        android:layout_alignParentStart="true"></ListView>
+<RelativeLayout
+    android:layout_alignParentBottom="true"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <ImageButton
+        android:id="@+id/list_add_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/add_btn_background"/>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/add_btn_txt"
+        android:layout_centerInParent="true"
+        />
 
-        <Button
-            android:id="@+id/list_addbtn"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="add"
-            android:layout_gravity="bottom"
-            android:layout_weight="5" />
+</RelativeLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="bottom"
-            android:layout_weight="47"
-            android:text="" />
-
-
-    </LinearLayout>
-</LinearLayout>
+</RelativeLayout>

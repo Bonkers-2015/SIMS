@@ -15,5 +15,6 @@
     <string name="title_activity_buttom_service">ButtomService</string>
     <string name="title_activity_sims_widget">SimsWidget</string>
     <string name="title_activity_touch_setting_activty">TouchSettingActivty</string>
+    <string name="title_activity_touch_popup">TouchPopupActivity</string>
     
 </resources>

@@ -35,7 +35,7 @@ public class TouchService extends Service {
                 WindowManager.LayoutParams.WRAP_CONTENT,
                 WindowManager.LayoutParams.TYPE_PHONE,//항상 최 상위. 터치 이벤트 받을 수 있음.
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,  //포커스를 가지지 않음
-                PixelFormat.OPAQUE);                                        //불투명
+                PixelFormat.TRANSPARENT);                                        //불투명
         mWindowManager = (WindowManager) getSystemService(WINDOW_SERVICE);  //윈도우 매니저
         mWindowManager.addView(mView, mParams);      //윈도우에 뷰 넣기. permission 필요.
     }
