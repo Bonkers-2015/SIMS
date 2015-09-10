@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:theme="@style/Base.AlertDialog.AppCompat.Light"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="set your touch path name" />
+
+    <EditText
+        android:id="@+id/edit_touch"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+    </EditText>
+
+
+
+</LinearLayout>

@@ -1,72 +1,60 @@
 package bonkers.cau.sims;
 
-import android.app.Activity;
-import android.app.DialogFragment;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.os.Bundle;
+import android.graphics.PixelFormat;
+import android.os.IBinder;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.ImageButton;
+import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
-
-public class TouchActivity extends Activity implements TouchDialogFragment.InputListener {
-
-    TouchView tv;
-    FrameLayout mlayout;
-    ImageButton saveBtn;
+public class TouchService extends Service {
     String touchPath;
-
-    /**
-     * Called when the activity is first created.
-     */
+    TouchTopView mView;
+    private WindowManager.LayoutParams mParams;  //layout params 객체. 뷰의 위치 및 크기
+    private WindowManager mWindowManager;          //윈도우 매니저
+    public TouchService() {
+    }
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-
-        tv = new TouchView(this);
-        setContentView(R.layout.activity_touch);
-        mlayout = (FrameLayout) findViewById(R.id.frame_touch);
-        mlayout.addView(tv, 0);
-        saveBtn = (ImageButton) findViewById(R.id.btn_touch_save);
-        saveBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDialog();
-            }
-        });
+    public void onCreate() {
+        super.onCreate();
+        Log.d("mylog", "serviceOncreate");
+        Toast.makeText(getBaseContext(), "onCreate", Toast.LENGTH_LONG).show();
+        mView = new TouchTopView(this);
+        mParams = new WindowManager.LayoutParams(
+        WindowManager.LayoutParams.WRAP_CONTENT,
+                WindowManager.LayoutParams.WRAP_CONTENT,
+                WindowManager.LayoutParams.TYPE_PHONE,//항상 최 상위. 터치 이벤트 받을 수 있음.
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,  //포커스를 가지지 않음
+                PixelFormat.OPAQUE);                                        //불투명
+        mWindowManager = (WindowManager) getSystemService(WINDOW_SERVICE);  //윈도우 매니저
+        mWindowManager.addView(mView, mParams);      //윈도우에 뷰 넣기. permission 필요.
     }
-
-    void showDialog() {
-        DialogFragment newFragment = new TouchDialogFragment();
-        newFragment.show(getFragmentManager(), "dialog");
-    }
-
-    //dialog ok 버튼이 눌렸을때
     @Override
-    public void inputComplete(String touchName) {
-        Intent intent = new Intent();
-        intent.putExtra("resultName", touchName);
-        intent.putExtra("resultPath",touchPath);
-        intent.putExtra("resultType", "touch");
-        // 전달할 Intent를 설정하고 finish()함수를 통해
-        //B Activity를 종료시킴과 동시에 결과로 Intent를 전달하였다.
-        setResult(RESULT_OK, intent);
-        finish();
-
+    public IBinder onBind(Intent intent) {
+        // TODO: Return the communication channel to the service.
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+    @Override
+    public void onDestroy() {
+        if(mWindowManager != null) {        //서비스 종료시 뷰 제거. *중요 : 뷰를 꼭 제거 해야함.
+            if(mView != null) mWindowManager.removeView(mView);
+        }
+        super.onDestroy();
     }
 
-    public class TouchView extends View {
+
+
+    public class TouchTopView extends View {
         Paint pt;
 
         static final float pi = 3.1415926535f;
@@ -82,7 +70,7 @@ public class TouchActivity extends Activity implements TouchDialogFragment.Input
 
         Context c;
 
-        public TouchView(Context context) {
+        public TouchTopView(Context context) {
             super(context);
             c = context;
             init_variable();
@@ -175,6 +163,7 @@ public class TouchActivity extends Activity implements TouchDialogFragment.Input
 
         @Override
         public boolean onTouchEvent(MotionEvent event) {
+            Log.d("mylog","serviceTouchEvent start");
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
                 arVertex1.removeAll(arVertex1);
                 arVertex2.removeAll(arVertex2);
@@ -249,6 +238,9 @@ public class TouchActivity extends Activity implements TouchDialogFragment.Input
                     }
                     Toast.makeText(this.getContext(), "circle(countercolckwise) " + round + "round", Toast.LENGTH_SHORT).show();
                     touchPath = "circle<" + round;
+                    //서비스종료
+                    stopService(new Intent(getApplicationContext(),TouchService.class));
+
                     return false;
                 } else if (-allAngle1 > roundMinAngle) {
                     int round = (int) (-allAngle1 / (2 * pi));
@@ -257,6 +249,9 @@ public class TouchActivity extends Activity implements TouchDialogFragment.Input
                     }
                     Toast.makeText(this.getContext(), "circle(clockwise) " + round + "round ", Toast.LENGTH_SHORT).show();
                     touchPath = "circle>" + round;
+                    //서비스종료
+                    stopService(new Intent(getApplicationContext(),TouchService.class));
+
                     return false;
                 }
                 float AllmoveAngle = 0;
@@ -314,6 +309,8 @@ public class TouchActivity extends Activity implements TouchDialogFragment.Input
                 }
                 Toast.makeText(this.getContext(), str, Toast.LENGTH_SHORT).show();
                 touchPath = str;
+                //서비스종료
+                stopService(new Intent(getApplicationContext(),TouchService.class));
 
                 Log.v("test", "=================끝===============");
                 return true;
@@ -362,6 +359,4 @@ public class TouchActivity extends Activity implements TouchDialogFragment.Input
         }
     }
 
-
 }
-
