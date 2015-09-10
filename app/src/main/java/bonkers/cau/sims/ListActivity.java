@@ -88,6 +88,7 @@ public class ListActivity extends Activity implements View.OnClickListener {
                         });
         mListView.setOnTouchListener(touchListner);
         mListView.setOnScrollListener(touchListner.makeScrollListener());
+
     }
 
     @Override

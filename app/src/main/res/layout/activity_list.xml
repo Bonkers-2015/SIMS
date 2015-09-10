@@ -4,11 +4,10 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
-    <RelativeLayout
-        android:id="@+id/list_relativelayout"
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="#916dfa"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginBottom="20dp">
 
@@ -33,6 +32,14 @@
     android:layout_height="wrap_content">
     <ImageButton
         android:id="@+id/list_add_btn"
+=======
+            android:layout_height="wrap_content">
+        </ListView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+>>>>>>> origin/bnitech
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@mipmap/add_btn_background"/>

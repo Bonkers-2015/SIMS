@@ -25,7 +25,8 @@ import java.util.List;
 
 public class PopupActivity extends Activity {
     private ListView mListView = null;
-    private PUListAdapter menuAdapter = null,appAdapter = null, phoneAdapter= null, additionAdapter= null;
+    private PUListAdapter2 menuAdapter = null;
+    private PUListAdapter appAdapter = null, phoneAdapter= null;
     private int popupType=0;
 
     @Override
@@ -33,7 +34,7 @@ public class PopupActivity extends Activity {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
 
-        // -1은 menu(초기)상태, 0은 "app" , 1은 "phone", 2는 "addition"
+        // -1은 menu(초기)상태, 0은 "app" , 1은 "phone", 2이상은 "addition"
         popupType=-1;
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -47,15 +48,17 @@ public class PopupActivity extends Activity {
         String receivedText = intent.getStringExtra("myName");
 
         mListView = (ListView) findViewById(R.id.popup_list);
-        menuAdapter = new PUListAdapter(this);
+        menuAdapter = new PUListAdapter2(this);
         appAdapter = new PUListAdapter(this);
         phoneAdapter = new PUListAdapter(this);
-        additionAdapter = new PUListAdapter(this);
-        mListView.setAdapter(menuAdapter);
 
-        menuAdapter.addItem(getResources().getDrawable(R.mipmap.applist), "App");
-        menuAdapter.addItem(getResources().getDrawable(R.mipmap.phone), "Phone");
-        menuAdapter.addItem(getResources().getDrawable(R.mipmap.addition), "Addition");
+        menuAdapter.addItem("App");
+        menuAdapter.addItem("Phone");
+        menuAdapter.addItem("Screen Shot");
+        menuAdapter.addItem("Screen Lock");
+        menuAdapter.addItem("Wifi on/off");
+        menuAdapter.addItem("Bluetooth");
+        menuAdapter.addItem("Silent");
 
         mListView.setAdapter(menuAdapter);
 
@@ -65,30 +68,35 @@ public class PopupActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 
+
+                //Add edit Activity로 전달한 데이터 resultText Key 값의 "superdroid result" 문자열을
+                //Extra로 Intent에 담았다.
+                Intent intent = new Intent();
                 PopupListdata mData;
 
                 if(popupType ==-1) {
                     mData = menuAdapter.mPopupListdata.get(position);
+
                     if ("App" == mData.mTitle) {
                         popupType = 0;
-                        getList("app");
+                        getList(mData.mTitle.toString());
                         mListView.setAdapter(appAdapter);
-
+                        return;
                     } else if ("Phone" == mData.mTitle) {
                         popupType = 1;
-                        getList("phone");
+                        getList(mData.mTitle.toString());
                         mListView.setAdapter(phoneAdapter);
-
-                    } else if ("Addition" == mData.mTitle) {
+                        return;
+                    } else{
                         popupType = 2;
-                        getList("addtion");
-                        mListView.setAdapter(additionAdapter);
+                        intent.putExtra("resultText", mData.mTitle);
+                        intent.putExtra("resultType", "addition");
                     }
+                    // 전달할 Intent를 설정하고 finish()함수를 통해
+                    //B Activity를 종료시킴과 동시에 결과로 Intent를 전달하였다.
+                    setResult(RESULT_OK, intent);
+                    finish();
                 }else {
-                    //Add edit Activity로 전달한 데이터 resultText Key 값의 "superdroid result" 문자열을
-                    //Extra로 Intent에 담았다.
-                    Intent intent = new Intent();
-
                     if (popupType == 0) {
                         mData = appAdapter.mPopupListdata.get(position);
                         intent.putExtra("resultText", mData.mTitle);
@@ -97,10 +105,6 @@ public class PopupActivity extends Activity {
                         mData = phoneAdapter.mPopupListdata.get(position);
                         intent.putExtra("resultText", mData.mTitle);
                         intent.putExtra("resultType", "phone");
-                    } else if (popupType == 2) {
-                        mData = additionAdapter.mPopupListdata.get(position);
-                        intent.putExtra("resultText", mData.mTitle);
-                        intent.putExtra("resultType", "addition");
                     }
                     // 전달할 Intent를 설정하고 finish()함수를 통해
                     //B Activity를 종료시킴과 동시에 결과로 Intent를 전달하였다.
@@ -115,7 +119,7 @@ public class PopupActivity extends Activity {
 
     public void getList(String menu) {
 
-        if(menu == "app"){
+        if(menu == "App"){
 
             PackageManager packagemanager = this.getPackageManager();
             List<ApplicationInfo> installedApps = getApplicationContext().getPackageManager().getInstalledApplications(PackageManager.PERMISSION_GRANTED);
@@ -124,7 +128,6 @@ public class PopupActivity extends Activity {
                 if(getApplicationContext().getPackageManager().getLaunchIntentForPackage(installedApps.get(i).packageName) != null){
                     //If you're here, then this is a launch-able app
                     appList.add(installedApps.get(i));
-
                 }
             }
             for (int i = 0; i < appList.size(); i++){
@@ -132,8 +135,7 @@ public class PopupActivity extends Activity {
             }
 
 
-
-        }else if(menu == "phone") {
+        }else if(menu == "Phone") {
 
             String[] arrProjection = {ContactsContract.Contacts._ID, ContactsContract.Contacts.DISPLAY_NAME};
             String[] arrPhoneProjection = {ContactsContract.CommonDataKinds.Phone.NUMBER};
@@ -156,7 +158,16 @@ public class PopupActivity extends Activity {
                 clsPhoneCursor.close();
             }
             clsCursor.close();
-        }else if(menu == "addition"){
+
+        } else if(menu == "Screen Shot"){
+
+        } else if(menu == "Screen Lock"){
+
+        } else if(menu == "Wifi on/off"){
+
+        }  else if(menu == "Bluetooth"){
+
+        } else if(menu == "Silent") {
 
         }
     }
@@ -249,4 +260,94 @@ public class PopupActivity extends Activity {
 
     }
 
+    private class ViewHolder2 {
+//        public ImageView popupIcon;
+        public TextView popupText;
+    }
+
+    private class PUListAdapter2 extends BaseAdapter {
+        private Context mContext = null;
+        private ArrayList<PopupListdata> mPopupListdata = new ArrayList<PopupListdata>();
+
+        public PUListAdapter2(Context mContext) {
+            super();
+            this.mContext = mContext;
+        }
+
+        public PUListAdapter2(Context mContext, ArrayList<String> mylist) {
+            super();
+            this.mContext = mContext;
+        }
+
+
+        @Override
+        public int getCount() {
+            return mPopupListdata.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return mPopupListdata.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ViewHolder2 holder;
+            if (convertView == null) {
+                holder = new ViewHolder2();
+
+                LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                convertView = inflater.inflate(R.layout.listview_popup_item, null);
+
+//                holder.popupIcon = (ImageView) convertView.findViewById(R.id.popup_list_image);
+                holder.popupText = (TextView) convertView.findViewById(R.id.popup_list_text);
+
+                convertView.setTag(holder);
+            } else {
+                holder = (ViewHolder2) convertView.getTag();
+            }
+
+            PopupListdata mData = mPopupListdata.get(position);
+
+//            if (mData.mIcon != null) {
+//                holder.popupIcon.setVisibility(View.VISIBLE);
+//                holder.popupIcon.setImageDrawable(mData.mIcon);
+//            } else {
+//                holder.popupIcon.setVisibility(View.GONE);
+//            }
+
+            holder.popupText.setText(mData.mTitle);
+
+            return convertView;
+        }
+
+//        public void addItem(Drawable icon, CharSequence mTitle) {
+        public void addItem(CharSequence mTitle) {
+            PopupListdata addInfo = null;
+            addInfo = new PopupListdata();
+//            addInfo.mIcon = icon;
+            addInfo.mTitle = mTitle;
+
+            mPopupListdata.add(addInfo);
+            dataChange();
+        }
+
+        public void remove(int position) {
+            mPopupListdata.remove(position);
+            dataChange();
+        }
+
+
+        public void dataChange() {
+            appAdapter.notifyDataSetChanged();
+        }
+
+    }
+
 }
+

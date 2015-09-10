@@ -30,12 +30,7 @@
         </activity>
         <activity
             android:name=".AddEditActivity"
-            android:label="@string/title_activity_add_edit" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:label="@string/title_activity_add_edit" >`
         </activity>
 
         <receiver
@@ -52,7 +47,13 @@
             android:name=".ListActivity"
             android:label="@string/title_activity_add_edit" >
         </activity>
+        <activity
+            android:name=".SettingActivity"
+            android:label="@string/title_activity_setting" >
+        </activity>
 
+        <service android:name=".MainService" >
+        </service>
         <service
             android:name=".ShakeService"
             android:enabled="true"
@@ -102,6 +103,15 @@
             android:exported="true" >
         </service>
 
+
+        <activity
+            android:name=".PopupTouchActivity"
+            android:label="@string/title_activity_popup_touch"
+            android:configChanges="orientation|keyboardHidden"
+            android:theme="@android:style/Theme.Dialog"
+            android:windowSoftInputMode="stateHidden"
+            >
+        </activity>
     </application>
 
 </manifest>

@@ -6,15 +6,16 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,16 +23,15 @@ import java.util.List;
 
 public class AddEditActivity extends Activity implements OnClickListener {
 
-    private CharSequence phoneName = null, appName = null, mAppName = null;
+    private CharSequence touchName = null, additionName = null, phoneName = null, appName = null, mAppName = null;
     private String phoneNumber, returnType, mModelName, pressedData[] = new String[2];
-    private String touchName = null,touchPath=null;
-    private TextView EditTouch=null;
     private RelativeLayout mRLMain;
     private ArrayList<ListData> mArrayListData = new ArrayList<ListData>();
     private ArrayList<ListData> listDataArrList;
     private ArrayList<Buttons> mButtons = new ArrayList<Buttons>();
     private ListDBManager dbManager;
     private Button mBtnMain, mBtnCancle, mBtnSave, mBtnIniti;
+    private TextView mTxtMain,mTxtTouch=null;
     private ImageView mIvMain;
     private int index, pressedDataNum = 0, mEditPosition = -1;
     private int phoneBtnCount = 3, phoneMotionCount = 3;
@@ -50,7 +50,6 @@ public class AddEditActivity extends Activity implements OnClickListener {
         Bundle myBundle = this.getIntent().getExtras();
         mEditPosition = myBundle.getInt("selectedPosition");
 
-
         // no select => mEditPosition = -1
         if (mEditPosition == -1) {
             setLayout();
@@ -60,7 +59,6 @@ public class AddEditActivity extends Activity implements OnClickListener {
             editSetLayout();
             mBtnSave.setText("Edit");
         }
-
     }
 
     //PopupActivity 의 결과를 전달받기위해 overriding을 함
@@ -76,6 +74,7 @@ public class AddEditActivity extends Activity implements OnClickListener {
                     if (returnType.equals("app")) {
                         appName = data.getStringExtra("resultText");
                         phoneName = null;
+                        additionName = null;
                         mBtnMainSetting();
 
                     } else if (returnType.equals("phone")) {
@@ -86,15 +85,20 @@ public class AddEditActivity extends Activity implements OnClickListener {
                         phoneNumber = temp[1];
 
                         appName = null;
+                        additionName = null;
+                        mBtnMainSetting();
+                    }else if(returnType.equals("addition")){
+                        additionName = data.getStringExtra("resultText");
+                        appName = null;
+                        phoneName = null;
                         mBtnMainSetting();
                     }
                     //터치인경우
                     else if (returnType.equals("touch")){
                         touchName =data.getStringExtra("resultName");
-                        touchPath=data.getStringExtra("resultPath");
-                        EditTouch=(TextView)findViewById(R.id.btn_touch_txt);
-                        EditTouch.setText(touchName);
-                        Toast.makeText (getApplicationContext(), touchName+"\n"+touchPath, Toast.LENGTH_LONG).show();
+                        mTxtTouch=(TextView)findViewById(R.id.btn_touch_txt);
+                        mTxtTouch.setText(touchName);
+//                        Toast.makeText (getApplicationContext(), touchName, Toast.LENGTH_LONG).show();
                     }
 
                 }
@@ -120,6 +124,8 @@ public class AddEditActivity extends Activity implements OnClickListener {
         mRLMain = (RelativeLayout) findViewById(R.id.rl_main);
         mBtnMain = (Button) findViewById(R.id.btn_main);
         mBtnMain.setOnClickListener(this);
+        mTxtMain = (TextView)findViewById(R.id.btn_main_txt);
+
         mBtnCancle = (Button) findViewById(R.id.btn_cancle);
         mBtnCancle.setOnClickListener(this);
         mBtnSave = (Button) findViewById(R.id.btn_save);
@@ -191,6 +197,10 @@ public class AddEditActivity extends Activity implements OnClickListener {
 
     private void mBtnMainSetting() {
 
+        mBtnMain.setBackgroundColor(Color.WHITE);
+        mTxtMain.setText("");
+        mBtnMain.setText("");
+
         // mButtonMain setting
         if (appName != null) {
             //어플 목록을 불러옴
@@ -201,7 +211,7 @@ public class AddEditActivity extends Activity implements OnClickListener {
                 mAppName = appList.get(i).loadLabel(packagemanager);
                 if (mAppName.equals(appName)) {
                     mBtnMain.setBackground(appList.get(i).loadIcon(packagemanager));
-                    mBtnMain.setText(appName);
+                    mTxtMain.setText(appName);
                     index = i;
                     break;
                 }
@@ -210,6 +220,10 @@ public class AddEditActivity extends Activity implements OnClickListener {
         } else if (phoneName != null) {
             mBtnMain.setBackground(getResources().getDrawable(R.mipmap.human));
             mBtnMain.setText(phoneName.toString());
+
+        }else if(additionName != null){
+            mBtnMain.setBackground(getResources().getDrawable(R.mipmap.addition));
+            mTxtMain.setText(additionName.toString());
 
         }
     }
@@ -222,6 +236,25 @@ public class AddEditActivity extends Activity implements OnClickListener {
         temp = cs.toString().split(delimiter);
 
         return temp;
+    }
+
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        if (event.getAction() == KeyEvent.ACTION_DOWN) {
+            switch (event.getKeyCode()) {
+//                case KeyEvent.KEYCODE_BACK:
+                    // 단말기의 BACK버튼
+//                    return true;
+                case KeyEvent.KEYCODE_MENU:
+                    // 단말기의 메뉴버튼
+
+                    // 150804 Kim Gwang Min : Setting Button Event
+                    Intent intentSetting = new Intent(AddEditActivity.this, SettingActivity.class);
+                    startActivity(intentSetting);
+                    return true;
+            }
+        }
+        return super.dispatchKeyEvent(event);
     }
 
     @Override
@@ -238,7 +271,6 @@ public class AddEditActivity extends Activity implements OnClickListener {
         // Main Click
         if (v == mIvMain || v == mBtnMain) {
             Intent i = new Intent(AddEditActivity.this, PopupActivity.class);
-            i.putExtra("myName", "superdroid");
             startActivityForResult(i, LAUNCHED_ACTIVITY);
 
             // Cancle Click
@@ -315,8 +347,6 @@ public class AddEditActivity extends Activity implements OnClickListener {
                 Intent cancleintent = new Intent(AddEditActivity.this, ListActivity.class);
                 startActivity(cancleintent);
                 finish();
-//            }else if(v == mButtons.get(0)){
-//
             } else
                 showDialog("select two button and app");
 
@@ -330,11 +360,11 @@ public class AddEditActivity extends Activity implements OnClickListener {
 //            phoneSetting();
 
         }
+
         //touch버튼 눌렸을떄
         if (v == mButtons.get(2).button) {
-            Intent touchIntent = new Intent(AddEditActivity.this, TouchActivity.class);
+            Intent touchIntent = new Intent(AddEditActivity.this, PopupTouchActivity.class);
             startActivityForResult(touchIntent, LAUNCHED_ACTIVITY);
-
         }
         // Buttons Click
         for (int i = 0; i < mButtons.size(); i++) {
