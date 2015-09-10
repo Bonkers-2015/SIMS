@@ -10,10 +10,10 @@ import java.util.ArrayList;
 /**
  * Created by redpe_000 on 2015-08-03.
  */
-public class ListDBManager {
+public class TouchDBManager {
     // DB관련 상수 선언
     private static final String dbName = "SimsInfo.db";
-    private static final String tableName = "ListData";
+    private static final String tableName = "TouchData";
     public static final int dbVersion = 1;
 
     // DB관련 객체 선언
@@ -24,7 +24,7 @@ public class ListDBManager {
     private Context context;
 
     // 생성자
-    public ListDBManager(Context context) {
+    public TouchDBManager(Context context) {
         this.context = context;
         this.opener = new OpenHelper(context, dbName, null, dbVersion);
         db = opener.getWritableDatabase();
@@ -46,7 +46,7 @@ public class ListDBManager {
             // db.execSQL(dropSql);
 
             String createSql = "create table " + tableName + " (id integer primary key autoincrement," +
-                    "indexnum integer, data1 text, data2 text, appName text, phoneName text, phoneNumber text);";
+                    "touchName text, touchPath text);";
 
             arg0.execSQL(createSql);
         }
@@ -58,51 +58,34 @@ public class ListDBManager {
     }
 
     // 데이터 추가
-    public void insertAppData(ListData data) {
-        String sql = "insert into " + tableName+ " values(NULL, "
-                + data.getIndexNum() + ", '" + data.getmData1() +"', '" + data.getmData2() + "', '" + data.getmAppName() + "', NULL,NULL);";
-
-        db.execSQL(sql);
-    }
-    public void insertPhoneData(ListData data) {
-        String sql = "insert into " + tableName+ " values(NULL, "
-                + data.getIndexNum() + ", '" + data.getmData1() +"', '" + data.getmData2() + "', NULL, '"
-                + data.getmPhoneName() + "', '" + data.getmPhoneNumber() + "');";
+    public void insertData(TouchData data) {
+        String sql = "insert into " + tableName+ " values(NULL, " + data.getmTouchName() + ", '" + data.getmTouchPath() +"');";
 
         db.execSQL(sql);
     }
 
     // 데이터 갱신
-    public void updateAppData(ListData data, int index) {
-        String sql = "update " + tableName + " set indexnum = " + data.getIndexNum()
-                + ", data1 = '" + data.getmData1()+ "', data2 = '" + data.getmData2()+ "', appName = '" + data.getmAppName()
-                + "', phoneName = NULL, phoneNumber = NULL where id = " + index + ";";
-
-        db.execSQL(sql);
-    }
-    public void updatePhoneData(ListData data, int index) {
-        String sql = "update " + tableName + " set indexnum = " + data.getIndexNum()
-                + ", data1 = '" + data.getmData1()+ "', data2 = '" + data.getmData2()+ "', appName = NULL, phoneName = '"
-                + data.getmPhoneName()+ "', phoneNumber = '" + data.getmPhoneNumber() + "' where id = " + index + ";";
+    public void updateData(TouchData data, int id) {
+        String sql = "update " + tableName + " set touchName = '" + data.getmTouchName()+ "', touchPath = '" + data.getmTouchPath()+ "' where id = " + id + ";";
 
         db.execSQL(sql);
     }
 
     // 데이터 삭제
-    public void removeData(int index) {
-        String sql = "delete from " + tableName + " where id = " + index + ";";
+    public void removeData(int id) {
+        String sql = "delete from " + tableName + " where id = " + id + ";";
         db.execSQL(sql);
     }
 
     // 데이터 검색
-    public ListData selectData(int index) {
-        String sql = "select * from " + tableName + " where id = " + index
+    public TouchData selectData(int id) {
+        String sql = "select * from " + tableName + " where id = " + id
                 + ";";
         Cursor result = db.rawQuery(sql, null);
 
         // result(Cursor 객체)가 비어 있으면 false 리턴
         if (result.moveToFirst()) {
-            ListData data = new ListData(result.getInt(1),result.getString(2),result.getString(3),result.getString(4),result.getString(5),result.getString(6));
+            TouchData data = new TouchData(result.getString(1),result.getString(2));
             result.close();
             return data;
         }
@@ -111,15 +94,15 @@ public class ListDBManager {
     }
 
     // 데이터 전체 검색
-    public ArrayList<ListData> selectAll() {
+    public ArrayList<TouchData> selectAll() {
         String sql = "select * from " + tableName + ";";
         Cursor results = db.rawQuery(sql, null);
 
         results.moveToFirst();
-        ArrayList<ListData> infos = new ArrayList<ListData>();
+        ArrayList<TouchData> infos = new ArrayList<TouchData>();
 
         while (!results.isAfterLast()) {
-            ListData info = new ListData(results.getInt(0),results.getInt(1),results.getString(2),results.getString(3),results.getString(4),results.getString(5),results.getString(6));
+            TouchData info = new TouchData(results.getInt(0),results.getString(1),results.getString(2));
             infos.add(info);
             results.moveToNext();
         }
