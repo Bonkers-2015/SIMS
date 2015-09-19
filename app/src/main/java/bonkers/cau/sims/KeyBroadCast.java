@@ -46,6 +46,7 @@ public class KeyBroadCast extends BroadcastReceiver {
 
 
         volume = (Integer) intent.getExtras().get("android.media.EXTRA_VOLUME_STREAM_VALUE");
+
         isShaked=prefs.getInt("isShacked",0);
         Log.d("mylog", Integer.toString(isShaked));
         Log.d("mylog","oldVolume="+Integer.toString(oldVolume));
@@ -54,10 +55,8 @@ public class KeyBroadCast extends BroadcastReceiver {
         if (volume > oldVolume) {
             //if문해서 터치인지 검사
             context.startService(new Intent(context, TouchService.class));
-
             oldVolume = volume;
-
-            lauchApp(packagemanager, context, appList, "data0");
+            lauchApp(packagemanager, context, appList, "");
 
             //마이너스 볼륨을 눌렀을때
         } else if (volume <= oldVolume) {
@@ -79,8 +78,7 @@ public class KeyBroadCast extends BroadcastReceiver {
             if (list.getmData1().equals(data)) {
 
                 //어플 정보 받아오기
-                appIndexNum = list.getIndexNum();
-                appPackageName = appList.get(appIndexNum).packageName;
+                appPackageName = list.getmAppPackage();
                 //앱실행
                 Intent i = packagemanager.getLaunchIntentForPackage(appPackageName);
                 i.addCategory(Intent.CATEGORY_LAUNCHER);

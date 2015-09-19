@@ -25,7 +25,8 @@ public class TouchActivity extends Activity implements TouchDialogFragment.Input
     FrameLayout mlayout;
     ImageButton saveBtn;
     String touchPath;
-
+    TouchData mTouchData;
+    TouchDBManager dbManager;
     /**
      * Called when the activity is first created.
      */
@@ -57,11 +58,14 @@ public class TouchActivity extends Activity implements TouchDialogFragment.Input
     public void inputComplete(String touchName) {
         Intent intent = new Intent();
         intent.putExtra("resultName", touchName);
-        intent.putExtra("resultPath",touchPath);
         intent.putExtra("resultType", "touch");
         // 전달할 Intent를 설정하고 finish()함수를 통해
         //B Activity를 종료시킴과 동시에 결과로 Intent를 전달하였다.
         setResult(RESULT_OK, intent);
+
+        dbManager= new TouchDBManager(getApplicationContext());
+        mTouchData= new TouchData(touchName,touchPath);
+        dbManager.insertData(mTouchData);
         finish();
 
     }
@@ -315,7 +319,6 @@ public class TouchActivity extends Activity implements TouchDialogFragment.Input
                 Toast.makeText(this.getContext(), str, Toast.LENGTH_SHORT).show();
                 touchPath = str;
 
-                Log.v("test", "=================끝===============");
                 return true;
             }
             return false;

@@ -25,6 +25,15 @@ public class PopupTouchActivity extends Activity {
     private Button mBtnAdd;
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        touchDataArrList = dbManager.selectAll();
+        TouchData mTouchData=touchDataArrList.get(touchDataArrList.size()-1);
+        touchAdapter.addItem(mTouchData.getmTouchName(),mTouchData.getmTouchPath());
+        mListView.setAdapter(touchAdapter);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
@@ -45,7 +54,7 @@ public class PopupTouchActivity extends Activity {
         touchDataArrList = dbManager.selectAll();
 
         for (TouchData data:touchDataArrList) {
-            touchAdapter.addItem(data.getmTouchName());
+            touchAdapter.addItem(data.getmTouchName(),data.getmTouchPath());
         }
 
         mListView.setAdapter(touchAdapter);
@@ -56,10 +65,11 @@ public class PopupTouchActivity extends Activity {
                 //Add edit Activity로 전달한 데이터 resultText Key 값의 "superdroid result" 문자열을
                 //Extra로 Intent에 담았다.
                 Intent intent = new Intent();
-                PopupTouchListdata mData;
-                mData = touchAdapter.mPopupTouchListdata.get(position);
+                TouchData mData;
+                mData = touchAdapter.mTouchListdata.get(position);
 
-                intent.putExtra("resultText", mData.mTitle);
+                intent.putExtra("resultText", mData.getmTouchName());
+                intent.putExtra("resultPath", mData.getmTouchPath());
                 intent.putExtra("resultType", "touch");
 
                 // 전달할 Intent를 설정하고 finish()함수를 통해
@@ -86,14 +96,14 @@ public class PopupTouchActivity extends Activity {
 
     private class PUListAdapter extends BaseAdapter {
         private Context mContext = null;
-        private ArrayList<PopupTouchListdata> mPopupTouchListdata = new ArrayList<PopupTouchListdata>();
+        private ArrayList<TouchData> mTouchListdata = new ArrayList<TouchData>();
 
         public PUListAdapter(Context mContext) {
             super();
             this.mContext = mContext;
         }
 
-        public PUListAdapter(Context mContext, ArrayList<String> mylist) {
+        public PUListAdapter(Context mContext, ArrayList<TouchData> mylist) {
             super();
             this.mContext = mContext;
         }
@@ -101,12 +111,12 @@ public class PopupTouchActivity extends Activity {
 
         @Override
         public int getCount() {
-            return mPopupTouchListdata.size();
+            return mTouchListdata.size();
         }
 
         @Override
         public Object getItem(int position) {
-            return mPopupTouchListdata.get(position);
+            return mTouchListdata.get(position);
         }
 
         @Override
@@ -130,25 +140,22 @@ public class PopupTouchActivity extends Activity {
                 holder = (ViewHolder) convertView.getTag();
             }
 
-            PopupTouchListdata mData = mPopupTouchListdata.get(position);
+            TouchData mData = mTouchListdata.get(position);
 
-            holder.popupText.setText(mData.mTitle);
+            holder.popupText.setText(mData.getmTouchName());
 
             return convertView;
         }
 
-        public void addItem(CharSequence mTitle) {
-            PopupTouchListdata addInfo = null;
-            addInfo = new PopupTouchListdata();
-
-            addInfo.mTitle = mTitle;
-
-            mPopupTouchListdata.add(addInfo);
+        public void addItem(String mTitle,String mPath) {
+            TouchData addInfo = null;
+            addInfo = new TouchData(mTitle,mPath);
+            mTouchListdata.add(addInfo);
             dataChange();
         }
 
         public void remove(int position) {
-            mPopupTouchListdata.remove(position);
+            mTouchListdata.remove(position);
             dataChange();
         }
 

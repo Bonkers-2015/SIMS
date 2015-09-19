@@ -46,7 +46,7 @@ public class ListActivity extends Activity implements View.OnClickListener {
         listDataArrList =dbManager.selectAll();
 
         for (ListData data:listDataArrList) {
-            mAdapter.addItem(data.getId(), data.getIndexNum(), data.getmData1(), data.getmData2(), data.getmAppName(), data.getmPhoneName(), data.getmPhoneNumber());
+            mAdapter.addItem(data.getId(), data.getIndexNum(), data.getmData1(), data.getmData2(), data.getmAppName(),data.getmAppPackage(), data.getmPhoneName(), data.getmPhoneNumber());
         }
 
         addBtn =(ImageButton)findViewById(R.id.list_add_btn);
@@ -183,9 +183,9 @@ public class ListActivity extends Activity implements View.OnClickListener {
             return convertView;
         }
 
-        public void addItem(int mId,int mIndexNum,String mTitle,String mData, String mAppName, String mPhoneName, String mPhoneNumber) {
+        public void addItem(int mId,int mIndexNum,String mTitle,String mData, String mAppName,String mAppPackage, String mPhoneName, String mPhoneNumber)  {
             ListData addInfo = null;
-            addInfo = new ListData(mId,mIndexNum,mTitle,mData,mAppName,mPhoneName,mPhoneNumber);
+            addInfo = new ListData(mId,mIndexNum,mTitle,mData,mAppName,mAppPackage,mPhoneName,mPhoneNumber);
             mListData.add(addInfo);
 
         }

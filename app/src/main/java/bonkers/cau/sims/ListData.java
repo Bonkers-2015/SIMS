@@ -7,25 +7,28 @@ public class ListData {
     private String mData1 = null;
     private String mData2 = null;
     private String mAppName = null;
+    private String mAppPackage = null;
     private String mPhoneName = null;
     private String mPhoneNumber = null;
     private  int indexNum;
     private  int id;
 
-    public ListData(int mIndexNum, String mData1, String mData2, String mAppName, String mPhoneName, String mPhoneNumber) {
+    public ListData(int mIndexNum, String mData1, String mData2, String mAppName,String mAppPackage, String mPhoneName, String mPhoneNumber) {
         this.indexNum=mIndexNum;
         this.mData1 = mData1;
         this.mData2 = mData2;
         this.mAppName = mAppName;
+        this.mAppPackage=mAppPackage;
         this.mPhoneName = mPhoneName;
         this.mPhoneNumber = mPhoneNumber;
     }
-    public ListData(int mId,int mIndexNum, String mData1, String mData2, String mAppName, String mPhoneName, String mPhoneNumber) {
+    public ListData(int mId,int mIndexNum, String mData1, String mData2, String mAppName,String mAppPackage, String mPhoneName, String mPhoneNumber) {
         this.id = mId;
         this.indexNum=mIndexNum;
         this.mData1 = mData1;
         this.mData2 = mData2;
         this.mAppName = mAppName;
+        this.mAppPackage=mAppPackage;
         this.mPhoneName = mPhoneName;
         this.mPhoneNumber = mPhoneNumber;
     }
@@ -69,6 +72,14 @@ public class ListData {
         this.mAppName = mAppName;
     }
 
+    public String getmAppPackage() {
+        return mAppPackage;
+    }
+
+    public void setmAppPackage(String mAppPackage) {
+        this.mAppPackage = mAppPackage;
+    }
+
     public String getmPhoneName() {
         return mPhoneName;
     }
@@ -84,5 +95,7 @@ public class ListData {
     public void setmPhoneNumber(String mPhoneNumber) {
         this.mPhoneNumber = mPhoneNumber;
     }
+
+
 }
 

@@ -196,6 +196,7 @@
                         android:id="@+id/btn_touch_txt"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
+                        android:textColor="#fb7804"
                         android:gravity="center_horizontal"
                         android:layout_weight="80" />
 

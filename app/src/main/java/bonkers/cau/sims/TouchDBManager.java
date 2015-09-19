@@ -59,7 +59,8 @@ public class TouchDBManager {
 
     // 데이터 추가
     public void insertData(TouchData data) {
-        String sql = "insert into " + tableName+ " values(NULL, " + data.getmTouchName() + ", '" + data.getmTouchPath() +"');";
+        String sql = "insert into " + tableName+ " values(NULL, '"
+                + data.getmTouchName() + "', '" + data.getmTouchPath() +"');";
 
         db.execSQL(sql);
     }

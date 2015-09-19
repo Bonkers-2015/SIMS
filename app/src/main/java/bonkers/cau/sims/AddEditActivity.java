@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +24,7 @@ import java.util.List;
 
 public class AddEditActivity extends Activity implements OnClickListener {
 
-    private CharSequence touchName = null, additionName = null, phoneName = null, appName = null, mAppName = null;
+    private CharSequence touchPath = null,touchName, additionName = null, phoneName = null, appName = null, mAppName = null,mAppPackage=null;
     private String phoneNumber, returnType, mModelName, pressedData[] = new String[2];
     private RelativeLayout mRLMain;
     private ArrayList<ListData> mArrayListData = new ArrayList<ListData>();
@@ -35,6 +36,8 @@ public class AddEditActivity extends Activity implements OnClickListener {
     private ImageView mIvMain;
     private int index, pressedDataNum = 0, mEditPosition = -1;
     private int phoneBtnCount = 3, phoneMotionCount = 3;
+    PackageManager packagemanager;
+    List<ApplicationInfo> appList;
     private Bitmap mainBG;
 
     // requestCode
@@ -55,13 +58,13 @@ public class AddEditActivity extends Activity implements OnClickListener {
             setLayout();
             mBtnSave.setText("Save");
         } else {
-            // eidtÀÏ¶§¸¸ save¹öÆ° complete·Î ¹Ù²Þ
+            // eidtï¿½Ï¶ï¿½ï¿½ï¿½ saveï¿½ï¿½Æ° completeï¿½ï¿½ ï¿½Ù²ï¿½
             editSetLayout();
             mBtnSave.setText("Edit");
         }
     }
 
-    //PopupActivity ÀÇ °á°ú¸¦ Àü´Þ¹Þ±âÀ§ÇØ overridingÀ» ÇÔ
+    //PopupActivity ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Þ¹Þ±ï¿½ï¿½ï¿½ï¿½ï¿½ overridingï¿½ï¿½ ï¿½ï¿½
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -93,12 +96,15 @@ public class AddEditActivity extends Activity implements OnClickListener {
                         phoneName = null;
                         mBtnMainSetting();
                     }
-                    //ÅÍÄ¡ÀÎ°æ¿ì
+                    //ï¿½ï¿½Ä¡ï¿½Î°ï¿½ï¿½
                     else if (returnType.equals("touch")){
-                        touchName =data.getStringExtra("resultName");
+                        touchName =data.getStringExtra("resultText");
+                        touchPath =data.getStringExtra("resultPath");
                         mTxtTouch=(TextView)findViewById(R.id.btn_touch_txt);
+                        mButtons.get(2).onOff = true;
+                        mButtons.get(2).button.setBackground(getResources().getDrawable(mButtons.get(2).onImage));
                         mTxtTouch.setText(touchName);
-//                        Toast.makeText (getApplicationContext(), touchName, Toast.LENGTH_LONG).show();
+                          Toast.makeText(getApplicationContext(), touchName, Toast.LENGTH_LONG).show();
                     }
 
                 }
@@ -111,7 +117,7 @@ public class AddEditActivity extends Activity implements OnClickListener {
         alert.setPositiveButton("ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();     //´Ý±â
+                dialog.dismiss();
             }
         });
 
@@ -203,15 +209,16 @@ public class AddEditActivity extends Activity implements OnClickListener {
 
         // mButtonMain setting
         if (appName != null) {
-            //¾îÇÃ ¸ñ·ÏÀ» ºÒ·¯¿È
-            PackageManager packagemanager = this.getPackageManager();
-            List<ApplicationInfo> appList = packagemanager.getInstalledApplications(0);
+            //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½
+            packagemanager = this.getPackageManager();
+            appList = packagemanager.getInstalledApplications(0);
 
             for (int i = 0; i < appList.size(); i++) {
                 mAppName = appList.get(i).loadLabel(packagemanager);
                 if (mAppName.equals(appName)) {
                     mBtnMain.setBackground(appList.get(i).loadIcon(packagemanager));
                     mTxtMain.setText(appName);
+                    mAppPackage=appList.get(i).packageName;
                     index = i;
                     break;
                 }
@@ -243,10 +250,10 @@ public class AddEditActivity extends Activity implements OnClickListener {
         if (event.getAction() == KeyEvent.ACTION_DOWN) {
             switch (event.getKeyCode()) {
 //                case KeyEvent.KEYCODE_BACK:
-                    // ´Ü¸»±âÀÇ BACK¹öÆ°
+                    // ï¿½Ü¸ï¿½ï¿½ï¿½ï¿½ï¿½ BACKï¿½ï¿½Æ°
 //                    return true;
                 case KeyEvent.KEYCODE_MENU:
-                    // ´Ü¸»±âÀÇ ¸Þ´º¹öÆ°
+                    // ï¿½Ü¸ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ï¿½ï¿½Æ°
 
                     // 150804 Kim Gwang Min : Setting Button Event
                     Intent intentSetting = new Intent(AddEditActivity.this, SettingActivity.class);
@@ -297,7 +304,7 @@ public class AddEditActivity extends Activity implements OnClickListener {
                 //add
                 if (mEditPosition == -1) {
                     for (ListData mListData : mArrayListData) {
-                        //DB ÀÇ ¸®½ºÆ®¿Í ÇöÀç ¼±ÅÃµÈ ¾ÆÀÌÅÆÀÌ Áßº¹µÆ´ÂÁö °Ë»ç
+                        //DB ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ãµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ßºï¿½ï¿½Æ´ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½
                         if (pressedData[0].equals(mListData.getmData1()) && pressedData[1].equals(mListData.getmData2())) {
                             isRepeated = true;
                             showDialog("is already exist");
@@ -305,12 +312,14 @@ public class AddEditActivity extends Activity implements OnClickListener {
                         }
                     }
                     if (appName != null) {
-                        ListData listAppData = new ListData(index, pressedData[0], pressedData[1], appName.toString(), null, null);
-                        dbManager.insertAppData(listAppData);
+                        if(pressedData[1].equals("touch")) {
+                            ListData listAppData = new ListData(index, pressedData[0], touchPath.toString(), appName.toString(), mAppPackage.toString(), null, null);
+                            dbManager.insertAppData(listAppData);
+                        }
                     } else {
                         // phoneName >>> "phoneName / phoneNumber"
                         String temp[] = split(phoneName, " / ");
-                        ListData listPhoneData = new ListData(index, pressedData[0], pressedData[1], null, temp[0], temp[1]);
+                        ListData listPhoneData = new ListData(index, pressedData[0], pressedData[1], null,null, temp[0], temp[1]);
 
                         dbManager.insertPhoneData(listPhoneData);
                     }
@@ -318,10 +327,10 @@ public class AddEditActivity extends Activity implements OnClickListener {
                     //edit
                 } else {
                     for (ListData mListData : mArrayListData) {
-                        //DB ÀÇ ¸®½ºÆ®¿Í ÇöÀç ¼±ÅÃµÈ ¾ÆÀÌÅÆÀÌ Áßº¹µÆ´ÂÁö °Ë»ç
+                        //DB ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ãµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ßºï¿½ï¿½Æ´ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½
                         if (pressedData[0].equals(mListData.getmData1()) && pressedData[1].equals(mListData.getmData2())) {
 
-                            //main¸¸ ¼öÁ¤À» ¿øÇÏ´Â °æ¿ì Á¦¿Ü
+                            //mainï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                             if (pressedData[0].equals(mArrayListData.get(mEditPosition).getmData1()) && pressedData[1].equals(mArrayListData.get(mEditPosition).getmData2())) {
                                 continue;
                             } else {
@@ -333,13 +342,13 @@ public class AddEditActivity extends Activity implements OnClickListener {
                     }
 
                     if (appName != null) {
-                        ListData listAppData = new ListData(index, pressedData[0], pressedData[1], appName.toString(), null, null);
+                        ListData listAppData = new ListData(index, pressedData[0], pressedData[1], appName.toString(),mAppPackage.toString(), null, null);
                         dbManager.updateAppData(listAppData, mArrayListData.get(mEditPosition).getId());
 
                     } else {
                         //  >>> "phoneName / phoneNumber"
                         String temp[] = split(phoneName, " / ");
-                        ListData listPhoneData = new ListData(index, pressedData[0], pressedData[1], null, temp[0], temp[1]);
+                        ListData listPhoneData = new ListData(index, pressedData[0], pressedData[1], null,null, temp[0], temp[1]);
 
                         dbManager.updatePhoneData(listPhoneData, mArrayListData.get(mEditPosition).getId());
                     }
@@ -361,7 +370,7 @@ public class AddEditActivity extends Activity implements OnClickListener {
 
         }
 
-        //touch¹öÆ° ´­·ÈÀ»‹š
+        //touchï¿½ï¿½Æ° ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         if (v == mButtons.get(2).button) {
             Intent touchIntent = new Intent(AddEditActivity.this, PopupTouchActivity.class);
             startActivityForResult(touchIntent, LAUNCHED_ACTIVITY);
