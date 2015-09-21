@@ -32,8 +32,7 @@ public class KeyBroadCast extends BroadcastReceiver {
         //어플리케이션 내욜을 받아오는거야
         PackageManager packagemanager = context.getPackageManager();
         List<ApplicationInfo> appList = packagemanager.getInstalledApplications(0);
-        SharedPreferences prefs = context.getSharedPreferences("myPrefs",
-                Context.MODE_PRIVATE);
+        SharedPreferences prefs = context.getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         oldVolume=prefs.getInt("oldVolume",0);
 ;
@@ -46,6 +45,8 @@ public class KeyBroadCast extends BroadcastReceiver {
 
 
         volume = (Integer) intent.getExtras().get("android.media.EXTRA_VOLUME_STREAM_VALUE");
+
+
 
         isShaked=prefs.getInt("isShacked",0);
         Log.d("mylog", Integer.toString(isShaked));
@@ -62,9 +63,7 @@ public class KeyBroadCast extends BroadcastReceiver {
         } else if (volume <= oldVolume) {
             oldVolume = volume;
             context.startService(new Intent(context, TouchService.class));
-
-        }
-        else
+        } else
             oldVolume = volume;
 
         editor.putInt("oldVolume", oldVolume);

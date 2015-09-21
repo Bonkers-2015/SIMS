@@ -64,7 +64,7 @@ public class AddEditActivity extends Activity implements OnClickListener {
         }
     }
 
-    //PopupActivity �� ����� ���޹ޱ����� overriding�� ��
+    //PopupActivity �� �����? ���޹ޱ����� overriding�� ��
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -96,7 +96,7 @@ public class AddEditActivity extends Activity implements OnClickListener {
                         phoneName = null;
                         mBtnMainSetting();
                     }
-                    //��ġ�ΰ��
+                    //��ġ�ΰ��?
                     else if (returnType.equals("touch")){
                         touchName =data.getStringExtra("resultText");
                         touchPath =data.getStringExtra("resultPath");
@@ -209,7 +209,7 @@ public class AddEditActivity extends Activity implements OnClickListener {
 
         // mButtonMain setting
         if (appName != null) {
-            //���� ����� �ҷ���
+            //���� �����? �ҷ���
             packagemanager = this.getPackageManager();
             appList = packagemanager.getInstalledApplications(0);
 
@@ -330,7 +330,7 @@ public class AddEditActivity extends Activity implements OnClickListener {
                         //DB �� ����Ʈ�� ���� ���õ� �������� �ߺ��ƴ��� �˻�
                         if (pressedData[0].equals(mListData.getmData1()) && pressedData[1].equals(mListData.getmData2())) {
 
-                            //main�� ������ ���ϴ� ��� ����
+                            //main�� ������ ���ϴ� ���? ����
                             if (pressedData[0].equals(mArrayListData.get(mEditPosition).getmData1()) && pressedData[1].equals(mArrayListData.get(mEditPosition).getmData2())) {
                                 continue;
                             } else {

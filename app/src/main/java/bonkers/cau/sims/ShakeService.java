@@ -31,8 +31,7 @@ public class ShakeService extends Service  {
         super.onCreate();
 
 
-        SharedPreferences prefs = getSharedPreferences("myPrefs",
-                Context.MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
 
 
