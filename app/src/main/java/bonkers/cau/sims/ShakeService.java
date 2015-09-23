@@ -33,6 +33,14 @@ public class ShakeService extends Service {
         super.onCreate();
 
 
+<<<<<<< HEAD
+=======
+        SharedPreferences prefs = getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+
+
+
+>>>>>>> origin/bnitech
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mSensorListener = new ShakeEventListener();
 

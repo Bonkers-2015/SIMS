@@ -21,6 +21,7 @@ public class ScreenService extends Service {
         super.onDestroy();
     }
 
+    @Override
     public int onStartCommand(Intent paramIntent, int paramInt1, int paramInt2) {
         Log.i("Volume Unlock", "Start screen service");
         this.screenReceiver = new ScreenReceiver();

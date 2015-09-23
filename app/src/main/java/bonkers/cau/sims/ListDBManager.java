@@ -59,8 +59,7 @@ public class ListDBManager {
 
     // 데이터 추가
     public void insertAppData(ListData data) {
-        String sql = "insert into " + tableName+ " values(NULL, "
-                + data.getIndexNum() + ", '" + data.getmData1() +"', '" + data.getmData2() + "', '"
+        String sql = "insert into " + tableName+ " values(NULL, " + data.getIndexNum() + ", '" + data.getmData1() +"', '" + data.getmData2() + "', '"
                 + data.getmAppName() +"', '"+data.getmAppPackage()+ "', NULL,NULL);";
 
         db.execSQL(sql);

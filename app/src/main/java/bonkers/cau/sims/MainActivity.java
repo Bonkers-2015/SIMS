@@ -18,9 +18,11 @@ public class MainActivity extends Activity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         startService(new Intent(this, ScreenService.class));
-        Intent serviceIntent = new Intent(this, ShakeService.class);
-        startService(serviceIntent);
+        startService(new Intent(this, ShakeService.class));
+        startService(new Intent(this, EarphoneService.class));
+
 
         TimerTask myTask = new TimerTask() {
             public void run() {

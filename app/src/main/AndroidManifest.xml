@@ -47,6 +47,7 @@
             android:name=".ListActivity"
             android:label="@string/title_activity_add_edit" >
         </activity>
+
         <activity
             android:name=".SettingActivity"
             android:label="@string/title_activity_setting" >
@@ -54,6 +55,7 @@
 
         <service android:name=".MainService" >
         </service>
+
         <service
             android:name=".ShakeService"
             android:enabled="true"
@@ -70,6 +72,21 @@
             android:exported="true" >
         </service>
 
+        <service
+            android:name=".EarphoneService"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
+
+        <receiver
+            android:name=".EarphoneReceiver"
+            android:enabled="true"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.HEADSET_PLUG" />
+            </intent-filter>
+        </receiver>
+
         <receiver
             android:name=".ScreenReceiver"
             android:enabled="true"
@@ -79,6 +96,7 @@
                 <action android:name="android.intent.action.SCREEN_OFF" />
             </intent-filter>
         </receiver>
+
         <receiver
             android:name=".BootReceiver"
             android:enabled="true"
