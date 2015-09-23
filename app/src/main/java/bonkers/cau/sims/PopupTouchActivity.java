@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,14 +25,8 @@ public class PopupTouchActivity extends Activity {
     private ArrayList<TouchData> touchDataArrList;
     private Button mBtnAdd;
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        touchDataArrList = dbManager.selectAll();
-        TouchData mTouchData=touchDataArrList.get(touchDataArrList.size()-1);
-        touchAdapter.addItem(mTouchData.getmTouchName(),mTouchData.getmTouchPath());
-        mListView.setAdapter(touchAdapter);
-    }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,10 +49,32 @@ public class PopupTouchActivity extends Activity {
         touchDataArrList = dbManager.selectAll();
 
         for (TouchData data:touchDataArrList) {
-            touchAdapter.addItem(data.getmTouchName(),data.getmTouchPath());
+            touchAdapter.addItem(data.getId(),data.getmTouchName(),data.getmTouchPath());
         }
 
         mListView.setAdapter(touchAdapter);
+        SwipeDismissListViewTouchListener touchListner =
+                new SwipeDismissListViewTouchListener (mListView,
+                        new SwipeDismissListViewTouchListener.DismissCallbacks() {
+                            @Override
+                            public boolean canDismiss(int position) {
+                                return true;
+                            }
+
+                            @Override
+                            public void onDismiss(ListView listView,int[] reverseSortedPositions) {
+                                for (int position:reverseSortedPositions) {
+                                    Log.d("mylog",Integer.toString(touchAdapter.getItem(position).getId()));
+                                    dbManager.removeData(touchAdapter.getItem(position).getId());
+                                    touchAdapter.remove(position);
+
+                                }
+                                touchAdapter.notifyDataSetChanged();
+                            }
+                        });
+        mListView.setOnTouchListener(touchListner);
+        mListView.setOnScrollListener(touchListner.makeScrollListener());
+
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
@@ -115,7 +132,7 @@ public class PopupTouchActivity extends Activity {
         }
 
         @Override
-        public Object getItem(int position) {
+        public TouchData getItem(int position) {
             return mTouchListdata.get(position);
         }
 
@@ -123,6 +140,8 @@ public class PopupTouchActivity extends Activity {
         public long getItemId(int position) {
             return position;
         }
+
+
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
@@ -132,9 +151,7 @@ public class PopupTouchActivity extends Activity {
 
                 LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 convertView = inflater.inflate(R.layout.listview_popup_touch_item, null);
-
                 holder.popupText = (TextView) convertView.findViewById(R.id.popup_touch_list_text);
-
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
@@ -147,9 +164,9 @@ public class PopupTouchActivity extends Activity {
             return convertView;
         }
 
-        public void addItem(String mTitle,String mPath) {
+        public void addItem(int mId,String mTitle,String mPath) {
             TouchData addInfo = null;
-            addInfo = new TouchData(mTitle,mPath);
+            addInfo = new TouchData(mId,mTitle,mPath);
             mTouchListdata.add(addInfo);
             dataChange();
         }

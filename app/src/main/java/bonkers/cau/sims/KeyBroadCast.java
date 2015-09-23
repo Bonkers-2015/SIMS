@@ -19,19 +19,19 @@ public class KeyBroadCast extends BroadcastReceiver {
     private ArrayList<ListData> listDataArrList;
     int oldVolume, volume = 0;
     private final int maxVolume=10,minVolume=0;
-    int appIndexNum;
     int isShaked=0;
     String appPackageName;
 
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.d("mylog","button selected");
+        context.startService(new Intent(context, TouchService.class));
+        context.startService(new Intent(context, ShakeService.class));
         //db 생성
         dbManager = new ListDBManager(context);
         listDataArrList = dbManager.selectAll();
         //어플리케이션 내욜을 받아오는거야
         PackageManager packagemanager = context.getPackageManager();
-        List<ApplicationInfo> appList = packagemanager.getInstalledApplications(0);
         SharedPreferences prefs = context.getSharedPreferences("myPrefs",
                 Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
@@ -46,7 +46,6 @@ public class KeyBroadCast extends BroadcastReceiver {
 
 
         volume = (Integer) intent.getExtras().get("android.media.EXTRA_VOLUME_STREAM_VALUE");
-
         isShaked=prefs.getInt("isShacked",0);
         Log.d("mylog", Integer.toString(isShaked));
         Log.d("mylog","oldVolume="+Integer.toString(oldVolume));
@@ -54,14 +53,12 @@ public class KeyBroadCast extends BroadcastReceiver {
         //플러스 볼륨을 눌렀을떄
         if (volume > oldVolume) {
             //if문해서 터치인지 검사
-            context.startService(new Intent(context, TouchService.class));
+
             oldVolume = volume;
-            lauchApp(packagemanager, context, appList, "");
 
             //마이너스 볼륨을 눌렀을때
         } else if (volume <= oldVolume) {
             oldVolume = volume;
-            context.startService(new Intent(context, TouchService.class));
 
         }
         else

@@ -20,7 +20,7 @@ public class TouchData {
     }
 
     public int getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(int id) {

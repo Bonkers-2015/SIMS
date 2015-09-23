@@ -103,6 +103,7 @@ public class TouchDBManager {
         ArrayList<TouchData> infos = new ArrayList<TouchData>();
 
         while (!results.isAfterLast()) {
+
             TouchData info = new TouchData(results.getInt(0),results.getString(1),results.getString(2));
             infos.add(info);
             results.moveToNext();

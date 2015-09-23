@@ -291,7 +291,7 @@ public class AddEditActivity extends Activity implements OnClickListener {
             boolean isRepeated = false;
             if (OnOffTotalCount == 2 && (appName != null || phoneName != null)) {
                 for (int i = 0; i < mButtons.size(); i++) {
-                    if (mButtons.get(i).onOff == true) {
+                        if (mButtons.get(i).onOff == true) {
                         pressedData[pressedDataNum] = mButtons.get(i).name;
                         pressedDataNum = 1;
                     }
@@ -315,6 +315,11 @@ public class AddEditActivity extends Activity implements OnClickListener {
                         if(pressedData[1].equals("touch")) {
                             ListData listAppData = new ListData(index, pressedData[0], touchPath.toString(), appName.toString(), mAppPackage.toString(), null, null);
                             dbManager.insertAppData(listAppData);
+                        }
+                        else if(pressedData[1].equals("motion")){
+                            ListData listAppData = new ListData(index, pressedData[0], "motion", appName.toString(), mAppPackage.toString(), null, null);
+                            dbManager.insertAppData(listAppData);
+
                         }
                     } else {
                         // phoneName >>> "phoneName / phoneNumber"
