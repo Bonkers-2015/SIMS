@@ -2,21 +2,11 @@ package bonkers.cau.sims;
 
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.net.wifi.WifiManager;
-import android.os.Environment;
 import android.provider.Settings;
 import android.content.Context;
-import android.util.Log;
-import android.view.View;
-import android.widget.Toast;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.util.Date;
 
 /*  Created by KGM on 2015-09-19.  */
 public class Subfunction {
@@ -82,5 +72,5 @@ public class Subfunction {
     }
 
     /*  Screenshot  */
-
+    // 미완성
 }
