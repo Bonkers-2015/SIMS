@@ -52,8 +52,6 @@ public class KeyBroadCast extends BroadcastReceiver {
         editor.commit();
     }
 
-
-
 }
 
 

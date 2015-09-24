@@ -20,7 +20,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListActivity extends Activity implements View.OnClickListener {
+public class
+        ListActivity extends Activity implements View.OnClickListener {
 
     private ListView mListView = null;
     private ListViewAdapter mAdapter=null;
