@@ -14,8 +14,8 @@ import android.widget.RemoteViews;
 
 public class WidgetProvider extends AppWidgetProvider {
 
-    private static final String ACTION_SIMS_ON ="com.flash.widget.ON";
-    private static final String ACTION_SIMS_OFF ="com.flash.widget.OFF";
+    private static final String ACTION_SIMS_ON ="com.sims.widget.ON";
+    private static final String ACTION_SIMS_OFF ="com.sims.widget.OFF";
     private ComponentName simsWidget;
     private RemoteViews views = null;
 
@@ -62,6 +62,9 @@ public class WidgetProvider extends AppWidgetProvider {
             try{
                 widgetControl = 1;
 
+                Intent i = new Intent(context, MainService.class);
+                context.startService(i);
+
                 AppWidgetManager manager = AppWidgetManager.getInstance(context);
                 this.onUpdate(context, manager, manager.getAppWidgetIds(new ComponentName(context, WidgetProvider.class)));
 
@@ -74,6 +77,9 @@ public class WidgetProvider extends AppWidgetProvider {
             try{
 
                 widgetControl = 0;
+
+                Intent i = new Intent(context, MainService.class);
+                context.stopService(i);
 
                 AppWidgetManager manager = AppWidgetManager.getInstance(context);
                 this.onUpdate(context, manager, manager.getAppWidgetIds(new ComponentName(context, WidgetProvider.class)));

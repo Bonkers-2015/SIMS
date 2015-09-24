@@ -105,11 +105,27 @@
             android:name=".WidgetProvider"
             android:label="@string/title_activity_widget_provider" >
             <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.sims.widget.ON" />
+                <action android:name="com.sims.widget.OFF" />
             </intent-filter>
+
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_provider_basic" />
+        </receiver>
+
+        <receiver
+            android:name=".EarphonePulgged"
+            android:label="@string/title_activity_earphone_pulgged" >
+        </receiver>
+        <receiver
+            android:name=".ExcludeApp"
+            android:label="@string/title_activity_exclude_app" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.media.VOLUME_CHANGED_ACTION" />
+            </intent-filter>
         </receiver>
     </application>
 

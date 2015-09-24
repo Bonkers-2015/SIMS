@@ -17,5 +17,8 @@
     <string name="title_activity_screenshot">ScreenshotActivity</string>
     <string name="title_activity_buttom_service">ButtomService</string>
     <string name="title_activity_sims_widget">SimsWidget</string>
+    <string name="title_activity_earphone_pulgged">EarphonePulgged</string>
+    <string name="title_activity_exclude_app">ExcludeApp</string>
+    <string name="title_activity_test">Test</string>
 
 </resources>
