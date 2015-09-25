@@ -47,20 +47,34 @@ public class AddEditActivity extends Activity implements OnClickListener {
         Bundle myBundle = this.getIntent().getExtras();
         mEditPosition =  myBundle.getInt("selectedPosition");
 
+        RelativeLayout.LayoutParams paramBtn = new RelativeLayout.LayoutParams(350, 700);
+        paramBtn.addRule(RelativeLayout.CENTER_HORIZONTAL);
+        paramBtn.addRule(RelativeLayout.CENTER_VERTICAL);
+        mButtonMain.setLayoutParams(paramBtn);
+        mButtonMain.setText("MAIN");
+        mButtonMain.setOnClickListener(this);
+
+        mButtonCancle = (Button) findViewById(R.id.btn_cancle);
+        mButtonCancle.setOnClickListener(this);
+        mButtonSave = (Button) findViewById(R.id.btn_save);
+        mButtonSave.setOnClickListener(this);
+        mButtonIniti = (Button) findViewById(R.id.btn_initi);
+        mButtonIniti.setOnClickListener(this);
+
+        phoneSetting();
 
         // no select => mEditPosition = -1
         if(mEditPosition==-1) {
             setLayout();
             mBtnSave.setText("Save");
         }else{
-            // eidtÀÏ¶§¸¸ save¹öÆ° complete·Î ¹Ù²Þ
+            // eidtï¿½Ï¶ï¿½ï¿½ï¿½ saveï¿½ï¿½Æ° completeï¿½ï¿½ ï¿½Ù²ï¿½
             editSetLayout();
             mBtnSave.setText("Edit");
         }
-
     }
 
-    //PopupActivity ÀÇ °á°ú¸¦ Àü´Þ¹Þ±âÀ§ÇØ overridingÀ» ÇÔ
+    //PopupActivity ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Þ¹Þ±ï¿½ï¿½ï¿½ï¿½ï¿½ overridingï¿½ï¿½ ï¿½ï¿½
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -96,7 +110,7 @@ public class AddEditActivity extends Activity implements OnClickListener {
         alert.setPositiveButton("ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();     //´Ý±â
+                dialog.dismiss();     //ï¿½Ý±ï¿½
             }
         });
 
@@ -157,7 +171,7 @@ public class AddEditActivity extends Activity implements OnClickListener {
         setLayout();
         mBtnMainSetting();
 
-            // mButtons setting
+        // mButtons setting
         for (int i=0;i <mButtons.size();i++){
             if(listDataArrList.get(mEditPosition).getmData1().equals(mButtons.get(i).name)){
                 mButtons.get(i).onOff=true;
@@ -182,7 +196,7 @@ public class AddEditActivity extends Activity implements OnClickListener {
 
         // mButtonMain setting
         if(appName != null) {
-            //¾îÇÃ ¸ñ·ÏÀ» ºÒ·¯¿È
+            //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½
             PackageManager packagemanager = this.getPackageManager();
             List<ApplicationInfo> appList = packagemanager.getInstalledApplications(0);
 
@@ -254,7 +268,7 @@ public class AddEditActivity extends Activity implements OnClickListener {
                 //add
                 if (mEditPosition == -1) {
                     for (ListData mListData : mArrayListData) {
-                        //DB ÀÇ ¸®½ºÆ®¿Í ÇöÀç ¼±ÅÃµÈ ¾ÆÀÌÅÆÀÌ Áßº¹µÆ´ÂÁö °Ë»ç
+                        //DB ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ãµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ßºï¿½ï¿½Æ´ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½
                         if (pressedData[0].equals(mListData.getmData1()) && pressedData[1].equals(mListData.getmData2())) {
                             isRepeated = true;
                             showDialog("is already exist");
@@ -275,10 +289,10 @@ public class AddEditActivity extends Activity implements OnClickListener {
                     //edit
                 } else {
                     for (ListData mListData : mArrayListData) {
-                        //DB ÀÇ ¸®½ºÆ®¿Í ÇöÀç ¼±ÅÃµÈ ¾ÆÀÌÅÆÀÌ Áßº¹µÆ´ÂÁö °Ë»ç
+                        //DB ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ãµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ßºï¿½ï¿½Æ´ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½
                         if (pressedData[0].equals(mListData.getmData1()) && pressedData[1].equals(mListData.getmData2())) {
 
-                            //main¸¸ ¼öÁ¤À» ¿øÇÏ´Â °æ¿ì Á¦¿Ü
+                            //mainï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                             if (pressedData[0].equals(mArrayListData.get(mEditPosition).getmData1()) && pressedData[1].equals(mArrayListData.get(mEditPosition).getmData2())) {
                                 continue;
                             }else{
@@ -305,7 +319,6 @@ public class AddEditActivity extends Activity implements OnClickListener {
                 startActivity(cancleintent);
                 finish();
 //            }else if(v == mButtons.get(0)){
-//
             } else
                 showDialog("select two button and app");
 

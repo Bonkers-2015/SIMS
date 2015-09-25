@@ -11,9 +11,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by redpe_000 on 2015-08-11.
- */
+/* Created by redpe_000 on 2015-08-11 */
 public class KeyBroadCast extends BroadcastReceiver {
     private ListDBManager dbManager;
     private ArrayList<ListData> listDataArrList;
@@ -26,10 +24,8 @@ public class KeyBroadCast extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.d("mylog","button selected");
-        //db »ý¼º
         dbManager = new ListDBManager(context);
         listDataArrList = dbManager.selectAll();
-        //¾îÇÃ¸®ÄÉÀÌ¼Ç ³»¿çÀ» ¹Þ¾Æ¿À´Â°Å¾ß
         PackageManager packagemanager = context.getPackageManager();
         List<ApplicationInfo> appList = packagemanager.getInstalledApplications(0);
         SharedPreferences prefs = context.getSharedPreferences("myPrefs",
@@ -37,25 +33,20 @@ public class KeyBroadCast extends BroadcastReceiver {
         SharedPreferences.Editor editor = prefs.edit();
         oldVolume=prefs.getInt("oldVolume",0);
 
-
-        //ºÎÆÃ½Ã ÃÊ±â °ª º¼·þÀ» ¹Þ¾Æ¿À±â
         if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)) {
 
         }
-
-
 
         volume = (Integer) intent.getExtras().get("android.media.EXTRA_VOLUME_STREAM_VALUE");
         isShaked=prefs.getInt("isShacked",0);
         Log.d("mylog", Integer.toString(isShaked));
         Log.d("mylog","oldVolume="+Integer.toString(oldVolume));
         Log.d("mylog","volume="+Integer.toString(volume));
-        //ÇÃ·¯½º º¼·ýÀ» ´­·¶À»‹š
+        //ï¿½Ã·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         if ((volume > oldVolume)&&(isShaked==1) ||((oldVolume==maxVolume)&&(oldVolume==volume)&&(isShaked==1))) {
             oldVolume = volume;
             lauchApp(packagemanager, context, appList, "data0");
 
-        //¸¶ÀÌ³Ê½º º¼·ýÀ» ´­·¶À»¶§
         } else if ((volume < oldVolume)&&(isShaked==1) ||((oldVolume==minVolume)&&(oldVolume==volume)&&(isShaked==1))) {
             oldVolume = volume;
             lauchApp(packagemanager, context, appList, "data1");
@@ -67,20 +58,16 @@ public class KeyBroadCast extends BroadcastReceiver {
         editor.commit();
     }
 
-
-    //¾îÇÃ ½ÇÇà
     void lauchApp(PackageManager packagemanager,Context context,List<ApplicationInfo> appList,String data){
         for (ListData list : listDataArrList) {
             if (list.getmData1().equals(data)) {
-
-                //¾îÇÃ Á¤º¸ ¹Þ¾Æ¿À±â
+                //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¾Æ¿ï¿½ï¿½ï¿½
                 appIndexNum = list.getIndexNum();
                 appPackageName = appList.get(appIndexNum).packageName;
-                //¾Û½ÇÇà
+                //ï¿½Û½ï¿½ï¿½ï¿½
                 Intent i = packagemanager.getLaunchIntentForPackage(appPackageName);
                 i.addCategory(Intent.CATEGORY_LAUNCHER);
                 context.startActivity(i);
-
             }
         }
     }

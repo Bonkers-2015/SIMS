@@ -13,6 +13,7 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -26,6 +27,7 @@ public class ListActivity extends Activity implements View.OnClickListener {
     private ListViewAdapter mAdapter=null;
     private ListDBManager dbManager;
     private ArrayList<ListData> listDataArrList;
+    private ImageButton mButtonSetting;
     private Button addBtn;
     private int mSelectedPosition=-1;
 
@@ -56,7 +58,7 @@ public class ListActivity extends Activity implements View.OnClickListener {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                Intent intent = new Intent(ListActivity.this ,AddEditActivity.class);
+                Intent intent = new Intent(ListActivity.this, AddEditActivity.class);
                 Bundle myData = new Bundle();
                 myData.putInt("selectedPosition", position);
                 intent.putExtras(myData);
@@ -88,6 +90,16 @@ public class ListActivity extends Activity implements View.OnClickListener {
                         });
         mListView.setOnTouchListener(touchListner);
         mListView.setOnScrollListener(touchListner.makeScrollListener());
+
+        // 150804 Kim Gwang Min : Setting Button Event
+        mButtonSetting = (ImageButton) findViewById(R.id.btn_setting);
+        mButtonSetting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentSetting = new Intent(ListActivity.this, SettingActivity.class);
+                startActivity(intentSetting);
+            }
+        });
     }
 
     @Override
@@ -140,7 +152,7 @@ public class ListActivity extends Activity implements View.OnClickListener {
                 holder = new ViewHolder();
                 LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 convertView = inflater.inflate(R.layout.listview_list_item, null)
-;
+                ;
                 holder.mIcon = (ImageView)convertView.findViewById(R.id.list_icon);
                 holder.mFirst = (TextView)convertView.findViewById(R.id.first_setting);
                 holder.mSecond = (TextView)convertView.findViewById(R.id.second_setting);

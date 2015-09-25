@@ -13,7 +13,7 @@ import android.util.Log;
 import java.util.TimerTask;
 
 /**
- * Created by ±è½Â¿í on 2015-08-20.
+ * Created by ï¿½ï¿½Â¿ï¿½ on 2015-08-20.
  */
 public class ShakeService extends Service  {
     SensorManager mSensorManager;
@@ -33,7 +33,6 @@ public class ShakeService extends Service  {
         SharedPreferences prefs = getSharedPreferences("myPrefs",
                 Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
-
 
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mSensorListener = new ShakeEventListener();
@@ -56,10 +55,8 @@ public class ShakeService extends Service  {
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putInt("isShacked", 1);
 
-
-
-
-
+                editor.commit();
+                Log.d("isShaked", Integer.toString(prefs.getInt("shacked",0)));
             }
         });
     }

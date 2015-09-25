@@ -36,7 +36,6 @@ public class PopupActivity extends Activity {
         // -1은 menu(초기)상태, 0은 "app" , 1은 "phone", 2는 "addition"
         popupType=-1;
 
-
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND,
                 WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
@@ -117,12 +116,22 @@ public class PopupActivity extends Activity {
     public void getList(String menu) {
 
         if(menu == "app"){
-            PackageManager packagemanager = this.getPackageManager();
-            List<ApplicationInfo> appList = packagemanager.getInstalledApplications(0);
 
+            PackageManager packagemanager = this.getPackageManager();
+            List<ApplicationInfo> installedApps = getApplicationContext().getPackageManager().getInstalledApplications(PackageManager.PERMISSION_GRANTED);
+            List<ApplicationInfo> appList = new ArrayList<ApplicationInfo>();
+            for(int i =0; i < installedApps.size(); i++){
+                if(getApplicationContext().getPackageManager().getLaunchIntentForPackage(installedApps.get(i).packageName) != null){
+                    //If you're here, then this is a launch-able app
+                    appList.add(installedApps.get(i));
+
+                }
+            }
             for (int i = 0; i < appList.size(); i++){
                 appAdapter.addItem(appList.get(i).loadIcon(packagemanager), appList.get(i).loadLabel(packagemanager));
             }
+
+
 
         }else if(menu == "phone") {
 
