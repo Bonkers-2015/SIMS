@@ -29,10 +29,9 @@ public class KeyBroadCast extends BroadcastReceiver {
         //db 생성
         dbManager = new ListDBManager(context);
         listDataArrList = dbManager.selectAll();
-        //어플리케이션 내욜을 받아오는거야
+
         PackageManager packagemanager = context.getPackageManager();
-        SharedPreferences prefs = context.getSharedPreferences("myPrefs",
-                Context.MODE_PRIVATE);
+        SharedPreferences prefs = context.getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         oldVolume=prefs.getInt("oldVolume",0);
         volume = (Integer) intent.getExtras().get("android.media.EXTRA_VOLUME_STREAM_VALUE");

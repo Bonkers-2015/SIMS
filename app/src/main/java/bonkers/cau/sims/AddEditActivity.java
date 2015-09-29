@@ -1,20 +1,24 @@
 package bonkers.cau.sims;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,24 +28,25 @@ import java.util.List;
 
 public class AddEditActivity extends Activity implements OnClickListener {
 
-    private CharSequence touchPath = null,touchName, additionName = null, phoneName = null, appName = null, mAppName = null,mAppPackage=null;
+    private static final int LAUNCHED_ACTIVITY = 1;
+    private static final int VOLUME_UP=0,VOLUME_DOWN=1,SHAKE=2,PLUGIN=3,TOUCH=4;
+    private static final int MAIN_APP=0, MAIN_WIFI=1,MAIN_BLUETOOTH=2,MAIN_PHONE=3,MAIN_GPS=4,MAIN_SCREENSHOT=5,MAIN_IOT=6;
+    private boolean editState = true;
+
+    private CharSequence additionName = null, phoneName = null, appName = null, mAppName = null,mAppPackage=null;
     private String phoneNumber, returnType, mModelName, pressedData[] = new String[2];
-    private RelativeLayout mRLMain;
     private ArrayList<ListData> mArrayListData = new ArrayList<ListData>();
     private ArrayList<ListData> listDataArrList;
     private ArrayList<Buttons> mButtons = new ArrayList<Buttons>();
     private ListDBManager dbManager;
-    private Button mBtnMain, mBtnCancle, mBtnSave, mBtnIniti;
-    private TextView mTxtMain,mTxtTouch=null;
-    private ImageView mIvMain;
+    private Button  mBtnCancle, mBtnSave;
     private int index, pressedDataNum = 0, mEditPosition = -1;
-    private int phoneBtnCount = 3, phoneMotionCount = 3;
-    PackageManager packagemanager;
-    List<ApplicationInfo> appList;
-    private Bitmap mainBG;
+
+    ListViewAdapter mAdapter;
+    ListView mListView;
 
     // requestCode
-    private static final int LAUNCHED_ACTIVITY = 1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,12 +54,16 @@ public class AddEditActivity extends Activity implements OnClickListener {
 
         setContentView(R.layout.activity_add_edit);
 
-
         Bundle myBundle = this.getIntent().getExtras();
         mEditPosition = myBundle.getInt("selectedPosition");
 
-        // no select => mEditPosition = -1
-        if (mEditPosition == -1) {
+        // no select => editState = false
+        if(mEditPosition == -1)
+            editState = false;
+
+        listviewiniti();
+
+        if (editState == false) {
             setLayout();
             mBtnSave.setText("Save");
         } else {
@@ -62,9 +71,57 @@ public class AddEditActivity extends Activity implements OnClickListener {
             editSetLayout();
             mBtnSave.setText("Edit");
         }
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                //Add edit Activity·Î Àü´ÞÇÑ µ¥ÀÌÅÍ resultText Key °ªÀÇ "superdroid result" ¹®ÀÚ¿­À»
+                //Extra·Î Intent¿¡ ´ã¾Ò´Ù.
+
+                Intent intent = new Intent();
+                AddEditListData mData = mAdapter.mAddEditListdata.get(position);
+
+                if (position == MAIN_APP) {
+                    intent = new Intent(AddEditActivity.this, PopupAppActivity.class);
+                    startActivityForResult(intent, LAUNCHED_ACTIVITY);
+
+                } else if (position == MAIN_PHONE) {
+                    intent = new Intent(AddEditActivity.this, PopupPhoneActivity.class);
+                    startActivityForResult(intent, LAUNCHED_ACTIVITY);
+                } else {
+
+                    // ÀÓ½Ã·Î ¸¸µé¾îµÒ
+                    if (position == MAIN_WIFI) {
+                        additionName = "wifi";
+                        appName = null;
+                        phoneName = null;
+                    } else if (position == MAIN_BLUETOOTH) {
+                        additionName = "bluetooth";
+                        appName = null;
+                        phoneName = null;
+                    } else if (position == MAIN_GPS) {
+                        additionName = "gps";
+                        appName = null;
+                        phoneName = null;
+                    } else if (position == MAIN_SCREENSHOT) {
+                        additionName = "screenshot";
+                        appName = null;
+                        phoneName = null;
+                    } else if (position == MAIN_IOT) {
+                        additionName = "iot";
+                        appName = null;
+                        phoneName = null;
+                    }
+                    listviewSetting(position);
+                }
+
+                mAdapter.notifyDataSetChanged();
+
+            }
+        });
     }
 
-    //PopupActivity ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿? ï¿½ï¿½ï¿½Þ¹Þ±ï¿½ï¿½ï¿½ï¿½ï¿½ overridingï¿½ï¿½ ï¿½ï¿½
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -78,38 +135,56 @@ public class AddEditActivity extends Activity implements OnClickListener {
                         appName = data.getStringExtra("resultText");
                         phoneName = null;
                         additionName = null;
-                        mBtnMainSetting();
-
+                        listviewSetting(MAIN_APP);
                     } else if (returnType.equals("phone")) {
                         phoneName = data.getStringExtra("resultText");
-
-                        // phoneName >>> "phoneName / phoneNumber"
-                        String temp[] = split(phoneName, " / ");
-                        phoneNumber = temp[1];
-
                         appName = null;
                         additionName = null;
-                        mBtnMainSetting();
-                    }else if(returnType.equals("addition")){
-                        additionName = data.getStringExtra("resultText");
-                        appName = null;
-                        phoneName = null;
-                        mBtnMainSetting();
+                        listviewSetting(MAIN_PHONE);
+//                    }else if(returnType.equals("wifi")){
+//                        additionName = "wifi";
+//                        appName = null;
+//                        phoneName = null;
+//                        listviewSetting(MAIN_WIFI);
+//                    } else if(returnType.equals("bluetooth")){
+//                        additionName = "bluetooth";
+//                        appName = null;
+//                        phoneName = null;
+//                        listviewSetting(MAIN_BLUETOOTH);
+//                    } else if(returnType.equals("gps")){
+//                        additionName = "gps";
+//                        appName = null;
+//                        phoneName = null;
+//                        listviewSetting(MAIN_GPS);
+//                    }else if(returnType.equals("screenshot")){
+//                        additionName = "screenshot";
+//                        appName = null;
+//                        phoneName = null;
+//                        listviewSetting(MAIN_SCREENSHOT);
+//                    }else if(returnType.equals("iot")){
+//                        additionName = "iot";
+//                        appName = null;
+//                        phoneName = null;
+//                        listviewSetting(MAIN_IOT);
                     }
-                    //ï¿½ï¿½Ä¡ï¿½Î°ï¿½ï¿?
+
                     else if (returnType.equals("touch")){
-                        touchName =data.getStringExtra("resultText");
-                        touchPath =data.getStringExtra("resultPath");
-                        mTxtTouch=(TextView)findViewById(R.id.btn_touch_txt);
-                        mButtons.get(2).onOff = true;
-                        mButtons.get(2).button.setBackground(getResources().getDrawable(mButtons.get(2).onImage));
-                        mTxtTouch.setText(touchName);
-                          Toast.makeText(getApplicationContext(), touchName, Toast.LENGTH_LONG).show();
+                        CharSequence touchPath, touchName;
+                        touchPath = data.getStringExtra("resultText");
+                        touchName = "touch : "+touchPath;
+
+                        mButtons.get(SHAKE).setOnOFF(false);
+                        mButtons.get(PLUGIN).setOnOFF(false);
+                        mButtons.get(TOUCH).setOnOFF(true);
+                        mButtons.get(TOUCH).setName(touchName.toString());
+
+                          Toast.makeText(getApplicationContext(), touchName.toString(), Toast.LENGTH_SHORT).show();
                     }
 
                 }
         }
     }
+
 
     private void showDialog(String text) {
 
@@ -127,112 +202,148 @@ public class AddEditActivity extends Activity implements OnClickListener {
 
     private void setLayout() {
 
-        mRLMain = (RelativeLayout) findViewById(R.id.rl_main);
-        mBtnMain = (Button) findViewById(R.id.btn_main);
-        mBtnMain.setOnClickListener(this);
-        mTxtMain = (TextView)findViewById(R.id.btn_main_txt);
-
         mBtnCancle = (Button) findViewById(R.id.btn_cancle);
         mBtnCancle.setOnClickListener(this);
         mBtnSave = (Button) findViewById(R.id.btn_save);
         mBtnSave.setOnClickListener(this);
 
-        mIvMain = (ImageView) findViewById(R.id.IV_main);
-        mIvMain.setOnClickListener(this);
-
-
-//        mButtonIniti = (Button) findViewById(R.id.btn_initi);
-//        mButtonIniti.setOnClickListener(this);
-
-        mButtons.add(0, new Buttons("volume up", "volumeUP", (Button) findViewById(R.id.btn_volume_up)));
-        mButtons.get(0).offImage = R.mipmap.volume_up_off;
-        mButtons.get(0).onImage = R.mipmap.volume_up_on;
-        mButtons.add(1, new Buttons("volume dn", "volumeDown", (Button) findViewById(R.id.btn_volume_down)));
-        mButtons.get(1).offImage = R.mipmap.volume_down_off;
-        mButtons.get(1).onImage = R.mipmap.volume_down_on;
-        mButtons.add(2, new Buttons("", "touch", (Button) findViewById(R.id.btn_touch), (TextView) findViewById(R.id.btn_touch_txt)));
-        mButtons.get(2).offImage = R.mipmap.touch_off;
-        mButtons.get(2).onImage = R.mipmap.touch_on;
-        mButtons.add(3, new Buttons("", "motion", (Button) findViewById(R.id.btn_motion), (TextView) findViewById(R.id.btn_motion_txt)));
-        mButtons.get(3).offImage = R.mipmap.motion_off;
-        mButtons.get(3).onImage = R.mipmap.motion_on;
-        mButtons.add(4, new Buttons("", "earphone", (Button) findViewById(R.id.btn_earphone)));
-        mButtons.get(4).offImage = R.mipmap.earphone_off;
-        mButtons.get(4).onImage = R.mipmap.earphone_on;
+        mButtons.add(VOLUME_UP, new Buttons("volume up", (Button) findViewById(R.id.btn_volume_up)));
+        mButtons.get(VOLUME_UP).setImage(getResources().getDrawable(R.mipmap.volume_up_on), getResources().getDrawable(R.mipmap.volume_up_off));
+        mButtons.add(VOLUME_DOWN, new Buttons("volume down", (Button) findViewById(R.id.btn_volume_down)));
+        mButtons.get(VOLUME_DOWN).setImage(getResources().getDrawable(R.mipmap.volume_down_on), getResources().getDrawable(R.mipmap.volume_down_off));
+        mButtons.add(SHAKE, new Buttons("shake", (Button) findViewById(R.id.btn_shake)));
+        mButtons.get(SHAKE).setImage(getResources().getDrawable(R.mipmap.shake_on), getResources().getDrawable(R.mipmap.shake_off));
+        mButtons.add(PLUGIN, new Buttons("plug in", (Button) findViewById(R.id.btn_plugin)));
+        mButtons.get(PLUGIN).setImage(getResources().getDrawable(R.mipmap.plugin_on), getResources().getDrawable(R.mipmap.plugin_off));
+        mButtons.add(TOUCH, new Buttons("touch", (Button) findViewById(R.id.btn_touch)));
+        mButtons.get(TOUCH).setImage(getResources().getDrawable(R.mipmap.touch_on), getResources().getDrawable(R.mipmap.touch_off));
 
         for (int i = 0; i < mButtons.size(); i++) {
-//            mButtons.get(i).button.setText(mButtons.get(i).title);
-            mButtons.get(i).button.setOnClickListener(this);
+            mButtons.get(i).getButton().setOnClickListener(this);
         }
     }
 
     private void editSetLayout() {
-
+        int mainPosition = 0;
         dbManager = new ListDBManager(getApplicationContext());
         listDataArrList = dbManager.selectAll();
 
-        appName = listDataArrList.get(mEditPosition).getmAppName();
-        if (listDataArrList.get(mEditPosition).getmPhoneName() == null)
-            phoneName = null;
-        else
+        if(listDataArrList.get(mEditPosition).getmAppName() != null) {
+            appName = listDataArrList.get(mEditPosition).getmAppName();
+            mainPosition = MAIN_APP;
+        }else if (listDataArrList.get(mEditPosition).getmPhoneName() != null) {
             phoneName = listDataArrList.get(mEditPosition).getmPhoneName() + " / " + listDataArrList.get(mEditPosition).getmPhoneNumber();
+            mainPosition = MAIN_PHONE;
+        }else if(listDataArrList.get(mEditPosition).getmAdditionName() != null) {
+            additionName = listDataArrList.get(mEditPosition).getmAdditionName();
+            if(additionName.equals("wifi"))
+                mainPosition = MAIN_WIFI;
+            else if(additionName.equals("bluetooth"))
+                mainPosition = MAIN_BLUETOOTH;
+            else if(additionName.equals("gps"))
+                mainPosition = MAIN_GPS;
+            else if(additionName.equals("screenshot"))
+                mainPosition = MAIN_SCREENSHOT;
+            else if(additionName.equals("iot"))
+                mainPosition = MAIN_IOT;
+        }
 
         setLayout();
-        mBtnMainSetting();
+        listviewSetting(mainPosition);
 
         // mButtons setting
         for (int i = 0; i < mButtons.size(); i++) {
-            if (listDataArrList.get(mEditPosition).getmData1().equals(mButtons.get(i).name)) {
-                mButtons.get(i).onOff = true;
-                mButtons.get(i).button.setBackground(getResources().getDrawable(mButtons.get(i).onImage));
-
-                if (mButtons.get(i).textView != null) {
-                    mButtons.get(i).textView.setText("CHECK");
-                }
+            if (listDataArrList.get(mEditPosition).getmData1().equals(mButtons.get(i).getName())) {
+                mButtons.get(i).setOnOFF(true);
             }
-            if (listDataArrList.get(mEditPosition).getmData2().equals(mButtons.get(i).name)) {
-                mButtons.get(i).onOff = true;
-                mButtons.get(i).button.setBackground(getResources().getDrawable(mButtons.get(i).onImage));
 
-                if (mButtons.get(i).textView != null) {
-                    mButtons.get(i).textView.setText("CHECK");
-                }
+            String temp[] = split(listDataArrList.get(mEditPosition).getmData2(), " : ");
+
+            if (temp[0].equals(mButtons.get(i).getName())) {
+                mButtons.get(i).setOnOFF(true);
             }
         }
     }
 
-    private void mBtnMainSetting() {
+    private void listviewiniti(){
 
-        mBtnMain.setBackgroundColor(Color.WHITE);
-        mTxtMain.setText("");
-        mBtnMain.setText("");
+        mListView = (ListView)findViewById(R.id.listview_main);
 
-        // mButtonMain setting
-        if (appName != null) {
-            //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿? ï¿½Ò·ï¿½ï¿½ï¿½
-            packagemanager = this.getPackageManager();
-            appList = packagemanager.getInstalledApplications(0);
+        mAdapter = new ListViewAdapter(this);
+
+        mAdapter.addItem("launch App");
+        mAdapter.addItem("WIFI on/off");
+        mAdapter.addItem("bluetooth");
+        mAdapter.addItem("phonenumber");
+        mAdapter.addItem("GPS on/off");
+        mAdapter.addItem("Screen Shot");
+        mAdapter.addItem("IOT");
+        mAdapter.addItem(" ");
+
+        mListView.setAdapter(mAdapter);
+
+    }
+
+    private void listviewCheckSetting(int position){
+
+        AddEditListData mData = mAdapter.mAddEditListdata.get(position);
+
+        for(int i=0; i < mAdapter.mAddEditListdata.size(); i++){
+            mData = mAdapter.mAddEditListdata.get(i);
+            if(i == position){
+                mData.mOnOff = true;
+                continue;
+            }
+            mData.mOnOff = false;
+        }
+
+    }
+
+    private void listviewSetting(int position) {
+
+        listviewCheckSetting(position);
+
+        AddEditListData mData = mAdapter.mAddEditListdata.get(position);
+
+        if(position == MAIN_APP){
+
+            PackageManager packagemanager = this.getPackageManager();
+            List<ApplicationInfo> appList = packagemanager.getInstalledApplications(0);;
 
             for (int i = 0; i < appList.size(); i++) {
                 mAppName = appList.get(i).loadLabel(packagemanager);
                 if (mAppName.equals(appName)) {
-                    mBtnMain.setBackground(appList.get(i).loadIcon(packagemanager));
-                    mTxtMain.setText(appName);
+
+                    mData.mIcon = appList.get(i).loadIcon(packagemanager);
                     mAppPackage=appList.get(i).packageName;
                     index = i;
                     break;
                 }
             }
 
-        } else if (phoneName != null) {
-            mBtnMain.setBackground(getResources().getDrawable(R.mipmap.human));
-            mBtnMain.setText(phoneName.toString());
+        }else if(position == MAIN_WIFI){
+            Toast.makeText(getApplicationContext(), "MAIN_WIFI" , Toast.LENGTH_SHORT).show();
+        }else if(position == MAIN_BLUETOOTH){
+            Toast.makeText(getApplicationContext(), "MAIN_BLUETOOTH" , Toast.LENGTH_SHORT).show();
+        }else if(position == MAIN_PHONE){
 
-        }else if(additionName != null){
-            mBtnMain.setBackground(getResources().getDrawable(R.mipmap.addition));
-            mTxtMain.setText(additionName.toString());
+            // phoneName >>> "phoneName / phoneNumber"
+            String temp[] = split(phoneName, " / ");
+            phoneNumber = temp[1];
 
+            mData.mIcon = getResources().getDrawable(R.mipmap.human);
+            mData.mSubTitle = temp[0];
+
+        }else if(position == MAIN_GPS){
+            Toast.makeText(getApplicationContext(), "MAIN_GPS" , Toast.LENGTH_SHORT).show();
+        } else if(position == MAIN_SCREENSHOT){
+            Toast.makeText(getApplicationContext(), "MAIN_SCREENSHOT" , Toast.LENGTH_SHORT).show();
+        } else if(position == MAIN_IOT){
+            Toast.makeText(getApplicationContext(), "MAIN_IOT" , Toast.LENGTH_SHORT).show();
         }
+
+
+        mAdapter.notifyDataSetChanged();
     }
 
     // CharSequence to split.
@@ -245,13 +356,14 @@ public class AddEditActivity extends Activity implements OnClickListener {
         return temp;
     }
 
+
+
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
         if (event.getAction() == KeyEvent.ACTION_DOWN) {
             switch (event.getKeyCode()) {
-//                case KeyEvent.KEYCODE_BACK:
-                    // ï¿½Ü¸ï¿½ï¿½ï¿½ï¿½ï¿½ BACKï¿½ï¿½Æ°
-//                    return true;
+                case KeyEvent.KEYCODE_BACK:
+                    return true;
                 case KeyEvent.KEYCODE_MENU:
                     // ï¿½Ü¸ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ï¿½ï¿½Æ°
 
@@ -270,29 +382,22 @@ public class AddEditActivity extends Activity implements OnClickListener {
 
         // Button OnOff Total Count
         for (int i = 0; i < mButtons.size(); i++) {
-            if (mButtons.get(i).onOff == true) {
+            if (mButtons.get(i).getOnOFF() == true) {
                 OnOffTotalCount++;
             }
         }
 
-        // Main Click
-        if (v == mIvMain || v == mBtnMain) {
-            Intent i = new Intent(AddEditActivity.this, PopupActivity.class);
-            startActivityForResult(i, LAUNCHED_ACTIVITY);
-
-            // Cancle Click
-        } else if (v == mBtnCancle) {
+       if (v == mBtnCancle) {
             Intent cancleintent = new Intent(AddEditActivity.this, ListActivity.class);
             startActivity(cancleintent);
             finish();
 
             // Save Click
         } else if (v == mBtnSave) {
-            boolean isRepeated = false;
-            if (OnOffTotalCount == 2 && (appName != null || phoneName != null)) {
+            if (OnOffTotalCount == 2 && (appName != null || phoneName != null || additionName != null)) {
                 for (int i = 0; i < mButtons.size(); i++) {
-                        if (mButtons.get(i).onOff == true) {
-                        pressedData[pressedDataNum] = mButtons.get(i).name;
+                        if (mButtons.get(i).getOnOFF() == true) {
+                        pressedData[pressedDataNum] = mButtons.get(i).getName();
                         pressedDataNum = 1;
                     }
                 }
@@ -300,33 +405,31 @@ public class AddEditActivity extends Activity implements OnClickListener {
                 dbManager = new ListDBManager(getApplicationContext());
                 mArrayListData = dbManager.selectAll();
 
-
                 //add
-                if (mEditPosition == -1) {
+                if (editState == false) {
                     for (ListData mListData : mArrayListData) {
                         //DB ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ãµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ßºï¿½ï¿½Æ´ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½
                         if (pressedData[0].equals(mListData.getmData1()) && pressedData[1].equals(mListData.getmData2())) {
-                            isRepeated = true;
                             showDialog("is already exist");
                             return;
                         }
                     }
+
                     if (appName != null) {
-                        if(pressedData[1].equals("touch")) {
-                            ListData listAppData = new ListData(index, pressedData[0], touchPath.toString(), appName.toString(), mAppPackage.toString(), null, null);
-                            dbManager.insertAppData(listAppData);
-                        }
-                        else if(pressedData[1].equals("motion")){
-                            ListData listAppData = new ListData(index, pressedData[0], "motion", appName.toString(), mAppPackage.toString(), null, null);
-                            dbManager.insertAppData(listAppData);
+                        ListData listAppData = new ListData(index, pressedData[0], pressedData[1], appName.toString(),mAppPackage.toString(), null, null, null);
+                        dbManager.insertAppData(listAppData);
 
-                        }
-                    } else {
-                        // phoneName >>> "phoneName / phoneNumber"
+                    } else if(phoneName != null) {
+                        //  >>> "phoneName / phoneNumber"
                         String temp[] = split(phoneName, " / ");
-                        ListData listPhoneData = new ListData(index, pressedData[0], pressedData[1], null,null, temp[0], temp[1]);
 
+                        ListData listPhoneData = new ListData(index, pressedData[0], pressedData[1], null,null, temp[0], temp[1], null);
                         dbManager.insertPhoneData(listPhoneData);
+
+                    } else if(additionName != null){
+                        ListData listAdditionData = new ListData(index, pressedData[0], pressedData[1], null,null, null, null, additionName.toString());
+                        dbManager.insertAdditionData(listAdditionData);
+
                     }
 
                     //edit
@@ -334,12 +437,10 @@ public class AddEditActivity extends Activity implements OnClickListener {
                     for (ListData mListData : mArrayListData) {
                         //DB ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ãµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ßºï¿½ï¿½Æ´ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½
                         if (pressedData[0].equals(mListData.getmData1()) && pressedData[1].equals(mListData.getmData2())) {
-
                             //mainï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿? ï¿½ï¿½ï¿½ï¿½
                             if (pressedData[0].equals(mArrayListData.get(mEditPosition).getmData1()) && pressedData[1].equals(mArrayListData.get(mEditPosition).getmData2())) {
                                 continue;
                             } else {
-                                isRepeated = true;
                                 showDialog("is already exist");
                                 return;
                             }
@@ -347,15 +448,20 @@ public class AddEditActivity extends Activity implements OnClickListener {
                     }
 
                     if (appName != null) {
-                        ListData listAppData = new ListData(index, pressedData[0], pressedData[1], appName.toString(),mAppPackage.toString(), null, null);
+                        ListData listAppData = new ListData(index, pressedData[0], pressedData[1], appName.toString(),mAppPackage.toString(), null, null, null);
                         dbManager.updateAppData(listAppData, mArrayListData.get(mEditPosition).getId());
 
-                    } else {
+                    } else if(phoneName != null) {
                         //  >>> "phoneName / phoneNumber"
                         String temp[] = split(phoneName, " / ");
-                        ListData listPhoneData = new ListData(index, pressedData[0], pressedData[1], null,null, temp[0], temp[1]);
 
+                        ListData listPhoneData = new ListData(index, pressedData[0], pressedData[1], null,null, temp[0], temp[1], null);
                         dbManager.updatePhoneData(listPhoneData, mArrayListData.get(mEditPosition).getId());
+
+                    } else if(additionName != null){
+                        ListData listAdditionData = new ListData(index, pressedData[0], pressedData[1], null,null, null, null, additionName.toString());
+                        dbManager.updateAdditionData(listAdditionData, mArrayListData.get(mEditPosition).getId());
+
                     }
                 }
                 Intent cancleintent = new Intent(AddEditActivity.this, ListActivity.class);
@@ -364,47 +470,131 @@ public class AddEditActivity extends Activity implements OnClickListener {
             } else
                 showDialog("select two button and app");
 
-//        } else if (v == mButtonIniti) {
-//            mButtons.removeAll(mButtons);
-//            mRLMain.removeAllViews();
-//            appName = null;
-//            phoneName = null;
-//            mButtonMain.setBackground(null);
-//            mButtonMain.setText("MAIN");
-//            phoneSetting();
-
         }
 
-        //touchï¿½ï¿½Æ° ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-        if (v == mButtons.get(2).button) {
-            Intent touchIntent = new Intent(AddEditActivity.this, PopupTouchActivity.class);
+        if (v == mButtons.get(VOLUME_UP).getButton()) {
+            mButtons.get(VOLUME_UP).setOnOFF(true);
+            mButtons.get(VOLUME_DOWN).setOnOFF(false);
+        }else if (v == mButtons.get(VOLUME_DOWN).getButton()) {
+            mButtons.get(VOLUME_UP).setOnOFF(false);
+            mButtons.get(VOLUME_DOWN).setOnOFF(true);
+        }
+
+
+        if (v == mButtons.get(SHAKE).getButton()) {
+            mButtons.get(SHAKE).setOnOFF(true);
+            mButtons.get(PLUGIN).setOnOFF(false);
+            mButtons.get(TOUCH).setOnOFF(false);
+        }else if (v == mButtons.get(PLUGIN).getButton()) {
+            mButtons.get(SHAKE).setOnOFF(false);
+            mButtons.get(PLUGIN).setOnOFF(true);
+            mButtons.get(TOUCH).setOnOFF(false);
+        }else if (v == mButtons.get(TOUCH).getButton()) {
+            Intent touchIntent = new Intent(AddEditActivity.this, TouchActivity.class);
             startActivityForResult(touchIntent, LAUNCHED_ACTIVITY);
         }
-        // Buttons Click
-        for (int i = 0; i < mButtons.size(); i++) {
-            if (v == mButtons.get(i).button) {
-                if (mButtons.get(i).onOff == false) {
-                    if (OnOffTotalCount < 2) {
-                        mButtons.get(i).onOff = true;
-                        mButtons.get(i).button.setBackground(getResources().getDrawable(mButtons.get(i).onImage));
 
-                        if (mButtons.get(i).textView != null) {
-                            mButtons.get(i).textView.setText("CHECK");
-                        }
+    }
 
-                    } else {
-                        showDialog("select two button and app");
-                    }
-                } else {
-                    mButtons.get(i).onOff = false;
-                    mButtons.get(i).button.setBackground(getResources().getDrawable(mButtons.get(i).offImage));
+    private class ViewHolder {
+        public TextView mMainText;
+        public ImageView mMainImage;
+        public TextView mSubText;
+        public ImageView mCheckImage;
+    }
 
-                    if (mButtons.get(i).textView != null) {
-                        mButtons.get(i).textView.setText("");
-                    }
-                }
-            }
+    private class ListViewAdapter extends BaseAdapter {
+        private Context mContext = null;
+        private ArrayList<AddEditListData> mAddEditListdata = new ArrayList<AddEditListData>();
+
+        public ListViewAdapter(Context mContext) {
+            super();
+            this.mContext = mContext;
         }
 
+        public ListViewAdapter(Context mContext, ArrayList<String> mylist) {
+            super();
+            this.mContext = mContext;
+        }
+
+
+        @Override
+        public int getCount() {
+            return mAddEditListdata.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return mAddEditListdata.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ViewHolder holder;
+            if (convertView == null) {
+                holder = new ViewHolder();
+
+                LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                convertView = inflater.inflate(R.layout.listview_add_edit_item, null);
+
+                holder.mMainText = (TextView) convertView.findViewById(R.id.txt_main);
+                holder.mMainImage = (ImageView) convertView.findViewById(R.id.imageview_main);
+                holder.mCheckImage = (ImageView) convertView.findViewById(R.id.imageview_check);
+                holder.mSubText = (TextView) convertView.findViewById(R.id.txt_sub);
+
+                convertView.setTag(holder);
+            } else {
+                holder = (ViewHolder) convertView.getTag();
+            }
+
+            AddEditListData mData = mAddEditListdata.get(position);
+
+            holder.mMainText.setText(mData.mTitle);
+            holder.mSubText.setText(mData.mSubTitle);
+
+            if(mData.mOnOff == true){
+                holder.mMainImage.setVisibility(View.VISIBLE);
+                holder.mMainImage.setImageDrawable(mData.mIcon);
+                holder.mSubText.setVisibility(View.VISIBLE);
+                holder.mCheckImage.setVisibility(View.VISIBLE);
+                holder.mCheckImage.setImageDrawable(mData.mCheck);
+                holder.mMainText.setTextColor(Color.argb(255,94,46,198));
+                holder.mSubText.setTextColor(Color.argb(255, 94, 46, 198));
+            }else{
+                holder.mMainImage.setVisibility(View.GONE);;
+                holder.mCheckImage.setVisibility(View.GONE);
+                holder.mMainText.setTextColor(Color.BLACK);
+                holder.mSubText.setVisibility(View.GONE);
+            }
+
+            return convertView;
+        }
+
+        public void addItem(CharSequence mTitle) {
+            AddEditListData addInfo = new AddEditListData();
+            addInfo.mTitle = mTitle;
+            addInfo.mIcon = null;
+            addInfo.mSubTitle = "";
+            addInfo.mCheck = getResources().getDrawable(R.mipmap.ic_launcher);
+            addInfo.mOnOff = false;
+
+            mAddEditListdata.add(addInfo);
+            dataChange();
+        }
+
+        public void remove(int position) {
+            mAddEditListdata.remove(position);
+            dataChange();
+        }
+
+
+        public void dataChange() {
+            mAdapter.notifyDataSetChanged();
+        }
     }
 }

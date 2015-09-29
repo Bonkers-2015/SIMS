@@ -1,8 +1,7 @@
 package bonkers.cau.sims;
 
-import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.widget.Button;
-import android.widget.TextView;
 
 /**
  * Created by dongbin on 2015-07-31.
@@ -10,31 +9,44 @@ import android.widget.TextView;
 
 public class Buttons{
 
-    public String name, title;
-    public boolean onOff;
-//    public RelativeLayout.LayoutParams params;
-    public int onImage,offImage, color;
-    public Button button;
-    public TextView textView = null;
+    private String name;
+    private boolean onOff;
+    private Drawable onImage,offImage;
+    private Button button;
 
-    public Buttons(String title, String name, Button btn, TextView textView) {
+    public Buttons(String name, Button btn) {
 
         this.button = btn;
-        this.textView = textView;
         this.name = name;
         this.onOff = false;
-        onImage = R.mipmap.ic_launcher;
-        offImage = R.mipmap.ic_launcher;
-        color = Color.LTGRAY;
+
     }
-    public Buttons(String title, String name, Button btn) {
 
-        this.button = btn;
+    public void setName(String name ){
         this.name = name;
-        this.onOff = false;
-        onImage = R.mipmap.ic_launcher;
-        offImage = R.mipmap.ic_launcher;
-        color = Color.LTGRAY;
+    }
+    public void setOnOFF(Boolean onOff){
+        this.onOff = onOff;
+
+        if(onOff == true)
+            button.setBackground(onImage);
+        else
+            button.setBackground(offImage);
+    }
+
+    public void setImage(Drawable onIcon, Drawable offIcon){
+        onImage = onIcon;
+        offImage = offIcon;
+    }
+
+    public String getName(){
+        return name;
+    }
+    public boolean getOnOFF(){
+        return onOff;
+    }
+    public Button getButton(){
+        return button;
     }
 
 }

@@ -14,6 +14,7 @@ public class ListDBManager {
     // DB관련 상수 선언
     private static final String dbName = "SimsInfo.db";
     private static final String tableName = "ListData";
+    private static final String tableNameTouch = "TouchData";
     public static final int dbVersion = 1;
 
     // DB관련 객체 선언
@@ -46,7 +47,11 @@ public class ListDBManager {
             // db.execSQL(dropSql);
 
             String createSql = "create table " + tableName + " (id integer primary key autoincrement," +
-                    "indexnum integer, data1 text, data2 text, appName text,appPackage text, phoneName text, phoneNumber text);";
+                    "indexnum integer, data1 text, data2 text, appName text,appPackage text, phoneName text, phoneNumber text, additionName text);";
+
+            arg0.execSQL(createSql);
+
+            createSql = "create table " + tableNameTouch + " (id integer primary key autoincrement,touchName text, touchPath text);";
 
             arg0.execSQL(createSql);
         }
@@ -59,15 +64,17 @@ public class ListDBManager {
 
     // 데이터 추가
     public void insertAppData(ListData data) {
-        String sql = "insert into " + tableName+ " values(NULL, " + data.getIndexNum() + ", '" + data.getmData1() +"', '" + data.getmData2() + "', '"
-                + data.getmAppName() +"', '"+data.getmAppPackage()+ "', NULL,NULL);";
+        String sql = "insert into " + tableName+ " values(NULL, " + data.getIndexNum() + ", '" + data.getmData1() +"', '" + data.getmData2() + "', '"+ data.getmAppName() +"', '"+data.getmAppPackage()+ "', NULL,NULL,NULL);";
 
         db.execSQL(sql);
     }
     public void insertPhoneData(ListData data) {
-        String sql = "insert into " + tableName+ " values(NULL, "
-                + data.getIndexNum() + ", '" + data.getmData1() +"', '" + data.getmData2() + "', NULL, '"
-                +", NULL, '"+ data.getmPhoneName() + "', '" + data.getmPhoneNumber() + "');";
+        String sql = "insert into " + tableName+ " values(NULL, " + data.getIndexNum() + ", '" + data.getmData1() +"', '" + data.getmData2() + "', NULL, NULL, '"+ data.getmPhoneName() + "', '" + data.getmPhoneNumber() + "',NULL);";
+
+        db.execSQL(sql);
+    }
+    public void insertAdditionData(ListData data) {
+        String sql = "insert into " + tableName+ " values(NULL, " + data.getIndexNum() + ", '" + data.getmData1() +"', '" + data.getmData2() + "', NULL, NULL, NULL, NULL, '" + data.getmAdditionName() + "');";
 
         db.execSQL(sql);
     }
@@ -76,14 +83,21 @@ public class ListDBManager {
     public void updateAppData(ListData data, int index) {
         String sql = "update " + tableName + " set indexnum = " + data.getIndexNum()
                 + ", data1 = '" + data.getmData1()+ "', data2 = '" + data.getmData2()+ "', appName = '" + data.getmAppName()
-                + "', appPackage = '" +data.getmAppPackage()+ "', phoneName = NULL, phoneNumber = NULL where id = " + index + ";";
+                + "', appPackage = '" +data.getmAppPackage()+ "', phoneName = NULL, phoneNumber = NULL, additionName = NULL where id = " + index + ";";
 
         db.execSQL(sql);
     }
     public void updatePhoneData(ListData data, int index) {
         String sql = "update " + tableName + " set indexnum = " + data.getIndexNum()
                 + ", data1 = '" + data.getmData1()+ "', data2 = '" + data.getmData2()+ "', appName = NULL, phoneName = '"
-                + data.getmPhoneName()+ "', phoneNumber = '" + data.getmPhoneNumber() + "' where id = " + index + ";";
+                + data.getmPhoneName()+ "', phoneNumber = '" + data.getmPhoneNumber() + "', additionName = NULL where id = " + index + ";";
+
+        db.execSQL(sql);
+    }
+    public void updateAdditionData(ListData data, int index) {
+        String sql = "update " + tableName + " set indexnum = " + data.getIndexNum()
+                + ", data1 = '" + data.getmData1()+ "', data2 = '" + data.getmData2()+ "', appName = NULL, phoneName = NULL"
+                + ", phoneNumber = NULL, additionName = '" + data.getmAdditionName() + "' where id = " + index + ";";
 
         db.execSQL(sql);
     }
@@ -102,7 +116,7 @@ public class ListDBManager {
 
         // result(Cursor 객체)가 비어 있으면 false 리턴
         if (result.moveToFirst()) {
-            ListData data = new ListData(result.getInt(1),result.getString(2),result.getString(3),result.getString(4),result.getString(5),result.getString(6),result.getString(7));
+            ListData data = new ListData(result.getInt(1),result.getString(2),result.getString(3),result.getString(4),result.getString(5),result.getString(6),result.getString(7),result.getString(8));
             result.close();
             return data;
         }
@@ -119,8 +133,7 @@ public class ListDBManager {
         ArrayList<ListData> infos = new ArrayList<ListData>();
 
         while (!results.isAfterLast()) {
-            ListData info = new ListData(results.getInt(0),results.getInt(1),results.getString(2),results.getString(3)
-                    ,results.getString(4),results.getString(5),results.getString(6),results.getString(7));
+            ListData info = new ListData(results.getInt(0),results.getInt(1),results.getString(2),results.getString(3),results.getString(4),results.getString(5),results.getString(6),results.getString(7),results.getString(8));
             infos.add(info);
             results.moveToNext();
         }

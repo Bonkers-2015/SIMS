@@ -10,10 +10,11 @@ public class ListData {
     private String mAppPackage = null;
     private String mPhoneName = null;
     private String mPhoneNumber = null;
+    private String mAdditionName = null;
     private  int indexNum;
     private  int id;
 
-    public ListData(int mIndexNum, String mData1, String mData2, String mAppName,String mAppPackage, String mPhoneName, String mPhoneNumber) {
+    public ListData(int mIndexNum, String mData1, String mData2, String mAppName,String mAppPackage, String mPhoneName, String mPhoneNumber, String mAdditionName) {
         this.indexNum=mIndexNum;
         this.mData1 = mData1;
         this.mData2 = mData2;
@@ -21,8 +22,10 @@ public class ListData {
         this.mAppPackage=mAppPackage;
         this.mPhoneName = mPhoneName;
         this.mPhoneNumber = mPhoneNumber;
+        this.mAdditionName = mAdditionName;
+
     }
-    public ListData(int mId,int mIndexNum, String mData1, String mData2, String mAppName,String mAppPackage, String mPhoneName, String mPhoneNumber) {
+    public ListData(int mId,int mIndexNum, String mData1, String mData2, String mAppName,String mAppPackage, String mPhoneName, String mPhoneNumber, String mAdditionName) {
         this.id = mId;
         this.indexNum=mIndexNum;
         this.mData1 = mData1;
@@ -31,6 +34,7 @@ public class ListData {
         this.mAppPackage=mAppPackage;
         this.mPhoneName = mPhoneName;
         this.mPhoneNumber = mPhoneNumber;
+        this.mAdditionName = mAdditionName;
     }
 
     public int getId() {
@@ -94,6 +98,14 @@ public class ListData {
 
     public void setmPhoneNumber(String mPhoneNumber) {
         this.mPhoneNumber = mPhoneNumber;
+    }
+
+    public String getmAdditionName() {
+        return mAdditionName;
+    }
+
+    public void setmAdditionName(String mAdditionName) {
+        this.mAdditionName = mAdditionName;
     }
 
 

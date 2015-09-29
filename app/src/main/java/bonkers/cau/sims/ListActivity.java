@@ -20,8 +20,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class
-        ListActivity extends Activity implements View.OnClickListener {
+public class ListActivity extends Activity implements View.OnClickListener {
 
     private ListView mListView = null;
     private ListViewAdapter mAdapter=null;
@@ -39,15 +38,13 @@ public class
         mListView=(ListView)findViewById(R.id.mlist);
         mAdapter = new ListViewAdapter(this);
         mListView.setAdapter(mAdapter);
-        PackageManager packagemanager = getApplicationContext().getPackageManager();
-        List<ApplicationInfo> appList = packagemanager.getInstalledApplications(0);
 
         //DB를 받아온다
         dbManager= new ListDBManager(getApplicationContext());
-        listDataArrList =dbManager.selectAll();
+        listDataArrList = dbManager.selectAll();
 
         for (ListData data:listDataArrList) {
-            mAdapter.addItem(data.getId(), data.getIndexNum(), data.getmData1(), data.getmData2(), data.getmAppName(),data.getmAppPackage(), data.getmPhoneName(), data.getmPhoneNumber());
+            mAdapter.addItem(data.getId(), data.getIndexNum(), data.getmData1(), data.getmData2(), data.getmAppName(),data.getmAppPackage(), data.getmPhoneName(), data.getmPhoneNumber(),data.getmAdditionName());
         }
 
         addBtn =(ImageButton)findViewById(R.id.list_add_btn);
@@ -174,6 +171,22 @@ public class
             }else if(mData.getmPhoneName() != null) {
                 holder.mIcon.setVisibility(View.VISIBLE);
                 holder.mIcon.setImageDrawable(getResources().getDrawable(R.mipmap.human));
+            }else if(mData.getmAdditionName() != null){
+                holder.mIcon.setVisibility(View.VISIBLE);
+                if(mData.getmAdditionName().equals("wifi")){
+                    holder.mIcon.setImageDrawable(getResources().getDrawable(R.mipmap.addition));
+                }else if(mData.getmAdditionName().equals("wifi")){
+                    holder.mIcon.setImageDrawable(getResources().getDrawable(R.mipmap.addition));
+                }else if(mData.getmAdditionName().equals("bluetooth")){
+                    holder.mIcon.setImageDrawable(getResources().getDrawable(R.mipmap.addition));
+                }else if(mData.getmAdditionName().equals("gps")){
+                    holder.mIcon.setImageDrawable(getResources().getDrawable(R.mipmap.addition));
+                }else if(mData.getmAdditionName().equals("screenshot")){
+                    holder.mIcon.setImageDrawable(getResources().getDrawable(R.mipmap.addition));
+                }else if(mData.getmAdditionName().equals("iot")){
+                    holder.mIcon.setImageDrawable(getResources().getDrawable(R.mipmap.addition));
+                }
+
             }
 
 
@@ -184,9 +197,9 @@ public class
             return convertView;
         }
 
-        public void addItem(int mId,int mIndexNum,String mTitle,String mData, String mAppName,String mAppPackage, String mPhoneName, String mPhoneNumber)  {
+        public void addItem(int mId,int mIndexNum,String mTitle,String mData, String mAppName,String mAppPackage, String mPhoneName, String mPhoneNumber, String mAdditionName)  {
             ListData addInfo = null;
-            addInfo = new ListData(mId,mIndexNum,mTitle,mData,mAppName,mAppPackage,mPhoneName,mPhoneNumber);
+            addInfo = new ListData(mId,mIndexNum,mTitle,mData,mAppName,mAppPackage,mPhoneName,mPhoneNumber,mAdditionName);
             mListData.add(addInfo);
 
         }

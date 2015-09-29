@@ -8,7 +8,6 @@ import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Handler;
 import android.os.IBinder;
-import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -39,7 +38,7 @@ public class ShakeService extends Service {
         mSensorListener.setOnShakeListener(new ShakeEventListener.OnShakeListener() {
 
             public void onShake() {
-                lauchApp(getApplicationContext(), "motion");
+                lauchApp(getApplicationContext(), "shake");
 
             }
         });
@@ -62,10 +61,9 @@ public class ShakeService extends Service {
     }
 
     void lauchApp(Context context, String data) {
-        Log.d("mylog","lauchApp");
         ListDBManager dbManager = new ListDBManager(context);
         ArrayList<ListData> listDataArrList = dbManager.selectAll();
-        //어플리케이션 내욜을 받아오는거야
+
         PackageManager packagemanager = context.getPackageManager();
         for (ListData list : listDataArrList) {
             if (list.getmData2().equals(data)) {

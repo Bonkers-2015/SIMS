@@ -5,10 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="100"
-    tools:context=".PopupTouchActivity">
+    tools:context=".PopupPhoneAppActivity">
+    <ImageView
+        android:id="@+id/popup_app_list_image"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_weight="80"
+        android:background="#FFFFFFFF"/>
 
     <TextView
-        android:id="@+id/popup_touch_list_text"
+        android:id="@+id/popup_app_list_text"
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:layout_weight="0"

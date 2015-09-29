@@ -22,9 +22,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".PopupActivity"
+            android:name=".PopupAppActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:label="@string/title_activity_popup"
+            android:label="PopupAppActivity"
+            android:theme="@android:style/Theme.Dialog"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+        <activity
+            android:name=".PopupPhoneActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="PopupPhoneActivity"
             android:theme="@android:style/Theme.Dialog"
             android:windowSoftInputMode="stateHidden" >
         </activity>
@@ -107,10 +114,6 @@
         </receiver>
 
         <activity
-            android:name=".motionActivity"
-            android:label="@string/title_activity_motion" >
-        </activity>
-        <activity
             android:name=".TouchActivity"
             android:label="@string/title_activity_touch" >
         </activity>
@@ -121,15 +124,6 @@
             android:exported="true" >
         </service>
 
-
-        <activity
-            android:name=".PopupTouchActivity"
-            android:label="@string/title_activity_popup_touch"
-            android:configChanges="orientation|keyboardHidden"
-            android:theme="@android:style/Theme.Dialog"
-            android:windowSoftInputMode="stateHidden"
-            >
-        </activity>
 
         <receiver
             android:name=".WidgetProvider"

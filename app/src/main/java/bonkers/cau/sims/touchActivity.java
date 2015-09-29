@@ -1,7 +1,6 @@
 package bonkers.cau.sims;
 
 import android.app.Activity;
-import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
@@ -19,14 +18,12 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 
-public class TouchActivity extends Activity implements TouchDialogFragment.InputListener {
+public class TouchActivity extends Activity  {
 
     TouchView tv;
     FrameLayout mlayout;
     ImageButton saveBtn;
     String touchPath;
-    TouchData mTouchData;
-    TouchDBManager dbManager;
     /**
      * Called when the activity is first created.
      */
@@ -43,32 +40,23 @@ public class TouchActivity extends Activity implements TouchDialogFragment.Input
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDialog();
+
+                //Add edit Activity로 전달한 데이터 resultText Key 값의 "superdroid result" 문자열을
+                //Extra로 Intent에 담았다.
+                Intent intent = new Intent();
+
+                intent.putExtra("resultText", touchPath);
+                intent.putExtra("resultType", "touch");
+
+                // 전달할 Intent를 설정하고 finish()함수를 통해
+                //B Activity를 종료시킴과 동시에 결과로 Intent를 전달하였다.
+                setResult(RESULT_OK, intent);
+                finish();
+
             }
         });
     }
 
-    void showDialog() {
-        DialogFragment newFragment = new TouchDialogFragment();
-        newFragment.show(getFragmentManager(), "dialog");
-    }
-
-    //dialog ok 버튼이 눌렸을때
-    @Override
-    public void inputComplete(String touchName) {
-        Intent intent = new Intent();
-        intent.putExtra("resultName", touchName);
-        intent.putExtra("resultType", "touch");
-        // 전달할 Intent를 설정하고 finish()함수를 통해
-        //B Activity를 종료시킴과 동시에 결과로 Intent를 전달하였다.
-        setResult(RESULT_OK, intent);
-
-        dbManager= new TouchDBManager(getApplicationContext());
-        mTouchData= new TouchData(touchName,touchPath);
-        dbManager.insertData(mTouchData);
-        finish();
-
-    }
 
     public class TouchView extends View {
         Paint pt;
