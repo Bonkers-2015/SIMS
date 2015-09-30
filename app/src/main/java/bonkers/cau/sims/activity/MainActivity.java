@@ -1,4 +1,4 @@
-package bonkers.cau.sims;
+package bonkers.cau.sims.activity;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -9,6 +9,12 @@ import android.widget.TextView;
 
 import java.util.Timer;
 import java.util.TimerTask;
+
+import bonkers.cau.sims.boadcast.KeyBroadCast;
+import bonkers.cau.sims.R;
+import bonkers.cau.sims.boadcast.EarphoneService;
+import bonkers.cau.sims.boadcast.ScreenService;
+import bonkers.cau.sims.boadcast.ShakeService;
 
 public class MainActivity extends Activity  {
     String model = Build.MODEL;

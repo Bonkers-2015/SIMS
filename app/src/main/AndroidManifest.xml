@@ -21,7 +21,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".MainActivity"
+            android:name=".activity.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,14 +30,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".PopupAppActivity"
+            android:name=".activity.PopupAppActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="PopupAppActivity"
             android:theme="@android:style/Theme.Dialog"
             android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
-            android:name=".PopupPhoneActivity"
+            android:name=".activity.PopupPhoneActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="PopupPhoneActivity"
             android:theme="@android:style/Theme.Dialog"
@@ -45,12 +45,12 @@
         </activity>
 
         <activity
-            android:name=".AddEditActivity"
+            android:name=".activity.AddEditActivity"
             android:label="@string/title_activity_add_edit" >`
         </activity>
 
         <receiver
-            android:name=".KeyBroadCast"
+            android:name=".boadcast.KeyBroadCast"
             android:enabled="true"
             android:exported="true" >
             <intent-filter>
@@ -60,41 +60,41 @@
         </receiver>
 
         <activity
-            android:name=".ListActivity"
+            android:name=".activity.ListActivity"
             android:label="@string/title_activity_add_edit" >
         </activity>
         <activity
-            android:name=".SettingActivity"
+            android:name=".activity.SettingActivity"
             android:label="@string/title_activity_setting" >
         </activity>
 
-        <service android:name=".MainService" >
+        <service android:name=".boadcast.MainService" >
         </service>
 
         <service
-            android:name=".ShakeService"
+            android:name=".boadcast.ShakeService"
             android:enabled="true"
             android:exported="true" >
         </service>
         <service
-            android:name=".SoundService"
+            android:name=".boadcast.SoundService"
             android:enabled="true"
             android:exported="true" >
         </service>
         <service
-            android:name=".ScreenService"
+            android:name=".boadcast.ScreenService"
             android:enabled="true"
             android:exported="true" >
         </service>
 
         <service
-            android:name=".EarphoneService"
+            android:name=".boadcast.EarphoneService"
             android:enabled="true"
             android:exported="true" >
         </service>
 
         <receiver
-            android:name=".EarphoneReceiver"
+            android:name=".boadcast.EarphoneReceiver"
             android:enabled="true"
             android:exported="true" >
             <intent-filter>
@@ -103,7 +103,7 @@
         </receiver>
 
         <receiver
-            android:name=".ScreenReceiver"
+            android:name=".boadcast.ScreenReceiver"
             android:enabled="true"
             android:exported="true" >
             <intent-filter>
@@ -113,7 +113,7 @@
         </receiver>
 
         <receiver
-            android:name=".BootReceiver"
+            android:name=".boadcast.BootReceiver"
             android:enabled="true"
             android:exported="true" >
             <intent-filter>
@@ -122,12 +122,12 @@
         </receiver>
 
         <activity
-            android:name=".TouchActivity"
+            android:name=".activity.TouchActivity"
             android:label="@string/title_activity_touch" >
         </activity>
 
         <service
-            android:name=".TouchService"
+            android:name=".boadcast.TouchService"
             android:enabled="true"
             android:exported="true" >
         </service>

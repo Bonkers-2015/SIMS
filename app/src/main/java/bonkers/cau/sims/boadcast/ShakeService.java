@@ -1,4 +1,4 @@
-package bonkers.cau.sims;
+package bonkers.cau.sims.boadcast;
 
 import android.app.Service;
 import android.content.Context;
@@ -10,6 +10,10 @@ import android.os.Handler;
 import android.os.IBinder;
 
 import java.util.ArrayList;
+
+import bonkers.cau.sims.database.ListDBManager;
+import bonkers.cau.sims.database.ListData;
+import bonkers.cau.sims.listener.ShakeEventListener;
 
 /**
  * Created by ±è½Â¿í on 2015-08-20.

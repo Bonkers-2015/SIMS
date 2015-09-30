@@ -3,7 +3,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="#50FFFFFF"
-    tools:context="bonkers.cau.sims.PopupPhoneActivity"
+    tools:context="bonkers.cau.sims.activity.PopupPhoneActivity"
     android:padding="5dp">
 
     <ListView

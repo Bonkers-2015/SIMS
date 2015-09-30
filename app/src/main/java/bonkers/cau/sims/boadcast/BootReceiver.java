@@ -1,4 +1,4 @@
-package bonkers.cau.sims;
+package bonkers.cau.sims.boadcast;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

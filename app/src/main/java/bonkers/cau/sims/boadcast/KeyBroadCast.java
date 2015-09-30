@@ -1,4 +1,4 @@
-package bonkers.cau.sims;
+package bonkers.cau.sims.boadcast;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -7,6 +7,9 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 
 import java.util.ArrayList;
+
+import bonkers.cau.sims.database.ListDBManager;
+import bonkers.cau.sims.database.ListData;
 
 /**
  * Created by redpe_000 on 2015-08-11.

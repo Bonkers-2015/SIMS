@@ -1,4 +1,4 @@
-package bonkers.cau.sims;
+package bonkers.cau.sims.database;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -6,6 +6,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
+
+import bonkers.cau.sims.database.ListData;
 
 /**
  * Created by redpe_000 on 2015-08-03.

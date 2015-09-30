@@ -1,10 +1,12 @@
-package bonkers.cau.sims;
+package bonkers.cau.sims.activity;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.widget.CheckBox;
+
+import bonkers.cau.sims.R;
 
 // KGM 150809
 public class SettingActivity extends ActionBarActivity {

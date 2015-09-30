@@ -1,5 +1,5 @@
 //android background service class
-package bonkers.cau.sims;
+package bonkers.cau.sims.boadcast;
 
 import android.app.Service;
 import android.content.Intent;

@@ -1,4 +1,4 @@
-package bonkers.cau.sims;
+package bonkers.cau.sims.database;
 
 import android.graphics.drawable.Drawable;
 

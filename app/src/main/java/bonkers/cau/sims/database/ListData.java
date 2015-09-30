@@ -1,4 +1,4 @@
-package bonkers.cau.sims;
+package bonkers.cau.sims.database;
 
 /**
  * Created by ±è½Â¿í on 2015-07-30.

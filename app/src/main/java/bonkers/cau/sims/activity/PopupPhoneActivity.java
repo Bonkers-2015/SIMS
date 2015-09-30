@@ -1,12 +1,12 @@
-package bonkers.cau.sims;
+package bonkers.cau.sims.activity;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,11 +19,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class PopupAppActivity extends Activity {
+import bonkers.cau.sims.database.PopupListData;
+import bonkers.cau.sims.R;
+
+public class PopupPhoneActivity extends Activity {
     private ListView mListView = null;
-    private PUListAdapter appAdapter = null;
+    private PUListAdapter phoneAdapter= null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,27 +34,36 @@ public class PopupAppActivity extends Activity {
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND, WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
-        setContentView(R.layout.activity_popup_app);
+        setContentView(R.layout.activity_popup_phone);
 
-        mListView = (ListView) findViewById(R.id.popup_app_list);
+        mListView = (ListView) findViewById(R.id.popup_phone_list);
 
-        appAdapter = new PUListAdapter(this);
+        phoneAdapter = new PUListAdapter(this);
 
-        PackageManager packagemanager = this.getPackageManager();
-        List<ApplicationInfo> installedApps = getApplicationContext().getPackageManager().getInstalledApplications(PackageManager.PERMISSION_GRANTED);
-        List<ApplicationInfo> appList = new ArrayList<ApplicationInfo>();
-        for(int i =0; i < installedApps.size(); i++){
-            if(getApplicationContext().getPackageManager().getLaunchIntentForPackage(installedApps.get(i).packageName) != null){
-                //If you're here, then this is a launch-able app
-                appList.add(installedApps.get(i));
+
+        String[] arrProjection = {ContactsContract.Contacts._ID, ContactsContract.Contacts.DISPLAY_NAME};
+        String[] arrPhoneProjection = {ContactsContract.CommonDataKinds.Phone.NUMBER};
+
+        // ID와 이름 받아오는 Cursor
+        Cursor clsCursor = getContentResolver().query(ContactsContract.Contacts.CONTENT_URI, arrProjection
+                , ContactsContract.Contacts.HAS_PHONE_NUMBER + "=1", null, null);
+
+        while (clsCursor.moveToNext()) {
+            String strContactId = clsCursor.getString(0);
+
+            // PHoneNumber를 받아오는 Cursor
+            Cursor clsPhoneCursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, arrPhoneProjection, ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = " + strContactId, null, null);
+
+            while (clsPhoneCursor.moveToNext()) {
+                // Adapter에 Item 추가
+                phoneAdapter.addItem(getResources().getDrawable(R.mipmap.human), clsCursor.getString(1) + " / " + clsPhoneCursor.getString(0));
             }
+            clsPhoneCursor.close();
         }
+        clsCursor.close();
 
-        for (int i = 0; i < appList.size(); i++){
-            appAdapter.addItem(appList.get(i).loadIcon(packagemanager), appList.get(i).loadLabel(packagemanager));
-        }
 
-        mListView.setAdapter(appAdapter);
+        mListView.setAdapter(phoneAdapter);
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -62,17 +73,18 @@ public class PopupAppActivity extends Activity {
                 //Add edit Activity로 전달한 데이터 resultText Key 값의 "superdroid result" 문자열을
                 //Extra로 Intent에 담았다.
                 Intent intent = new Intent();
-                PopupListData mData = appAdapter.mPopupListData.get(position);
+                PopupListData mData = phoneAdapter.mPopupListData.get(position);
+
                 intent.putExtra("resultText", mData.mTitle);
-                intent.putExtra("resultType", "app");
+                intent.putExtra("resultType", "phone");
 
                 // 전달할 Intent를 설정하고 finish()함수를 통해
                 //B Activity를 종료시킴과 동시에 결과로 Intent를 전달하였다.
                 setResult(RESULT_OK, intent);
                 finish();
-
             }
         });
+
     }
 
     private class ViewHolder {
@@ -117,10 +129,10 @@ public class PopupAppActivity extends Activity {
                 holder = new ViewHolder();
 
                 LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                convertView = inflater.inflate(R.layout.listview_popup_app_item, null);
+                convertView = inflater.inflate(R.layout.listview_popup_phone_item, null);
 
-                holder.popupIcon = (ImageView) convertView.findViewById(R.id.popup_app_list_image);
-                holder.popupText = (TextView) convertView.findViewById(R.id.popup_app_list_text);
+                holder.popupIcon = (ImageView) convertView.findViewById(R.id.popup_phone_list_image);
+                holder.popupText = (TextView) convertView.findViewById(R.id.popup_phone_list_text);
 
                 convertView.setTag(holder);
             } else {
@@ -144,6 +156,7 @@ public class PopupAppActivity extends Activity {
         public void addItem(Drawable icon, CharSequence mTitle) {
             PopupListData addInfo = null;
             addInfo = new PopupListData();
+
             addInfo.mIcon = icon;
             addInfo.mTitle = mTitle;
 
@@ -156,12 +169,10 @@ public class PopupAppActivity extends Activity {
             dataChange();
         }
 
-
         public void dataChange() {
-            appAdapter.notifyDataSetChanged();
+            phoneAdapter.notifyDataSetChanged();
         }
 
     }
-
 }
 

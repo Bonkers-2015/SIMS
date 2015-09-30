@@ -1,4 +1,4 @@
-package bonkers.cau.sims;
+package bonkers.cau.sims.activity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -19,6 +19,11 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import bonkers.cau.sims.database.ListDBManager;
+import bonkers.cau.sims.database.ListData;
+import bonkers.cau.sims.R;
+import bonkers.cau.sims.listener.SwipeDismissListViewTouchListener;
 
 public class ListActivity extends Activity implements View.OnClickListener {
 

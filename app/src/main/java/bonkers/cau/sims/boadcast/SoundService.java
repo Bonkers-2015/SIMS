@@ -1,4 +1,4 @@
-package bonkers.cau.sims;
+package bonkers.cau.sims.boadcast;
 
 import android.app.Notification;
 import android.app.Service;
@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.IBinder;
+
+import bonkers.cau.sims.R;
 
 
 public class SoundService extends Service {
