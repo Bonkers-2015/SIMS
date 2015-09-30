@@ -3,32 +3,53 @@ package bonkers.cau.sims.boadcast;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.media.AudioManager;
-import android.util.Log;
-import android.widget.Toast;
+import android.content.pm.PackageManager;
+
+import java.util.ArrayList;
+
+import bonkers.cau.sims.database.ListDBManager;
+import bonkers.cau.sims.database.ListData;
 
 /**
  * Created by dongbin on 2015-09-21.
  */
 public class EarphoneReceiver extends BroadcastReceiver {
+
+    String appPackageName;
+
     @Override
     public void onReceive(Context context, Intent intent) {
-        AudioManager audioManager = (AudioManager)context.getSystemService(Context.AUDIO_SERVICE);
+
         if (intent.getAction().equals(Intent.ACTION_HEADSET_PLUG)) {
             int state = intent.getIntExtra("state", -1);
             switch (state) {
                 case 0:
-                    Toast.makeText(context, "Headset is unplugged", Toast.LENGTH_SHORT).show();
-                    Log.d("EarphoneService", "Headset is unplugged");
+                    // Eaphone unplugged
                     break;
                 case 1:
-                    Toast.makeText(context, "Headset is plugged" , Toast.LENGTH_SHORT).show();
-                    Log.d("EarphoneService", "Headset is plugged");
+                    // Eaphone plugged
+                    lauchApp(context, "plug in");
                     break;
                 default:
-                    Log.d("EarphoneService", "I have no idea what the headset state is");
             }
         }
+    }
+    void lauchApp(Context context, String data) {
+        ListDBManager dbManager = new ListDBManager(context);
+        ArrayList<ListData> listDataArrList = dbManager.selectAll();
 
+        PackageManager packagemanager = context.getPackageManager();
+        for (ListData list : listDataArrList) {
+            if (list.getmData2().equals(data)) {
+
+                //어플 정보 받아오기
+                appPackageName = list.getmAppPackage();
+                //앱실행
+                Intent i = packagemanager.getLaunchIntentForPackage(appPackageName);
+                i.addCategory(Intent.CATEGORY_LAUNCHER);
+                context.startActivity(i);
+
+            }
+        }
     }
 }

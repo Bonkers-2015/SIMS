@@ -14,6 +14,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.media_content_control"/>
 
     <application
         android:allowBackup="true"
@@ -49,16 +50,6 @@
             android:label="@string/title_activity_add_edit" >`
         </activity>
 
-        <receiver
-            android:name=".boadcast.KeyBroadCast"
-            android:enabled="true"
-            android:exported="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="android.media.VOLUME_CHANGED_ACTION" />
-            </intent-filter>
-        </receiver>
-
         <activity
             android:name=".activity.ListActivity"
             android:label="@string/title_activity_add_edit" >
@@ -93,13 +84,22 @@
             android:exported="true" >
         </service>
 
+        <service
+            android:name=".boadcast.VolumeService"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
+
         <receiver
             android:name=".boadcast.EarphoneReceiver"
             android:enabled="true"
             android:exported="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.HEADSET_PLUG" />
-            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name=".boadcast.VolumeReceiver"
+            android:enabled="true"
+            android:exported="true" >
         </receiver>
 
         <receiver

@@ -1,8 +1,10 @@
 package bonkers.cau.sims.activity;
 
 import android.app.Activity;
-import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.widget.TextView;
@@ -10,24 +12,41 @@ import android.widget.TextView;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import bonkers.cau.sims.boadcast.KeyBroadCast;
 import bonkers.cau.sims.R;
 import bonkers.cau.sims.boadcast.EarphoneService;
-import bonkers.cau.sims.boadcast.ScreenService;
 import bonkers.cau.sims.boadcast.ShakeService;
+import bonkers.cau.sims.boadcast.TouchService;
+import bonkers.cau.sims.boadcast.VolumeService;
 
 public class MainActivity extends Activity  {
     String model = Build.MODEL;
     TextView textView;
-    BroadcastReceiver myReceiver = new KeyBroadCast();
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        startService(new Intent(this, ScreenService.class));
+
+        //처음 볼륨값 저장
+        SharedPreferences prefs = this.getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        // STREAM_RING : 벨소리 , STREAM_MUSIC : 미디어
+        AudioManager audio = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        int currentVolume = audio.getStreamVolume(AudioManager.STREAM_RING);
+        
+        editor.putInt("volume", currentVolume);
+        editor.putBoolean("flag", true);
+        editor.commit();
+
+        startService(new Intent(this, TouchService.class));
         startService(new Intent(this, ShakeService.class));
         startService(new Intent(this, EarphoneService.class));
+        startService(new Intent(this, VolumeService.class));
+
+        setVolumeControlStream(AudioManager.STREAM_MUSIC);
+
+
 
 
         TimerTask myTask = new TimerTask() {
