@@ -15,6 +15,8 @@
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.media_content_control"/>
+    <uses-permission android:name="android.permission.CALL_PHONE"   />
+
 
     <application
         android:allowBackup="true"

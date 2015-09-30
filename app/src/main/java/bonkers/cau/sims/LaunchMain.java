@@ -1,8 +1,10 @@
 package bonkers.cau.sims;
 
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 
 import java.util.ArrayList;
 
@@ -34,7 +36,22 @@ public class LaunchMain {
                         i.addCategory(Intent.CATEGORY_LAUNCHER);
                         context.startActivity(i);
                     }else if(list.getmPhoneName()!=null){
-                        // 전화걸기
+                        //전화걸기
+
+                        Intent intent;
+                        // 바로 걸기
+//                        intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+list.getmPhoneNumber()));
+
+                        // 번호 띄우기
+                        intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+list.getmPhoneNumber()));
+
+                        PendingIntent pi = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+                        try {
+                            pi.send();
+                        } catch (PendingIntent.CanceledException e) {
+                            e.printStackTrace();
+                        }
+
                     }else if(list.getmAdditionName()!=null){
                         //addition기능 수행
                         additionFunctions.launchAddition(context,list.getmAdditionName());

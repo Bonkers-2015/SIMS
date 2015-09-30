@@ -211,12 +211,12 @@ public class AddEditActivity extends Activity implements OnClickListener {
         }else if(listDataArrList.get(mEditPosition).getmAdditionName() != null) {
             additionName = listDataArrList.get(mEditPosition).getmAdditionName();
 
-            if(additionName == "iot"){
+            if(additionName.equals("iot")){
                 mainPosition = MAIN_IOT;
             }
 
             for (int i = 0; i < additionFunctions.nameList.size(); i++) {
-                if (additionName == additionFunctions.nameList.get(i)) {
+                if (additionName.equals(additionFunctions.nameList.get(i))) {
                     mainPosition = i + MAIN_ADDITION;
                 }
             }
