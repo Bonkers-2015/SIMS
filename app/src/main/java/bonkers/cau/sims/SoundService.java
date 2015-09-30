@@ -9,14 +9,13 @@ import android.os.IBinder;
 
 
 public class SoundService extends Service {
-    private MediaPlayer mediaPlayer;
-    MediaPlayer m;
-    Context c;
+    MediaPlayer mediaPalyer;
+    Context context;
 
 
     @Override
     public int onStartCommand(Intent paramIntent, int paramInt1, int paramInt2) {
-        c=getApplicationContext();
+        context=getApplicationContext();
         Notification notification = new Notification(R.mipmap.ic_launcher, "¼­ºñ½º ½ÇÇàµÊ", System.currentTimeMillis());
         notification.setLatestEventInfo(getApplicationContext(), "Screen Service", "Foreground·Î ½ÇÇàµÊ", null);
         startForeground(1, notification);
@@ -26,12 +25,12 @@ public class SoundService extends Service {
     }
     //Play music
     public void play(){
-        c = getApplicationContext();
+        context = getApplicationContext();
         try {
             stop();
-            m = MediaPlayer.create(c,R.raw.nonesound);
-            m.setLooping(true);
-            m.start();
+            mediaPalyer = MediaPlayer.create(context,R.raw.nonesound);
+            mediaPalyer.setLooping(true);
+            mediaPalyer.start();
         }catch (IllegalStateException e) {
             e.printStackTrace();
         }
@@ -40,11 +39,11 @@ public class SoundService extends Service {
     public void stop()
     {
         try {
-            if(m != null)
+            if(mediaPalyer != null)
             {
-                m.stop();
-                m.release();
-                m = null;
+                mediaPalyer.stop();
+                mediaPalyer.release();
+                mediaPalyer = null;
             }
         } catch (IllegalStateException e) {
             e.printStackTrace();

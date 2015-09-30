@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.util.Log;
+import android.widget.Toast;
 
 /**
  * Created by dongbin on 2015-09-21.
@@ -17,9 +18,11 @@ public class EarphoneReceiver extends BroadcastReceiver {
             int state = intent.getIntExtra("state", -1);
             switch (state) {
                 case 0:
+                    Toast.makeText(context, "Headset is unplugged", Toast.LENGTH_SHORT).show();
                     Log.d("EarphoneService", "Headset is unplugged");
                     break;
                 case 1:
+                    Toast.makeText(context, "Headset is plugged" , Toast.LENGTH_SHORT).show();
                     Log.d("EarphoneService", "Headset is plugged");
                     break;
                 default:
