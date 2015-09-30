@@ -24,14 +24,10 @@ public class VolumeService extends Service{
     public void onCreate() {
         super.onCreate();
         mReceiver = new VolumeReceiver();
-
-
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
-
 
         filter = new IntentFilter();
         filter.addAction("android.media.VOLUME_CHANGED_ACTION");

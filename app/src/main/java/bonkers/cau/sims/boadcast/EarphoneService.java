@@ -19,14 +19,18 @@ public class EarphoneService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        mReceiver = new EarphoneReceiver();
+
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId){
 
-        this.filter = new IntentFilter(intent.ACTION_HEADSET_PLUG);
-        registerReceiver(mReceiver, this.filter);
+        mReceiver = new EarphoneReceiver(intent);
+
+        filter = new IntentFilter(intent.ACTION_HEADSET_PLUG);
+
+        registerReceiver(mReceiver, filter);
+
         return START_STICKY;
     }
 

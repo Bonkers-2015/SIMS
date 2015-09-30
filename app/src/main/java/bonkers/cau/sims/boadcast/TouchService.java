@@ -9,7 +9,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.os.IBinder;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -27,20 +26,19 @@ public class TouchService extends Service {
     private WindowManager.LayoutParams mParams;  //layout params 객체. 뷰의 위치 및 크기
     private WindowManager mWindowManager;          //윈도우 매니저
     private ListDBManager lDbManager;
-    private ArrayList<ListData> arrListData;
-    private String appPackageName;
-    PackageManager packagemanager;
 
-    public TouchService() {
+    String data1;
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        // TODO: Return the communication channel to the service.
+        throw new UnsupportedOperationException("Not yet implemented");
     }
+
     @Override
     public void onCreate() {
         super.onCreate();
-        packagemanager = this.getPackageManager();
-        lDbManager= new ListDBManager(getApplicationContext());
-        arrListData=lDbManager.selectAll();
 
-        Toast.makeText(getBaseContext(), "onCreate", Toast.LENGTH_SHORT).show();
         mView = new TouchTopView(this);
         mParams = new WindowManager.LayoutParams(
         WindowManager.LayoutParams.MATCH_PARENT,
@@ -51,26 +49,13 @@ public class TouchService extends Service {
         mWindowManager = (WindowManager) getSystemService(WINDOW_SERVICE);  //윈도우 매니저
         mWindowManager.addView(mView, mParams);      //윈도우에 뷰 넣기. permission 필요.
     }
-    void lauchApp(PackageManager packagemanager,Context context,String data){
-        for (ListData list : arrListData) {
-            if (list.getmData2().equals(data)) {
-                //어플 정보 받아오기
-                appPackageName = list.getmAppPackage();
-
-                //앱실행
-                Intent i = packagemanager.getLaunchIntentForPackage(appPackageName);
-                i.addCategory(Intent.CATEGORY_LAUNCHER);
-                context.startActivity(i);
-
-            }
-        }
-    }
 
     @Override
-    public IBinder onBind(Intent intent) {
-        // TODO: Return the communication channel to the service.
-        throw new UnsupportedOperationException("Not yet implemented");
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        data1 = intent.getStringExtra("data1");
+        return START_STICKY;
     }
+
     @Override
     public void onDestroy() {
         if(mWindowManager != null) {        //서비스 종료시 뷰 제거. *중요 : 뷰를 꼭 제거 해야함.
@@ -79,7 +64,26 @@ public class TouchService extends Service {
         super.onDestroy();
     }
 
+    void lauchApp(Context context,String data1, String data2) {
+        ListDBManager dbManager = new ListDBManager(context);
+        ArrayList<ListData> listDataArrList = dbManager.selectAll();
 
+        PackageManager packagemanager = context.getPackageManager();
+        for (ListData list : listDataArrList) {
+            if (list.getmData1().equals(data1)) {
+                if (list.getmData2().equals(data2)) {
+
+                    //어플 정보 받아오기
+                    String appPackageName = list.getmAppPackage();
+                    //앱실행
+                    Intent i = packagemanager.getLaunchIntentForPackage(appPackageName);
+                    i.addCategory(Intent.CATEGORY_LAUNCHER);
+                    context.startActivity(i);
+
+                }
+            }
+        }
+    }
 
     public class TouchTopView extends View {
         Paint pt;
@@ -190,7 +194,7 @@ public class TouchService extends Service {
 
         @Override
         public boolean onTouchEvent(MotionEvent event) {
-            Log.d("mylog","serviceTouchEvent start");
+
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
                 arVertex1.removeAll(arVertex1);
                 arVertex2.removeAll(arVertex2);
@@ -259,9 +263,8 @@ public class TouchService extends Service {
                     }
                     Toast.makeText(this.getContext(), "circle(countercolckwise) " + round + "round", Toast.LENGTH_SHORT).show();
                     touchPath = "circle<" + round;
-                    //서비스종료
-                    lauchApp(packagemanager,getApplicationContext(),touchPath);
-                    stopService(new Intent(getApplicationContext(),TouchService.class));
+
+                    lauchApp(getContext(),data1,"touch : "+touchPath);
 
                     return false;
                 } else if (-allAngle1 > roundMinAngle) {
@@ -271,9 +274,8 @@ public class TouchService extends Service {
                     }
                     Toast.makeText(this.getContext(), "circle(clockwise) " + round + "round ", Toast.LENGTH_SHORT).show();
                     touchPath = "circle>" + round;
-                    //서비스종료
-                    lauchApp(packagemanager,getApplicationContext(),touchPath);
-                    stopService(new Intent(getApplicationContext(),TouchService.class));
+
+                    lauchApp(getContext(),data1, "touch : "+touchPath);
 
                     return false;
                 }
@@ -328,11 +330,11 @@ public class TouchService extends Service {
                     if (i < arVertex3.size() - 1)
                         str = str + ">";
                 }
+
                 Toast.makeText(this.getContext(), str, Toast.LENGTH_SHORT).show();
                 touchPath = str;
-                lauchApp(packagemanager,getApplicationContext(),touchPath);
-                //서비스종료
-                stopService(new Intent(getApplicationContext(),TouchService.class));
+
+                lauchApp(getContext(),data1, "touch : "+touchPath);
 
                 return true;
             }

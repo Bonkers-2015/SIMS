@@ -21,10 +21,13 @@ public class ShakeService extends Service {
     SensorManager mSensorManager;
     ShakeEventListener mSensorListener;
     Sensor mAccelerometer;
-    String appPackageName;
+
+    String data1 = "Empty";
 
     @Override
-    public IBinder onBind(Intent arg0) {
+    public IBinder onBind(Intent intent) {
+
+
         return null;
     }
 
@@ -32,14 +35,14 @@ public class ShakeService extends Service {
     public void onCreate() {
         super.onCreate();
 
-
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mSensorListener = new ShakeEventListener();
 
         mSensorListener.setOnShakeListener(new ShakeEventListener.OnShakeListener() {
 
             public void onShake() {
-                lauchApp(getApplicationContext(), "shake");
+
+                lauchApp(getApplicationContext(),data1, "shake");
 
             }
         });
@@ -47,6 +50,8 @@ public class ShakeService extends Service {
 
 
     public int onStartCommand(Intent intent, int flags, int startId) {
+
+        data1 = intent.getStringExtra("data1");
 
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -61,21 +66,24 @@ public class ShakeService extends Service {
         mSensorManager.unregisterListener(mSensorListener,mAccelerometer);
     }
 
-    void lauchApp(Context context, String data) {
+
+    void lauchApp(Context context,String data1, String data2) {
         ListDBManager dbManager = new ListDBManager(context);
         ArrayList<ListData> listDataArrList = dbManager.selectAll();
 
         PackageManager packagemanager = context.getPackageManager();
         for (ListData list : listDataArrList) {
-            if (list.getmData2().equals(data)) {
+            if (list.getmData1().equals(data1)) {
+                if (list.getmData2().equals(data2)) {
 
-                //어플 정보 받아오기
-                appPackageName = list.getmAppPackage();
-                //앱실행
-                Intent i = packagemanager.getLaunchIntentForPackage(appPackageName);
-                i.addCategory(Intent.CATEGORY_LAUNCHER);
-                context.startActivity(i);
+                    //어플 정보 받아오기
+                    String appPackageName = list.getmAppPackage();
+                    //앱실행
+                    Intent i = packagemanager.getLaunchIntentForPackage(appPackageName);
+                    i.addCategory(Intent.CATEGORY_LAUNCHER);
+                    context.startActivity(i);
 
+                }
             }
         }
     }

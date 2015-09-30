@@ -13,9 +13,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import bonkers.cau.sims.R;
-import bonkers.cau.sims.boadcast.EarphoneService;
-import bonkers.cau.sims.boadcast.ShakeService;
-import bonkers.cau.sims.boadcast.TouchService;
 import bonkers.cau.sims.boadcast.VolumeService;
 
 public class MainActivity extends Activity  {
@@ -39,14 +36,10 @@ public class MainActivity extends Activity  {
         editor.putBoolean("flag", true);
         editor.commit();
 
-        startService(new Intent(this, TouchService.class));
-        startService(new Intent(this, ShakeService.class));
-        startService(new Intent(this, EarphoneService.class));
+//        startService(new Intent(this, TouchService.class));
+//        startService(new Intent(this, ShakeService.class));
+//        startService(new Intent(this, EarphoneService.class));
         startService(new Intent(this, VolumeService.class));
-
-        setVolumeControlStream(AudioManager.STREAM_MUSIC);
-
-
 
 
         TimerTask myTask = new TimerTask() {
