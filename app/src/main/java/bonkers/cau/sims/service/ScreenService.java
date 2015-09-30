@@ -1,10 +1,12 @@
-package bonkers.cau.sims.boadcast;
+package bonkers.cau.sims.service;
 
 import android.app.Service;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.IBinder;
 import android.util.Log;
+
+import bonkers.cau.sims.receiver.ScreenReceiver;
 
 
 public class ScreenService extends Service {

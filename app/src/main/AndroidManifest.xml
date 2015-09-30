@@ -59,51 +59,53 @@
             android:label="@string/title_activity_setting" >
         </activity>
 
-        <service android:name=".boadcast.MainService" >
+        <service android:name=".service.MainService" >
         </service>
 
         <service
-            android:name=".boadcast.ShakeService"
+            android:name=".service.ShakeService"
             android:enabled="true"
             android:exported="true" >
         </service>
         <service
-            android:name=".boadcast.SoundService"
+            android:name=".service.SoundService"
             android:enabled="true"
             android:exported="true" >
         </service>
         <service
-            android:name=".boadcast.ScreenService"
-            android:enabled="true"
-            android:exported="true" >
-        </service>
-
-        <service
-            android:name=".boadcast.EarphoneService"
+            android:name=".service.ScreenService"
             android:enabled="true"
             android:exported="true" >
         </service>
 
         <service
-            android:name=".boadcast.VolumeService"
+            android:name=".service.EarphoneService"
             android:enabled="true"
             android:exported="true" >
         </service>
 
+        <service
+            android:name=".service.VolumeService"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
+
+
+        <!--     EarphoneReceiver 생성자 때문에 오류남, 실행하는데 영향 X             -->
         <receiver
-            android:name=".boadcast.EarphoneReceiver"
+            android:name=".receiver.EarphoneReceiver"
             android:enabled="true"
             android:exported="true" >
         </receiver>
 
         <receiver
-            android:name=".boadcast.VolumeReceiver"
+            android:name=".receiver.VolumeReceiver"
             android:enabled="true"
             android:exported="true" >
         </receiver>
 
         <receiver
-            android:name=".boadcast.ScreenReceiver"
+            android:name=".receiver.ScreenReceiver"
             android:enabled="true"
             android:exported="true" >
             <intent-filter>
@@ -113,7 +115,7 @@
         </receiver>
 
         <receiver
-            android:name=".boadcast.BootReceiver"
+            android:name=".receiver.BootReceiver"
             android:enabled="true"
             android:exported="true" >
             <intent-filter>
@@ -127,11 +129,10 @@
         </activity>
 
         <service
-            android:name=".boadcast.TouchService"
+            android:name=".service.TouchService"
             android:enabled="true"
             android:exported="true" >
         </service>
-
 
         <receiver
             android:name=".WidgetProvider"

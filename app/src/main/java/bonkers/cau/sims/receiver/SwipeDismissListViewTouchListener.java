@@ -1,4 +1,4 @@
-package bonkers.cau.sims.boadcast;
+package bonkers.cau.sims.receiver;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;

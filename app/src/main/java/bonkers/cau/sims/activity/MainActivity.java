@@ -13,7 +13,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import bonkers.cau.sims.R;
-import bonkers.cau.sims.boadcast.VolumeService;
+import bonkers.cau.sims.service.VolumeService;
 
 public class MainActivity extends Activity  {
     String model = Build.MODEL;
@@ -31,14 +31,11 @@ public class MainActivity extends Activity  {
         // STREAM_RING : 벨소리 , STREAM_MUSIC : 미디어
         AudioManager audio = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         int currentVolume = audio.getStreamVolume(AudioManager.STREAM_RING);
-        
+
         editor.putInt("volume", currentVolume);
         editor.putBoolean("flag", true);
         editor.commit();
 
-//        startService(new Intent(this, TouchService.class));
-//        startService(new Intent(this, ShakeService.class));
-//        startService(new Intent(this, EarphoneService.class));
         startService(new Intent(this, VolumeService.class));
 
 

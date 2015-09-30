@@ -1,11 +1,11 @@
-package bonkers.cau.sims.boadcast;
+package bonkers.cau.sims.service;
 
 import android.app.Service;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.IBinder;
 
-import bonkers.cau.sims.SettingsContentObserver;
+import bonkers.cau.sims.receiver.VolumeReceiver;
 
 /**
  * Created by dongbin on 2015-09-30.
@@ -13,7 +13,7 @@ import bonkers.cau.sims.SettingsContentObserver;
 public class VolumeService extends Service{
     private IntentFilter filter;
     private VolumeReceiver mReceiver;
-    public SettingsContentObserver mSettingsContentObserver;
+
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -39,7 +39,7 @@ public class VolumeService extends Service{
     @Override
     public void onDestroy() {
         super.onDestroy();
-        getApplicationContext().getContentResolver().unregisterContentObserver(mSettingsContentObserver);
+        unregisterReceiver(mReceiver);
     }
 
 }

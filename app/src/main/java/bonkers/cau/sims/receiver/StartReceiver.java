@@ -1,8 +1,10 @@
-package bonkers.cau.sims.boadcast;
+package bonkers.cau.sims.receiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+
+import bonkers.cau.sims.service.MainService;
 
 //android 부팅 시 어플 자동 실행
 public class StartReceiver extends BroadcastReceiver {

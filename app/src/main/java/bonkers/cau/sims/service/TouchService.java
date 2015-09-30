@@ -1,9 +1,8 @@
-package bonkers.cau.sims.boadcast;
+package bonkers.cau.sims.service;
 
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -17,8 +16,8 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import bonkers.cau.sims.LaunchMain;
 import bonkers.cau.sims.database.ListDBManager;
-import bonkers.cau.sims.database.ListData;
 
 public class TouchService extends Service {
     String touchPath;
@@ -62,27 +61,6 @@ public class TouchService extends Service {
             if(mView != null) mWindowManager.removeView(mView);
         }
         super.onDestroy();
-    }
-
-    void lauchApp(Context context,String data1, String data2) {
-        ListDBManager dbManager = new ListDBManager(context);
-        ArrayList<ListData> listDataArrList = dbManager.selectAll();
-
-        PackageManager packagemanager = context.getPackageManager();
-        for (ListData list : listDataArrList) {
-            if (list.getmData1().equals(data1)) {
-                if (list.getmData2().equals(data2)) {
-
-                    //어플 정보 받아오기
-                    String appPackageName = list.getmAppPackage();
-                    //앱실행
-                    Intent i = packagemanager.getLaunchIntentForPackage(appPackageName);
-                    i.addCategory(Intent.CATEGORY_LAUNCHER);
-                    context.startActivity(i);
-
-                }
-            }
-        }
     }
 
     public class TouchTopView extends View {
@@ -264,7 +242,9 @@ public class TouchService extends Service {
                     Toast.makeText(this.getContext(), "circle(countercolckwise) " + round + "round", Toast.LENGTH_SHORT).show();
                     touchPath = "circle<" + round;
 
-                    lauchApp(getContext(),data1,"touch : "+touchPath);
+
+                    LaunchMain main = new LaunchMain();
+                    main.launch(getContext(), data1, "touch : " + touchPath);
 
                     return false;
                 } else if (-allAngle1 > roundMinAngle) {
@@ -275,7 +255,8 @@ public class TouchService extends Service {
                     Toast.makeText(this.getContext(), "circle(clockwise) " + round + "round ", Toast.LENGTH_SHORT).show();
                     touchPath = "circle>" + round;
 
-                    lauchApp(getContext(),data1, "touch : "+touchPath);
+                    LaunchMain main = new LaunchMain();
+                    main.launch(getContext(), data1, "touch : " + touchPath);
 
                     return false;
                 }
@@ -334,7 +315,8 @@ public class TouchService extends Service {
                 Toast.makeText(this.getContext(), str, Toast.LENGTH_SHORT).show();
                 touchPath = str;
 
-                lauchApp(getContext(),data1, "touch : "+touchPath);
+                LaunchMain main = new LaunchMain();
+                main.launch(getContext(), data1, "touch : " + touchPath);
 
                 return true;
             }

@@ -1,9 +1,11 @@
-package bonkers.cau.sims.boadcast;
+package bonkers.cau.sims.service;
 
 import android.app.Service;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.IBinder;
+
+import bonkers.cau.sims.receiver.EarphoneReceiver;
 
 
 public class EarphoneService extends Service {

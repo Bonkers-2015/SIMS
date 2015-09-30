@@ -20,8 +20,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import bonkers.cau.sims.AdditionFunctions;
 import bonkers.cau.sims.R;
-import bonkers.cau.sims.boadcast.SwipeDismissListViewTouchListener;
+import bonkers.cau.sims.receiver.SwipeDismissListViewTouchListener;
 import bonkers.cau.sims.database.ListDBManager;
 import bonkers.cau.sims.database.ListData;
 
@@ -178,26 +179,16 @@ public class ListActivity extends Activity implements View.OnClickListener {
                 holder.mIcon.setImageDrawable(getResources().getDrawable(R.mipmap.human));
             }else if(mData.getmAdditionName() != null){
                 holder.mIcon.setVisibility(View.VISIBLE);
-                if(mData.getmAdditionName().equals("wifi")){
-                    holder.mIcon.setImageDrawable(getResources().getDrawable(R.mipmap.addition));
-                }else if(mData.getmAdditionName().equals("wifi")){
-                    holder.mIcon.setImageDrawable(getResources().getDrawable(R.mipmap.addition));
-                }else if(mData.getmAdditionName().equals("bluetooth")){
-                    holder.mIcon.setImageDrawable(getResources().getDrawable(R.mipmap.addition));
-                }else if(mData.getmAdditionName().equals("gps")){
-                    holder.mIcon.setImageDrawable(getResources().getDrawable(R.mipmap.addition));
-                }else if(mData.getmAdditionName().equals("screenshot")){
-                    holder.mIcon.setImageDrawable(getResources().getDrawable(R.mipmap.addition));
-                }else if(mData.getmAdditionName().equals("iot")){
-                    holder.mIcon.setImageDrawable(getResources().getDrawable(R.mipmap.addition));
+                AdditionFunctions additionFunctions = new AdditionFunctions();
+                for (int i = 0; i < additionFunctions.nameList.size(); i++) {
+                    if (mData.getmAdditionName().equals(additionFunctions.nameList.get(i))) {
+                        holder.mIcon.setImageDrawable(getResources().getDrawable(R.mipmap.addition));
+                    }
                 }
-
             }
-
 
             holder.mFirst.setText(mData.getmData1());
             holder.mSecond.setText(mData.getmData2());
-
 
             return convertView;
         }

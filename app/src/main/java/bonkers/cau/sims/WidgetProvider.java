@@ -10,7 +10,7 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.RemoteViews;
 
-import bonkers.cau.sims.boadcast.MainService;
+import bonkers.cau.sims.service.MainService;
 
 
 public class WidgetProvider extends AppWidgetProvider {

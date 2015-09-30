@@ -1,4 +1,4 @@
-package bonkers.cau.sims.boadcast;
+package bonkers.cau.sims.service;
 
 import android.app.Notification;
 import android.app.Service;

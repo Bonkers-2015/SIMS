@@ -1,18 +1,15 @@
-package bonkers.cau.sims.boadcast;
+package bonkers.cau.sims.service;
 
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Handler;
 import android.os.IBinder;
 
-import java.util.ArrayList;
-
-import bonkers.cau.sims.database.ListDBManager;
-import bonkers.cau.sims.database.ListData;
+import bonkers.cau.sims.LaunchMain;
+import bonkers.cau.sims.receiver.ShakeEventListener;
 
 /**
  * Created by ±è½Â¿í on 2015-08-20.
@@ -42,8 +39,8 @@ public class ShakeService extends Service {
 
             public void onShake() {
 
-                lauchApp(getApplicationContext(),data1, "shake");
-
+                LaunchMain main = new LaunchMain();
+                main.launch(getApplicationContext(), data1, "shake");
             }
         });
     }
@@ -64,28 +61,6 @@ public class ShakeService extends Service {
     public void onDestroy() {
         super.onDestroy();
         mSensorManager.unregisterListener(mSensorListener,mAccelerometer);
-    }
-
-
-    void lauchApp(Context context,String data1, String data2) {
-        ListDBManager dbManager = new ListDBManager(context);
-        ArrayList<ListData> listDataArrList = dbManager.selectAll();
-
-        PackageManager packagemanager = context.getPackageManager();
-        for (ListData list : listDataArrList) {
-            if (list.getmData1().equals(data1)) {
-                if (list.getmData2().equals(data2)) {
-
-                    //¾îÇÃ Á¤º¸ ¹Þ¾Æ¿À±â
-                    String appPackageName = list.getmAppPackage();
-                    //¾Û½ÇÇà
-                    Intent i = packagemanager.getLaunchIntentForPackage(appPackageName);
-                    i.addCategory(Intent.CATEGORY_LAUNCHER);
-                    context.startActivity(i);
-
-                }
-            }
-        }
     }
 
 }

@@ -1,4 +1,4 @@
-package bonkers.cau.sims.boadcast;
+package bonkers.cau.sims.receiver;
 
 /**
  * Created by ±è½Â¿í on 2015-08-21.
@@ -7,7 +7,6 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.util.Log;
 
 /**
  * Listener that detects shake gesture.
@@ -63,7 +62,6 @@ public class ShakeEventListener implements SensorEventListener {
 
     public void setOnShakeListener(OnShakeListener listener) {
         mShakeListener = listener;
-        Log.d("shake detected","park");
     }
 
     @Override

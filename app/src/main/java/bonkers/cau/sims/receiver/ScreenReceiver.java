@@ -1,9 +1,11 @@
-package bonkers.cau.sims.boadcast;
+package bonkers.cau.sims.receiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+
+import bonkers.cau.sims.service.SoundService;
 
 public class ScreenReceiver extends BroadcastReceiver {
     public void onReceive(Context paramContext, Intent paramIntent) {

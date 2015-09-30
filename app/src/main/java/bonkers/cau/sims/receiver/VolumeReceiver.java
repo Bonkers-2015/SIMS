@@ -1,4 +1,4 @@
-package bonkers.cau.sims.boadcast;
+package bonkers.cau.sims.receiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -13,6 +13,9 @@ import java.util.TimerTask;
 
 import bonkers.cau.sims.database.ListDBManager;
 import bonkers.cau.sims.database.ListData;
+import bonkers.cau.sims.service.EarphoneService;
+import bonkers.cau.sims.service.ShakeService;
+import bonkers.cau.sims.service.TouchService;
 
 /**
  * Created by dongbin on 2015-09-30.

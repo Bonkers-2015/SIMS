@@ -7,8 +7,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
 
-import bonkers.cau.sims.database.ListData;
-
 /**
  * Created by redpe_000 on 2015-08-03.
  */
@@ -16,7 +14,6 @@ public class ListDBManager {
     // DB관련 상수 선언
     private static final String dbName = "SimsInfo.db";
     private static final String tableName = "ListData";
-    private static final String tableNameTouch = "TouchData";
     public static final int dbVersion = 1;
 
     // DB관련 객체 선언
@@ -45,17 +42,12 @@ public class ListDBManager {
         // 생성된 DB가 없을 경우에 한번만 호출됨
         @Override
         public void onCreate(SQLiteDatabase arg0) {
-            // String dropSql = "drop table if exists " + tableName;
-            // db.execSQL(dropSql);
 
             String createSql = "create table " + tableName + " (id integer primary key autoincrement," +
                     "indexnum integer, data1 text, data2 text, appName text,appPackage text, phoneName text, phoneNumber text, additionName text);";
 
             arg0.execSQL(createSql);
 
-            createSql = "create table " + tableNameTouch + " (id integer primary key autoincrement,touchName text, touchPath text);";
-
-            arg0.execSQL(createSql);
         }
 
         @Override

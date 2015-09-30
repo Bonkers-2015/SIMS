@@ -25,18 +25,19 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import bonkers.cau.sims.database.AddEditListData;
+import bonkers.cau.sims.AdditionFunctions;
 import bonkers.cau.sims.Buttons;
+import bonkers.cau.sims.R;
+import bonkers.cau.sims.database.AddEditListData;
 import bonkers.cau.sims.database.ListDBManager;
 import bonkers.cau.sims.database.ListData;
-import bonkers.cau.sims.R;
 
 
 public class AddEditActivity extends Activity implements OnClickListener {
 
     private static final int LAUNCHED_ACTIVITY = 1;
     private static final int VOLUME_UP=0,VOLUME_DOWN=1,SHAKE=2,PLUGIN=3,TOUCH=4;
-    private static final int MAIN_APP=0, MAIN_WIFI=1,MAIN_BLUETOOTH=2,MAIN_PHONE=3,MAIN_GPS=4,MAIN_SCREENSHOT=5,MAIN_IOT=6;
+    private static final int MAIN_APP=0,MAIN_PHONE=1,MAIN_IOT=2,MAIN_ADDITION =3;
     private boolean editState = true;
 
     private CharSequence additionName = null, phoneName = null, appName = null, mAppName = null,mAppPackage=null;
@@ -51,23 +52,22 @@ public class AddEditActivity extends Activity implements OnClickListener {
     ListViewAdapter mAdapter;
     ListView mListView;
 
-    // requestCode
-
+    AdditionFunctions additionFunctions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_add_edit);
 
-        Bundle myBundle = this.getIntent().getExtras();
-        mEditPosition = myBundle.getInt("selectedPosition");
+        additionFunctions = new AdditionFunctions();
+
+        mEditPosition = getIntent().getIntExtra("selectedPosition",-1);
 
         // no select => editState = false
         if(mEditPosition == -1)
             editState = false;
 
-        listviewiniti();
+        listviewiniti(this);
 
         if (editState == false) {
             setLayout();
@@ -95,30 +95,21 @@ public class AddEditActivity extends Activity implements OnClickListener {
                 } else if (position == MAIN_PHONE) {
                     intent = new Intent(AddEditActivity.this, PopupPhoneActivity.class);
                     startActivityForResult(intent, LAUNCHED_ACTIVITY);
-                } else {
 
-                    // 임시로 만들어둠
-                    if (position == MAIN_WIFI) {
-                        additionName = "wifi";
-                        appName = null;
-                        phoneName = null;
-                    } else if (position == MAIN_BLUETOOTH) {
-                        additionName = "bluetooth";
-                        appName = null;
-                        phoneName = null;
-                    } else if (position == MAIN_GPS) {
-                        additionName = "gps";
-                        appName = null;
-                        phoneName = null;
-                    } else if (position == MAIN_SCREENSHOT) {
-                        additionName = "screenshot";
-                        appName = null;
-                        phoneName = null;
-                    } else if (position == MAIN_IOT) {
-                        additionName = "iot";
-                        appName = null;
-                        phoneName = null;
+                } else if (position == MAIN_IOT) {
+                    additionName = "iot";
+                    appName = null;
+                    phoneName = null;
+                    listviewSetting(position);
+                } else {
+                    for (int i = 0; i < additionFunctions.nameList.size(); i++) {
+                        if (position == i + MAIN_ADDITION) {
+                            additionName = additionFunctions.nameList.get(i);
+                            appName = null;
+                            phoneName = null;
+                        }
                     }
+
                     listviewSetting(position);
                 }
 
@@ -147,34 +138,7 @@ public class AddEditActivity extends Activity implements OnClickListener {
                         appName = null;
                         additionName = null;
                         listviewSetting(MAIN_PHONE);
-//                    }else if(returnType.equals("wifi")){
-//                        additionName = "wifi";
-//                        appName = null;
-//                        phoneName = null;
-//                        listviewSetting(MAIN_WIFI);
-//                    } else if(returnType.equals("bluetooth")){
-//                        additionName = "bluetooth";
-//                        appName = null;
-//                        phoneName = null;
-//                        listviewSetting(MAIN_BLUETOOTH);
-//                    } else if(returnType.equals("gps")){
-//                        additionName = "gps";
-//                        appName = null;
-//                        phoneName = null;
-//                        listviewSetting(MAIN_GPS);
-//                    }else if(returnType.equals("screenshot")){
-//                        additionName = "screenshot";
-//                        appName = null;
-//                        phoneName = null;
-//                        listviewSetting(MAIN_SCREENSHOT);
-//                    }else if(returnType.equals("iot")){
-//                        additionName = "iot";
-//                        appName = null;
-//                        phoneName = null;
-//                        listviewSetting(MAIN_IOT);
-                    }
-
-                    else if (returnType.equals("touch")){
+                    } else if (returnType.equals("touch")){
                         CharSequence touchPath, touchName;
                         touchPath = data.getStringExtra("resultText");
                         touchName = "touch : "+touchPath;
@@ -185,12 +149,16 @@ public class AddEditActivity extends Activity implements OnClickListener {
                         mButtons.get(TOUCH).setName(touchName.toString());
 
                           Toast.makeText(getApplicationContext(), touchName.toString(), Toast.LENGTH_SHORT).show();
+                    } else if(returnType.equals("iot")){
+//                            additionName = "iot";
+//                            appName = null;
+//                            phoneName = null;
+//                            listviewSetting(MAIN_IOT);
                     }
 
                 }
         }
     }
-
 
     private void showDialog(String text) {
 
@@ -234,24 +202,24 @@ public class AddEditActivity extends Activity implements OnClickListener {
         dbManager = new ListDBManager(getApplicationContext());
         listDataArrList = dbManager.selectAll();
 
-        if(listDataArrList.get(mEditPosition).getmAppName() != null) {
+        if (listDataArrList.get(mEditPosition).getmAppName() != null) {
             appName = listDataArrList.get(mEditPosition).getmAppName();
             mainPosition = MAIN_APP;
-        }else if (listDataArrList.get(mEditPosition).getmPhoneName() != null) {
+        } else if (listDataArrList.get(mEditPosition).getmPhoneName() != null) {
             phoneName = listDataArrList.get(mEditPosition).getmPhoneName() + " / " + listDataArrList.get(mEditPosition).getmPhoneNumber();
             mainPosition = MAIN_PHONE;
         }else if(listDataArrList.get(mEditPosition).getmAdditionName() != null) {
             additionName = listDataArrList.get(mEditPosition).getmAdditionName();
-            if(additionName.equals("wifi"))
-                mainPosition = MAIN_WIFI;
-            else if(additionName.equals("bluetooth"))
-                mainPosition = MAIN_BLUETOOTH;
-            else if(additionName.equals("gps"))
-                mainPosition = MAIN_GPS;
-            else if(additionName.equals("screenshot"))
-                mainPosition = MAIN_SCREENSHOT;
-            else if(additionName.equals("iot"))
+
+            if(additionName == "iot"){
                 mainPosition = MAIN_IOT;
+            }
+
+            for (int i = 0; i < additionFunctions.nameList.size(); i++) {
+                if (additionName == additionFunctions.nameList.get(i)) {
+                    mainPosition = i + MAIN_ADDITION;
+                }
+            }
         }
 
         setLayout();
@@ -271,23 +239,19 @@ public class AddEditActivity extends Activity implements OnClickListener {
         }
     }
 
-    private void listviewiniti(){
+    private void listviewiniti(Context context){
 
         mListView = (ListView)findViewById(R.id.listview_main);
-
         mAdapter = new ListViewAdapter(this);
 
-        mAdapter.addItem("launch App");
-        mAdapter.addItem("WIFI on/off");
-        mAdapter.addItem("bluetooth");
+        mAdapter.addItem("lauch app");
         mAdapter.addItem("phonenumber");
-        mAdapter.addItem("GPS on/off");
-        mAdapter.addItem("Screen Shot");
         mAdapter.addItem("IOT");
-        mAdapter.addItem(" ");
+        for (String name : additionFunctions.nameList) {
+            mAdapter.addItem(name);
+        }
 
         mListView.setAdapter(mAdapter);
-
     }
 
     private void listviewCheckSetting(int position){
@@ -327,10 +291,6 @@ public class AddEditActivity extends Activity implements OnClickListener {
                 }
             }
 
-        }else if(position == MAIN_WIFI){
-            Toast.makeText(getApplicationContext(), "MAIN_WIFI" , Toast.LENGTH_SHORT).show();
-        }else if(position == MAIN_BLUETOOTH){
-            Toast.makeText(getApplicationContext(), "MAIN_BLUETOOTH" , Toast.LENGTH_SHORT).show();
         }else if(position == MAIN_PHONE){
 
             // phoneName >>> "phoneName / phoneNumber"
@@ -340,14 +300,7 @@ public class AddEditActivity extends Activity implements OnClickListener {
             mData.mIcon = getResources().getDrawable(R.mipmap.human);
             mData.mSubTitle = temp[0];
 
-        }else if(position == MAIN_GPS){
-            Toast.makeText(getApplicationContext(), "MAIN_GPS" , Toast.LENGTH_SHORT).show();
-        } else if(position == MAIN_SCREENSHOT){
-            Toast.makeText(getApplicationContext(), "MAIN_SCREENSHOT" , Toast.LENGTH_SHORT).show();
-        } else if(position == MAIN_IOT){
-            Toast.makeText(getApplicationContext(), "MAIN_IOT" , Toast.LENGTH_SHORT).show();
         }
-
 
         mAdapter.notifyDataSetChanged();
     }
@@ -361,8 +314,6 @@ public class AddEditActivity extends Activity implements OnClickListener {
 
         return temp;
     }
-
-
 
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
