@@ -27,6 +27,7 @@ import java.util.List;
 
 import bonkers.cau.sims.AdditionFunctions;
 import bonkers.cau.sims.Buttons;
+import bonkers.cau.sims.MyTextView;
 import bonkers.cau.sims.R;
 import bonkers.cau.sims.database.AddEditListData;
 import bonkers.cau.sims.database.ListDBManager;
@@ -69,21 +70,23 @@ public class AddEditActivity extends Activity implements OnClickListener {
 
         listviewiniti(this);
 
+        MyTextView mTxtSave = (MyTextView)findViewById(R.id.txt_save);
+
         if (editState == false) {
             setLayout();
-            mBtnSave.setText("Save");
+            mTxtSave.setText("save");
         } else {
             // eidtï¿½Ï¶ï¿½ï¿½ï¿½ saveï¿½ï¿½Æ° completeï¿½ï¿½ ï¿½Ù²ï¿½
             editSetLayout();
-            mBtnSave.setText("Edit");
+            mTxtSave.setText("edit");
         }
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                //Add edit Activity·Î Àü´ÞÇÑ µ¥ÀÌÅÍ resultText Key °ªÀÇ "superdroid result" ¹®ÀÚ¿­À»
-                //Extra·Î Intent¿¡ ´ã¾Ò´Ù.
+                //Add edit Activityï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ resultText Key ï¿½ï¿½ï¿½ï¿½ "superdroid result" ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½
+                //Extraï¿½ï¿½ Intentï¿½ï¿½ ï¿½ï¿½Ò´ï¿½.
 
                 Intent intent = new Intent();
                 AddEditListData mData = mAdapter.mAddEditListdata.get(position);
@@ -245,7 +248,7 @@ public class AddEditActivity extends Activity implements OnClickListener {
         mAdapter = new ListViewAdapter(this);
 
         mAdapter.addItem("lauch app");
-        mAdapter.addItem("phonenumber");
+        mAdapter.addItem("phone call");
         mAdapter.addItem("IOT");
         for (String name : additionFunctions.nameList) {
             mAdapter.addItem(name);
@@ -394,7 +397,7 @@ public class AddEditActivity extends Activity implements OnClickListener {
                     for (ListData mListData : mArrayListData) {
                         //DB ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ãµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ßºï¿½ï¿½Æ´ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½
                         if (pressedData[0].equals(mListData.getmData1()) && pressedData[1].equals(mListData.getmData2())) {
-                            //mainï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿? ï¿½ï¿½ï¿½ï¿½
+                            //mainï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½? ï¿½ï¿½ï¿½ï¿½
                             if (pressedData[0].equals(mArrayListData.get(mEditPosition).getmData1()) && pressedData[1].equals(mArrayListData.get(mEditPosition).getmData2())) {
                                 continue;
                             } else {
@@ -537,7 +540,7 @@ public class AddEditActivity extends Activity implements OnClickListener {
             addInfo.mTitle = mTitle;
             addInfo.mIcon = null;
             addInfo.mSubTitle = "";
-            addInfo.mCheck = getResources().getDrawable(R.mipmap.ic_launcher);
+            addInfo.mCheck = getResources().getDrawable(R.mipmap.check);
             addInfo.mOnOff = false;
 
             mAddEditListdata.add(addInfo);

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,15 +17,18 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import bonkers.cau.sims.AdditionFunctions;
 import bonkers.cau.sims.R;
-import bonkers.cau.sims.receiver.SwipeDismissListViewTouchListener;
 import bonkers.cau.sims.database.ListDBManager;
 import bonkers.cau.sims.database.ListData;
+import bonkers.cau.sims.receiver.SwipeDismissListViewTouchListener;
 
 public class ListActivity extends Activity implements View.OnClickListener {
 
@@ -33,7 +37,9 @@ public class ListActivity extends Activity implements View.OnClickListener {
     private ListDBManager dbManager;
     private ArrayList<ListData> listDataArrList;
     private ImageButton addBtn;
-    private int mSelectedPosition=-1;
+    private Boolean backKey = false;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +51,7 @@ public class ListActivity extends Activity implements View.OnClickListener {
         mAdapter = new ListViewAdapter(this);
         mListView.setAdapter(mAdapter);
 
-        //DB∏¶ πﬁæ∆ø¬¥Ÿ
+        //DBÔøΩÔøΩ ÔøΩﬁæ∆ø¬¥ÔøΩ
         dbManager= new ListDBManager(getApplicationContext());
         listDataArrList = dbManager.selectAll();
 
@@ -108,6 +114,32 @@ public class ListActivity extends Activity implements View.OnClickListener {
         }
     }
 
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        if (event.getAction() == KeyEvent.ACTION_DOWN) {
+            switch (event.getKeyCode()) {
+                case KeyEvent.KEYCODE_BACK:
+
+                    if(!backKey) {
+                        backKey = true;
+                        Toast.makeText(this, "'Îí§Î°ú'Î≤ÑÌäº ÌïúÎ≤à Îçî ÎàÑÎ•¥ÏãúÎ©¥ Ï¢ÖÎ£åÎê©ÎãàÎã§.", Toast.LENGTH_SHORT).show();
+
+                        TimerTask myTask = new TimerTask() {
+                            public void run() {
+                                backKey = false;
+                            }
+                        };
+                        Timer timer = new Timer();
+                        timer.schedule(myTask, 3000);
+                    }else{
+                        finish();
+                    }
+                    return true;
+            }
+        }
+        return super.dispatchKeyEvent(event);
+    }
+
     private class ViewHolder {
         public ImageView mIcon;
         public TextView mFirst;
@@ -144,8 +176,8 @@ public class ListActivity extends Activity implements View.OnClickListener {
             if(convertView==null) {
                 holder = new ViewHolder();
                 LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                convertView = inflater.inflate(R.layout.listview_list_item, null)
-                ;
+                convertView = inflater.inflate(R.layout.listview_list_item, null);
+
                 holder.mIcon = (ImageView)convertView.findViewById(R.id.list_icon);
                 holder.mFirst = (TextView)convertView.findViewById(R.id.first_setting);
                 holder.mSecond = (TextView)convertView.findViewById(R.id.second_setting);
@@ -162,7 +194,7 @@ public class ListActivity extends Activity implements View.OnClickListener {
 
             if(mData.getmAppName() != null) {
                 CharSequence mAppName;
-                //æÓ«√ ∏Ò∑œ¿ª ∫“∑Øø»
+                //ÔøΩÔøΩÔøΩÔøΩ ÔøΩÔøΩÔøΩÔøΩÔøΩ ÔøΩ“∑ÔøΩÔøΩÔøΩ
                 PackageManager packagemanager = ListActivity.this.getPackageManager();
                 List<ApplicationInfo> appList = packagemanager.getInstalledApplications(0);
 

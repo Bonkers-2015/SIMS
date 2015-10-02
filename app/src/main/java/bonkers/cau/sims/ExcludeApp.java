@@ -14,11 +14,10 @@ public class ExcludeApp extends BroadcastReceiver {
 
     public void onReceive(Context context, Intent intent) {
 
-        //ÇöÀç ½ÇÇàÁßÀÎ Application Á¤º¸ ¹Þ¾Æ¿À±â.
+        //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Application ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¾Æ¿ï¿½ï¿½ï¿½.
         String strPackage = "";
         Context mContext;
         mContext = context;
-
 
       //  context.startService(new Intent(context, ScreenService.class));
         ActivityManager manager = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);

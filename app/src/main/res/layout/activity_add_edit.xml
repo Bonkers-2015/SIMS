@@ -1,218 +1,40 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ff000000"
     tools:context="bonkers.cau.sims.activity.AddEditActivity">
-
-
-    <!--<LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:orientation="vertical"
-        android:weightSum="100">
-
-
-        &lt;!&ndash;<LinearLayout&ndash;&gt;
-            &lt;!&ndash;android:layout_width="fill_parent"&ndash;&gt;
-            &lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;
-            &lt;!&ndash;android:layout_weight="1"&ndash;&gt;
-            &lt;!&ndash;android:orientation="horizontal"&ndash;&gt;
-            &lt;!&ndash;android:weightSum="100">&ndash;&gt;
-
-            &lt;!&ndash;<Button&ndash;&gt;
-                &lt;!&ndash;android:id="@+id/btn_initi"&ndash;&gt;
-                &lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;
-                &lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;
-                &lt;!&ndash;android:layout_gravity="top"&ndash;&gt;
-                &lt;!&ndash;android:layout_weight="1"&ndash;&gt;
-                &lt;!&ndash;android:text="초기화" />&ndash;&gt;
-
-            &lt;!&ndash;<TextView&ndash;&gt;
-                &lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;
-                &lt;!&ndash;android:layout_height="46dp"&ndash;&gt;
-                &lt;!&ndash;android:textAppearance="?android:attr/textAppearanceSmall"&ndash;&gt;
-                &lt;!&ndash;android:id="@+id/textView"&ndash;&gt;
-                &lt;!&ndash;android:layout_weight="94" />&ndash;&gt;
-
-            &lt;!&ndash;<ImageButton&ndash;&gt;
-                &lt;!&ndash;android:id="@+id/btn_setting"&ndash;&gt;
-                &lt;!&ndash;android:layout_width="50dp"&ndash;&gt;
-                &lt;!&ndash;android:layout_height="fill_parent"&ndash;&gt;
-                &lt;!&ndash;android:src="@mipmap/settings2"&ndash;&gt;
-                &lt;!&ndash;android:adjustViewBounds="true"&ndash;&gt;
-                &lt;!&ndash;android:scaleType="fitXY"&ndash;&gt;
-                &lt;!&ndash;android:layout_weight="10.10" />&ndash;&gt;
-
-        &lt;!&ndash;</LinearLayout>&ndash;&gt;
-
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="10"
-            android:weightSum="100">
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:orientation="vertical"
-                android:background="#ffffffff"
-                android:layout_marginRight="2dp"
-                android:layout_marginBottom="2dp"
-                android:layout_weight="35"
-                android:weightSum="100"
-                android:padding="20dp"
-                >
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:gravity="center_vertical|center_horizontal"
-                    android:layout_weight="60"
-                    >
-
-
-
-
-                </LinearLayout>
-
-                <RelativeLayout
-                    android:id="@+id/rl_main"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="40"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_margin="30dp"
-                    >
-
-                    &lt;!&ndash;<Button&ndash;&gt;
-                        &lt;!&ndash;android:id="@+id/btn_volume_up_view"&ndash;&gt;
-                        &lt;!&ndash;android:layout_width="20dp"&ndash;&gt;
-                        &lt;!&ndash;android:layout_height="25dp"&ndash;&gt;
-                        &lt;!&ndash;android:layout_toRightOf="@id/IV_main"&ndash;&gt;
-                        &lt;!&ndash;android:layout_alignTop="@id/IV_main"/>&ndash;&gt;
-
-                    &lt;!&ndash;<Button&ndash;&gt;
-                        &lt;!&ndash;android:id="@+id/btn_volume_down_view"&ndash;&gt;
-                        &lt;!&ndash;android:layout_width="20dp"&ndash;&gt;
-                        &lt;!&ndash;android:layout_height="25dp"&ndash;&gt;
-                        &lt;!&ndash;android:layout_toRightOf="@id/IV_main"&ndash;&gt;
-                        &lt;!&ndash;android:layout_below="@id/btn_volume_up_view"&ndash;&gt;
-                        />
-
-                    <ImageView
-                        android:id="@+id/IV_main"
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:background="@mipmap/main"/>
-
-
-
-                    <LinearLayout
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:orientation="vertical"
-                        android:layout_centerHorizontal="true"
-                        android:layout_centerVertical="true"
-                        android:paddingTop="50dp"
-                        android:paddingBottom="50dp"
-                        android:paddingLeft="30dp"
-                        android:paddingRight="30dp"
-                        android:weightSum="100"
-                       >
-
-                        <Button
-                            android:id="@+id/btn_main"
-                            android:layout_width="fill_parent"
-                            android:layout_height="match_parent"
-                            android:background="#ffffffff"
-                            android:layout_weight="25"
-                            android:layout_marginBottom="10dp"
-                            />
-                        <TextView
-                            android:id="@+id/btn_main_txt"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_weight="75"
-                            android:autoText="true"
-                            android:layout_gravity="center_horizontal" />
-
-
-                    </LinearLayout>
-
-
-
-                </RelativeLayout>
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="fill_parent"
-                android:orientation="vertical"
-                android:layout_marginBottom="2dp"
-                android:background="#ffffffff"
-                android:gravity="center_vertical|center_horizontal"
-                android:layout_weight="65"
-                android:weightSum="99"
-                android:paddingTop="40dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                >
-
-
-
-
-
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:layout_weight="90"
-            android:weightSum="100"
-            android:background="#ffffffff"
-            android:padding="10dp">
-
-        </LinearLayout>
-
-
-
-    </LinearLayout>-->
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#FF000000"
         android:orientation="vertical"
-        android:weightSum="95">
+        android:weightSum="94">
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
-            android:layout_weight="45"
+            android:layout_weight="44"
             android:background="#ffebe1f6"
+            android:paddingLeft="20dp"
             android:orientation="horizontal">
 
-            <TextView
+            <bonkers.cau.sims.MyTextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="bottom"
                 android:text="SIMS"
-                android:textColor="#ffffffff" />
-
+                android:textColor="#ffffffff"
+                android:textSize="30dp"
+                app:typeface="fonts/MASQUE.ttf" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
-            android:layout_weight="25"
+            android:layout_weight="28"
             android:background="#ff000000"
             android:orientation="vertical"
             android:weightSum="93">
@@ -222,14 +44,17 @@
                 android:layout_height="match_parent"
                 android:background="#ff554181"
                 android:orientation="horizontal"
-                android:layout_weight="43">
+                android:paddingLeft="20dp"
+                android:layout_weight="40">
 
-                <TextView
+                <bonkers.cau.sims.MyTextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="bottom"
                     android:text="Choice"
-                    android:textColor="#ffffffff" />
+                    android:textColor="#ffffffff"
+                    android:textSize="25dp"
+                    app:typeface="fonts/210 appR.ttf"/>
 
             </LinearLayout>
 
@@ -242,19 +67,38 @@
                 android:gravity="center_horizontal"
                 android:layout_marginBottom="0.1dp">
 
-                <Button
-                    android:id="@+id/btn_volume_up"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:background="@mipmap/volume_up_off" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
 
-                <Button
-                    android:id="@+id/btn_volume_down"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:background="@mipmap/volume_down_off" />
+                    android:gravity="center">
+
+                    <Button
+                        android:id="@+id/btn_volume_up"
+                        android:layout_width="118dp"
+                        android:layout_height="27dp"
+                        android:layout_gravity="center_vertical"
+                        android:background="@mipmap/volume_up_off" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
+                    <Button
+                        android:id="@+id/btn_volume_down"
+                        android:layout_width="137dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center_vertical"
+                        android:background="@mipmap/volume_down_off" />
+
+                </LinearLayout>
+
+
 
             </LinearLayout>
 
@@ -263,30 +107,54 @@
                 android:layout_height="match_parent"
                 android:background="#ffebe1f6"
                 android:orientation="horizontal"
-                android:layout_weight="20"
+                android:layout_weight="23"
                 android:gravity="center_horizontal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center">
 
                     <Button
                         android:id="@+id/btn_shake"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="66dp"
+                        android:layout_height="72dp"
                         android:layout_gravity="center_vertical"
                         android:background="@mipmap/shake_off" />
 
-                    <Button
-                        android:id="@+id/btn_plugin"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:background="@mipmap/plugin_off" />
+                    </LinearLayout>
 
-                    <Button
-                        android:id="@+id/btn_touch"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:background="@mipmap/touch_off" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center">
 
+                        <Button
+                            android:id="@+id/btn_plugin"
+                            android:layout_width="57dp"
+                            android:layout_height="72dp"
+                            android:layout_gravity="center_vertical"
+                            android:background="@mipmap/plugin_off" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center">
+
+                        <Button
+                            android:id="@+id/btn_touch"
+                            android:layout_width="50dp"
+                            android:layout_height="69dp"
+                            android:layout_gravity="center_vertical"
+                            android:background="@mipmap/touch_off" />
+
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -296,22 +164,26 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="25"
+                android:layout_weight="24"
                 android:background="#ffebe1f6"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:weightSum="90">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="#ff554181"
+                    android:paddingLeft="20dp"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <bonkers.cau.sims.MyTextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="bottom"
                         android:text="Action"
-                        android:textColor="#ffffffff" />
+                        android:textColor="#ffffffff"
+                        android:textSize="25dp"
+                        app:typeface="fonts/210 appR.ttf"/>
 
                 </LinearLayout>
 
@@ -329,57 +201,94 @@
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal"
         android:weightSum="100">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
             android:layout_marginRight="5dp"
-            android:layout_weight="50"
-            android:gravity="center_horizontal"
-            android:background="#ffffffff">
+            android:layout_weight="50">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/ic_launcher"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:paddingLeft="20dp"
+                android:paddingRight="10dp"
+                android:gravity="center_vertical"
+                android:background="@mipmap/save_cancel_bg">
+
+                <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="27dp"
+                    android:src="@mipmap/cancel"/>
+
+                <bonkers.cau.sims.MyTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="20dp"
+                    android:textSize="25dp"
+                    android:textColor="#ff554181"
+                    android:gravity="center"
+                    app:typeface="fonts/210 appR.ttf"
+                    android:text="cancel" />
+
+            </LinearLayout>
 
             <Button
                 android:id="@+id/btn_cancle"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:text="Cancle" />
+                android:alpha="0"
+                android:text="button" />
 
-        </LinearLayout>
+        </RelativeLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:layout_marginRight="5dp"
-            android:layout_weight="50"
-            android:gravity="center_horizontal"
-            android:background="#ffffffff">
+            android:layout_weight="50">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/ic_launcher"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:paddingLeft="20dp"
+                android:paddingRight="10dp"
+                android:gravity="center_vertical"
+                android:background="@mipmap/save_cancel_bg"
+                >
+
+               <ImageView
+                   android:layout_width="33dp"
+                   android:layout_height="34dp"
+                   android:layout_marginRight="20dp"
+                   android:src="@mipmap/save"
+                   android:gravity="bottom"/>
+
+                <bonkers.cau.sims.MyTextView
+                    android:id = "@+id/txt_save"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textSize="25dp"
+                    android:textColor="#ff554181"
+                    android:gravity="center"
+                    app:typeface="fonts/210 appR.ttf"
+                    android:text="save" />
+
+            </LinearLayout>
 
             <Button
                 android:id="@+id/btn_save"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:text="Save" />
+                android:alpha="0"
+                android:text="button"/>
 
-        </LinearLayout>
-
+        </RelativeLayout>
 
     </LinearLayout>
 </RelativeLayout>
