@@ -20,8 +20,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class
-        ListActivity extends Activity implements View.OnClickListener {
+public class  ListActivity extends Activity implements View.OnClickListener {
 
     private ListView mListView = null;
     private ListViewAdapter mAdapter=null;
@@ -29,6 +28,7 @@ public class
     private ArrayList<ListData> listDataArrList;
     private ImageButton addBtn;
     private int mSelectedPosition=-1;
+    private ImageButton eclBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +52,28 @@ public class
 
         addBtn =(ImageButton)findViewById(R.id.list_add_btn);
         addBtn.setOnClickListener(this);
+        eclBtn = (ImageButton) findViewById(R.id.Exclude);
+        eclBtn.setOnClickListener(this);
+
+        eclBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                PackageManager packagemanager = getApplicationContext().getPackageManager();
+                List<ApplicationInfo> installedApps = getApplicationContext().getPackageManager().getInstalledApplications(PackageManager.PERMISSION_GRANTED);
+                List<ApplicationInfo> appList = new ArrayList<ApplicationInfo>();
+                for(int i =0; i < installedApps.size(); i++){
+                    if(getApplicationContext().getPackageManager().getLaunchIntentForPackage(installedApps.get(i).packageName) != null){
+                        //If you're here, then this is a launch-able app
+                        appList.add(installedApps.get(i));
+                    }
+                }
+                for (int i = 0; i < appList.size(); i++){
+                    appAdapter.addItem(appList.get(i).loadIcon(packagemanager), appList.get(i).loadLabel(packagemanager));
+                }
+
+            }
+        });
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -91,6 +113,8 @@ public class
         mListView.setOnScrollListener(touchListner.makeScrollListener());
 
     }
+
+
 
     @Override
     public void onClick(View v) {

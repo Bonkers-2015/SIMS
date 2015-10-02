@@ -16,9 +16,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:background="@mipmap/simslogo" />
+            android:background="@mipmap/simslogo"
+            android:id="@+id/imageView" />
+
+        <ImageButton
+            android:id="@+id/Exclude"
+
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:background="@mipmap/setting"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true" />
+
+
+
+
 
     </RelativeLayout>
+
+
 
 
     <ListView
