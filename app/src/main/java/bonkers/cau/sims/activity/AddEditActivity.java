@@ -370,6 +370,7 @@ public class AddEditActivity extends Activity implements OnClickListener {
                         //DB �� ����Ʈ�� ���� ���õ� �������� �ߺ��ƴ��� �˻�
                         if (pressedData[0].equals(mListData.getmData1()) && pressedData[1].equals(mListData.getmData2())) {
                             showDialog("is already exist");
+                            pressedDataNum =0;
                             return;
                         }
                     }
@@ -401,6 +402,7 @@ public class AddEditActivity extends Activity implements OnClickListener {
                                 continue;
                             } else {
                                 showDialog("is already exist");
+                                pressedDataNum =0;
                                 return;
                             }
                         }
@@ -427,7 +429,7 @@ public class AddEditActivity extends Activity implements OnClickListener {
                 startActivity(cancleintent);
                 finish();
             } else
-                showDialog("select two button and app");
+                showDialog("select two Choice and one Action ");
 
         }
 
