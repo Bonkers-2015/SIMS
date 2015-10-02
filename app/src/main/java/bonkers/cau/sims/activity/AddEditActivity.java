@@ -19,7 +19,6 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -457,9 +456,9 @@ public class AddEditActivity extends Activity implements OnClickListener {
     }
 
     private class ViewHolder {
-        public TextView mMainText;
+        public MyTextView mMainText;
         public ImageView mMainImage;
-        public TextView mSubText;
+        public MyTextView mSubText;
         public ImageView mCheckImage;
     }
 
@@ -502,10 +501,10 @@ public class AddEditActivity extends Activity implements OnClickListener {
                 LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 convertView = inflater.inflate(R.layout.listview_add_edit_item, null);
 
-                holder.mMainText = (TextView) convertView.findViewById(R.id.txt_main);
+                holder.mMainText = (MyTextView) convertView.findViewById(R.id.txt_main);
                 holder.mMainImage = (ImageView) convertView.findViewById(R.id.imageview_main);
                 holder.mCheckImage = (ImageView) convertView.findViewById(R.id.imageview_check);
-                holder.mSubText = (TextView) convertView.findViewById(R.id.txt_sub);
+                holder.mSubText = (MyTextView) convertView.findViewById(R.id.txt_sub);
 
                 convertView.setTag(holder);
             } else {

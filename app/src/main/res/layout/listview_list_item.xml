@@ -1,24 +1,22 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
-    android:layout_height="50dp"
-    android:orientation="horizontal"
-    android:weightSum="100">
+    android:layout_height="fill_parent">
 
     <LinearLayout
         android:id="@+id/linearlayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
         android:orientation="horizontal"
         android:gravity="bottom"
-        android:layout_marginBottom="10dp"
-        android:layout_weight="20">
+        android:layout_marginBottom="5dp">
 
         <bonkers.cau.sims.MyTextView
             android:id="@+id/first_setting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="25dp"
+            android:textSize="23dp"
             android:layout_marginLeft="10dp"
             app:typeface="fonts/210 appR.ttf"
             android:text="text"/>
@@ -27,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="+"
-            android:textSize="25dp"
+            android:textSize="23dp"
             android:layout_marginLeft="10dp"
             app:typeface="fonts/210 appR.ttf"/>
 
@@ -35,27 +33,24 @@
             android:id="@+id/second_setting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="25dp"
+            android:textSize="23dp"
             android:layout_marginLeft="10dp"
             android:text="text"
             app:typeface="fonts/210 appR.ttf"/>
 
     </LinearLayout>
+
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="10dp"
-        android:gravity="bottom|center_horizontal"
-        android:layout_weight="80">
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="5dp"
+        android:layout_marginRight="10dp"
+        android:gravity="bottom">
 
         <ImageView
             android:id="@+id/list_icon"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@mipmap/addition" />
-
+            android:layout_width="40dp"
+            android:layout_height="40dp"/>
     </LinearLayout>
-
-
-
-</LinearLayout>
+</RelativeLayout>

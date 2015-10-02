@@ -16,7 +16,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -25,6 +24,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import bonkers.cau.sims.AdditionFunctions;
+import bonkers.cau.sims.MyTextView;
 import bonkers.cau.sims.R;
 import bonkers.cau.sims.database.ListDBManager;
 import bonkers.cau.sims.database.ListData;
@@ -142,8 +142,8 @@ public class ListActivity extends Activity implements View.OnClickListener {
 
     private class ViewHolder {
         public ImageView mIcon;
-        public TextView mFirst;
-        public TextView mSecond;
+        public MyTextView mFirst;
+        public MyTextView mSecond;
     }
 
     private class ListViewAdapter extends BaseAdapter {
@@ -179,8 +179,8 @@ public class ListActivity extends Activity implements View.OnClickListener {
                 convertView = inflater.inflate(R.layout.listview_list_item, null);
 
                 holder.mIcon = (ImageView)convertView.findViewById(R.id.list_icon);
-                holder.mFirst = (TextView)convertView.findViewById(R.id.first_setting);
-                holder.mSecond = (TextView)convertView.findViewById(R.id.second_setting);
+                holder.mFirst = (MyTextView)convertView.findViewById(R.id.first_setting);
+                holder.mSecond = (MyTextView)convertView.findViewById(R.id.second_setting);
 
                 convertView.setTag(holder);
             }
