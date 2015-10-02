@@ -10,12 +10,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:weightSum="94">
+        android:weightSum="93">
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
-            android:layout_weight="44"
+            android:layout_weight="43"
             android:background="#ffebe1f6"
             android:paddingLeft="20dp"
             android:orientation="horizontal">
@@ -34,10 +34,10 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
-            android:layout_weight="28"
+            android:layout_weight="30"
             android:background="#ff000000"
             android:orientation="vertical"
-            android:weightSum="93">
+            android:weightSum="85">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -45,7 +45,7 @@
                 android:background="#ff554181"
                 android:orientation="horizontal"
                 android:paddingLeft="20dp"
-                android:layout_weight="40">
+                android:layout_weight="35">
 
                 <bonkers.cau.sims.MyTextView
                     android:layout_width="match_parent"
@@ -59,7 +59,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="fill_parent"
                 android:layout_height="match_parent"
                 android:background="#ffebe1f6"
                 android:orientation="horizontal"
@@ -103,11 +103,11 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="fill_parent"
                 android:layout_height="match_parent"
                 android:background="#ffebe1f6"
                 android:orientation="horizontal"
-                android:layout_weight="23"
+                android:layout_weight="20"
                 android:gravity="center_horizontal">
 
                 <LinearLayout
@@ -164,16 +164,18 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="24"
+                android:layout_weight="20"
                 android:background="#ffebe1f6"
                 android:orientation="vertical"
-                android:weightSum="90">
+                android:weightSum="90"
+                >
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
                     android:background="#ff554181"
                     android:paddingLeft="20dp"
+                    android:layout_weight="80"
                     android:orientation="horizontal">
 
                     <bonkers.cau.sims.MyTextView
@@ -187,13 +189,20 @@
 
                 </LinearLayout>
 
-                <ListView
-                    android:id="@+id/listview_main"
+                <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="match_parent"
-                    android:layout_alignParentStart="true">
+                    android:layout_weight="20">
 
-                </ListView>
+                    <ListView
+                        android:id="@+id/listview_main"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                    </ListView>
+
+                </LinearLayout>
+
 
             </LinearLayout>
 

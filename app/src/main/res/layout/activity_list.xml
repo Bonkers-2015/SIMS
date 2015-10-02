@@ -2,48 +2,66 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_height="fill_parent"
+    android:background="#ffebe1f6">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:weightSum="100">
+        
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:background="#ff916dfa"
+            android:gravity="center"
+            android:layout_weight="90"
+            >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@mipmap/simslogo" />
+            
+        </LinearLayout>
+        
+        <ListView
+            android:id="@+id/mlist"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="10">
+
+        </ListView>
+        
+    </LinearLayout>
 
     <RelativeLayout
-        android:id="@+id/list_relativelayout"
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="50dp"
-        android:background="#916dfa"
-        android:orientation="horizontal"
-        android:layout_marginBottom="20dp">
-
+        android:layout_alignParentBottom="true">
+        
         <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@mipmap/add_bg"/>
+
+        <bonkers.cau.sims.MyTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:background="@mipmap/simslogo" />
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="+ add"
+            android:textSize="30dp"
+            android:textColor="#ffffffff"
+            app:typeface="fonts/210 appR.ttf"/>
 
-    </RelativeLayout>
-
-
-    <ListView
-        android:id="@+id/mlist"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/list_relativelayout"
-        android:layout_alignParentStart="true">
-
-    </ListView>
-
-    <RelativeLayout
-        android:layout_alignParentBottom="true"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
         <ImageButton
             android:id="@+id/list_add_btn"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@mipmap/add_btn_background"/>
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@mipmap/add_btn_txt"
-            android:layout_centerInParent="true"
+            android:layout_height="match_parent"
+            android:alpha="0"
             />
 
     </RelativeLayout>
