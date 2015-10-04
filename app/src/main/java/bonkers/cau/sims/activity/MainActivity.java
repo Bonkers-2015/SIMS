@@ -24,16 +24,16 @@ public class MainActivity extends Activity  {
         setContentView(R.layout.activity_main);
 
 
-        //Ã³À½ º¼·ý°ª ÀúÀå
+        //Ã³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         SharedPreferences prefs = this.getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
 
-        // STREAM_RING : º§¼Ò¸® , STREAM_MUSIC : ¹Ìµð¾î
+        // STREAM_RING : ï¿½ï¿½ï¿½Ò¸ï¿½ , STREAM_MUSIC : ï¿½Ìµï¿½ï¿½
         AudioManager audio = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         int currentVolume = audio.getStreamVolume(AudioManager.STREAM_RING);
 
         editor.putInt("volume", currentVolume);
-        editor.putBoolean("flag", true);
+        editor.putBoolean("volumeFlag", true);
         editor.commit();
 
         startService(new Intent(this, VolumeService.class));

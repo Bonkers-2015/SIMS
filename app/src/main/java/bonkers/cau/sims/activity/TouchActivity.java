@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -43,15 +42,15 @@ public class TouchActivity extends Activity  {
             @Override
             public void onClick(View v) {
 
-                //Add edit Activity·Î Àü´ÞÇÑ µ¥ÀÌÅÍ resultText Key °ªÀÇ "superdroid result" ¹®ÀÚ¿­À»
-                //Extra·Î Intent¿¡ ´ã¾Ò´Ù.
+                //Add edit Activityï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ resultText Key ï¿½ï¿½ï¿½ï¿½ "superdroid result" ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½
+                //Extraï¿½ï¿½ Intentï¿½ï¿½ ï¿½ï¿½Ò´ï¿½.
                 Intent intent = new Intent();
 
                 intent.putExtra("resultText", touchPath);
                 intent.putExtra("resultType", "touch");
 
-                // Àü´ÞÇÒ Intent¸¦ ¼³Á¤ÇÏ°í finish()ÇÔ¼ö¸¦ ÅëÇØ
-                //B Activity¸¦ Á¾·á½ÃÅ´°ú µ¿½Ã¿¡ °á°ú·Î Intent¸¦ Àü´ÞÇÏ¿´´Ù.
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Intentï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ finish()ï¿½Ô¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+                //B Activityï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Å´ï¿½ï¿½ ï¿½ï¿½ï¿½Ã¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ Intentï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ï¿½ï¿½.
                 setResult(RESULT_OK, intent);
                 finish();
 
@@ -67,8 +66,8 @@ public class TouchActivity extends Activity  {
         static final float rtd = 57.29577951f;
         static final float sectionNum = 8;
         static final float roundMinAngle = 2 * pi * 11 / 12;
-        ArrayList<Vertex> arVertex1; //»ç¿ëÀÚ°¡ ÅÍÄ¡ÇÑÁ÷¼±
-        ArrayList<Vertex> arVertex2; //1Â÷ º¸°£µÈ ¼±ºÐ
+        ArrayList<Vertex> arVertex1; //ï¿½ï¿½ï¿½ï¿½Ú°ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        ArrayList<Vertex> arVertex2; //1ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         ArrayList<Vertex> arVertex3; //
 
         Paint mPaint;
@@ -116,7 +115,7 @@ public class TouchActivity extends Activity  {
                 }
 
 
-                //ºÎµå·´°Ô ÇÏ±â À§ÇØ¼­ ¿øÀ» Ãß°¡
+                //ï¿½Îµå·´ï¿½ï¿½ ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
                 canvas.drawCircle(arVertex1.get(i - 1).x, arVertex1.get(i - 1).y, 3, mPaint);
                 canvas.drawLine(arVertex1.get(i - 1).x, arVertex1.get(i - 1).y, arVertex1.get(i).x, arVertex1.get(i).y, mPaint);
                 canvas.drawCircle(arVertex1.get(i).x, arVertex1.get(i).y, 3, mPaint);
@@ -124,7 +123,7 @@ public class TouchActivity extends Activity  {
             }
 
             for (int i = 1; i < arVertex2.size(); i++) {
-                //ºÎµå·´°Ô ÇÏ±â À§ÇØ¼­ ¿øÀ» Ãß°¡
+                //ï¿½Îµå·´ï¿½ï¿½ ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
                 float x1 = arVertex2.get(i - 1).x;
                 float y1 = arVertex2.get(i - 1).y;
                 float x2 = arVertex2.get(i).x;
@@ -145,7 +144,7 @@ public class TouchActivity extends Activity  {
             }
 
             for (int i = 0; i < arVertex3.size(); i++) {
-                //ºÎµå·´°Ô ÇÏ±â À§ÇØ¼­ ¿øÀ» Ãß°¡
+                //ï¿½Îµå·´ï¿½ï¿½ ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
                 mPaint.setAlpha(250);
                 float x1 = arVertex3.get(i).x;
                 float y1 = arVertex3.get(i).y;
@@ -192,11 +191,11 @@ public class TouchActivity extends Activity  {
                     x2 = arVertex1.get(i).x - arVertex1.get(i - 1).x;
                     y2 = arVertex1.get(i - 1).y - arVertex1.get(i).y;
 
-                    //°¢µµ ±¸ÇÏ±â
+                    //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï±ï¿½
                     float radian = getAngle(x2, y2);
-                    //°Å¸® ±¸ÇÏ±â
+                    //ï¿½Å¸ï¿½ ï¿½ï¿½ï¿½Ï±ï¿½
                     float length = (float) Math.sqrt(Math.pow(x2, 2.f) + Math.pow(y2, 2.f));
-                    //°¢µµ·Î ±¸¿ª±¸ÇÏ±â
+                    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
                     float tempang = (radian + (section / 2)) % (2 * pi);
                     int sec = (int) (tempang / section);
 
@@ -204,7 +203,7 @@ public class TouchActivity extends Activity  {
                     arVertex1.get(i).length = length;
                     arVertex1.get(i).section = sec;
 
-                    //ÀÌÀü Á÷¼±°úÀÇ °¢µµÂ÷
+                    //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                     if (!allAngleReset) {
                         float AngGap = arVertex1.get(i - 1).radian - arVertex1.get(i).radian;
                         if (AngGap > pi) {
@@ -219,13 +218,13 @@ public class TouchActivity extends Activity  {
                     }
 
                     allLength += length;
-                    Log.v("test", i + "¹ø¶óÀÎ  ±¸°£  : " + sec + "  °¢µµ : " + (int) (radian * rtd) +
-                            " ±æÀÌÇÕ : " + allLength + " °¢µµÂ÷ÇÕ : " + (int) (allAngle * rtd) + "    " + (int) (allAngle1 * rtd));
+                    Log.v("test", i + "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  ï¿½ï¿½ï¿½ï¿½  : " + sec + "  ï¿½ï¿½ï¿½ï¿½ : " + (int) (radian * rtd) +
+                            " ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ : " + allLength + " ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ : " + (int) (allAngle * rtd) + "    " + (int) (allAngle1 * rtd));
 
                     if (allAngle > section * 3 / 2 || allAngle < -section * 3 / 2) {
-                        Log.v("test", i + "¹øÂ°" +
-                                " º¯°îÁ¡ °¢µµ : " + (int) (allAngle * rtd) +
-                                " ÃÑ ±æÀÌ´Â " + allLength);
+                        Log.v("test", i + "ï¿½ï¿½Â°" +
+                                " ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : " + (int) (allAngle * rtd) +
+                                " ï¿½ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½ " + allLength);
 
                         allAngleReset = false;
                         allAngle = 0;
@@ -234,14 +233,13 @@ public class TouchActivity extends Activity  {
                 }
                 arVertex2.add(arVertex1.get(arVertex1.size() - 1));
 
-                Log.v("test", "=========> ÃÑ°¢µµ : " + (int) (allAngle * rtd));
+                Log.v("test", "=========> ï¿½Ñ°ï¿½ï¿½ï¿½ : " + (int) (allAngle * rtd));
 
                 if (allAngle1 > roundMinAngle) {
                     int round = (int) (allAngle1 / (2 * pi));
                     if (allAngle1 % (2 * pi) > roundMinAngle) {
                         round++;
                     }
-                    Toast.makeText(this.getContext(), "circle(countercolckwise) " + round + "round", Toast.LENGTH_SHORT).show();
                     touchPath = "circle<" + round;
                     return false;
                 } else if (-allAngle1 > roundMinAngle) {
@@ -249,7 +247,6 @@ public class TouchActivity extends Activity  {
                     if (-allAngle1 % (2 * pi) > roundMinAngle) {
                         round++;
                     }
-                    Toast.makeText(this.getContext(), "circle(clockwise) " + round + "round ", Toast.LENGTH_SHORT).show();
                     touchPath = "circle>" + round;
                     return false;
                 }
@@ -262,28 +259,28 @@ public class TouchActivity extends Activity  {
 
                     float length = (float) Math.sqrt(Math.pow(x2, 2.f) + Math.pow(y2, 2.f));
                     if (length < (allLength / (arVertex2.size()) / 2)) {
-                        Log.v("test", "2´Ü°è   ==> ÀüÃ¼ ±æÀÌ : " + allLength / (arVertex2.size()) + " ÀÌºÎºÐ±æÀÌ : " + length);
+                        Log.v("test", "2ï¿½Ü°ï¿½   ==> ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½ : " + allLength / (arVertex2.size()) + " ï¿½ÌºÎºÐ±ï¿½ï¿½ï¿½ : " + length);
                         continue;
                     }
-                    //°¢µµ ±¸ÇÏ±â
+                    //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï±ï¿½
                     float radian = getAngle(x2, y2);
 
-                    //Ã¹¹øÂ° Á÷¼±À¸·Î º¸Á¤
+                    //Ã¹ï¿½ï¿½Â° ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                     radian += AllmoveAngle;
-                    //¸ÅÄªµÇ´Â °¡Àå °¡±î¿î Á÷¼±°¢ ±¸ÇÏ±â 22.5 µµ È¸Àü
+                    //ï¿½ï¿½Äªï¿½Ç´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï±ï¿½ 22.5 ï¿½ï¿½ È¸ï¿½ï¿½
                     float tempang = (radian + (section / 2)) % (2 * pi);
 
                     float moveAngle = tempang % section;
                     moveAngle = (moveAngle < (section / 2) ? (section / 2) - moveAngle : (section / 2) - moveAngle);
 
-                    if (i == 1)//Ã¹¹øÂ° Á÷¼±¿¡´ëÇØ º¸Á¤.
+                    if (i == 1)//Ã¹ï¿½ï¿½Â° ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
                     {
                         AllmoveAngle = moveAngle;
                     }
-                    //°¢µµ·Î ±¸¿ª±¸ÇÏ±â
+                    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
                     int sec = (int) (tempang / section);
 
-                    Log.v("test", "2´Ü°è   ==> " + i + "¹ø¶óÀÎ   ±¸°£  : " + sec + "  °¢µµ : " + (int) ((radian + moveAngle) * rtd));
+                    Log.v("test", "2ï¿½Ü°ï¿½   ==> " + i + "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½   ï¿½ï¿½ï¿½ï¿½  : " + sec + "  ï¿½ï¿½ï¿½ï¿½ : " + (int) ((radian + moveAngle) * rtd));
 
                     if (arVertex3.size() > 0) {
                         if (arVertex3.get(arVertex3.size() - 1).section == sec) {
@@ -299,14 +296,13 @@ public class TouchActivity extends Activity  {
                 }
 
                 invalidate();
-                //ÅØ½ºÆ® Ãâ·Â
+                //ï¿½Ø½ï¿½Æ® ï¿½ï¿½ï¿½
                 String str = "";
                 for (int i = 0; i < arVertex3.size(); i++) {
                     str = str + arVertex3.get(i).section;
                     if (i < arVertex3.size() - 1)
                         str = str + ">";
                 }
-                Toast.makeText(this.getContext(), str, Toast.LENGTH_SHORT).show();
                 touchPath = str;
 
                 return true;
@@ -314,23 +310,23 @@ public class TouchActivity extends Activity  {
             return false;
         }
 
-        //x = 0 Á÷¼±¿¡ ´ëÇÑ Á¡ÀÇ °¢µµ¸¦ °è»êÇÑ´Ù
+        //x = 0 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½
         float getAngle(float x2, float y2) {
-            //±âÁØ¼±¹®
+            //ï¿½ï¿½ï¿½Ø¼ï¿½ï¿½ï¿½
             float x1 = 1.f, y1 = 0.f;
-            //0À¸·Î ³ª´©´Â°Å ¹æÁö
+            //0ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Â°ï¿½ ï¿½ï¿½ï¿½ï¿½
             if (x2 == x1) {
                 x2 *= 2;
                 y2 *= 2;
             }
             float radian = -(float) Math.atan((y2 - y1) / (x2 - x1));
 
-            //180µµ
+            //180ï¿½ï¿½
             if (x2 < 0 && y2 == 0) {
                 radian -= pi;
             }
 
-            //»çºÐ¸éº° °¢µµ Á¶Á¤
+            //ï¿½ï¿½Ð¸éº° ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             if (y2 < y1 && x2 > x1) {
             } else if ((y2 < y1 && x2 < x1) ||
                     (y2 > y1 && x2 < x1)) {
