@@ -32,22 +32,19 @@ public class AdditionFunctions{
             set_SilentMod(context);
         }else if(name.equals(nameList.get(4))){
             set_VibrateMod(context);
-        }else if(name.equals(nameList.get(5))){
-            set_RingMod(context);
-        }else if(name.equals(nameList.get(6))) {
+        }else if(name.equals(nameList.get(5))) {
             //Screen Shot
-        }else if(name.equals(nameList.get(7))) {
+        }else if(name.equals(nameList.get(6))) {
             //empty
         }
     }
 
     public void listSetting(){
         nameList.add("Wifi on/off");
-        nameList.add("bluetooth on/off");
+        nameList.add("Bluetooth on/off");
         nameList.add("GPS on/off");
-        nameList.add("silent mode");
-        nameList.add("vibrate mode");
-        nameList.add("ring mode");
+        nameList.add("Silent mode");
+        nameList.add("Vibrate mode");
         nameList.add("Screen Shot");
         nameList.add("   ");
     }
@@ -106,11 +103,11 @@ public class AdditionFunctions{
         mAudioManager.setRingerMode(AudioManager.RINGER_MODE_VIBRATE);
     }
 
-    /*  Silent mode 소리모드로 변경  */
-    public void set_RingMod(Context mContext) {
-        AudioManager mAudioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
-        mAudioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
-    }
+//    /*  Silent mode 소리모드로 변경  */
+//    public void set_RingMod(Context mContext) {
+//        AudioManager mAudioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
+//        mAudioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
+//    }
 
     /*  Screenshot  */
     // 미완성

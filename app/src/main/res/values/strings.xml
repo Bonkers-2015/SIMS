@@ -20,4 +20,5 @@
     <string name="title_activity_earphone_pulgged">EarphonePulgged</string>
     <string name="title_activity_exclude_app">ExcludeApp</string>
     <string name="title_activity_test">Test</string>
+    <string name="title_activity_ecluded_app">EcludedApp</string>
 </resources>

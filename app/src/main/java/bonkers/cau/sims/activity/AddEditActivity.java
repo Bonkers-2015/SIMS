@@ -232,8 +232,8 @@ public class AddEditActivity extends Activity implements OnClickListener {
         mListView = (ListView)findViewById(R.id.listview_main);
         mAdapter = new ListViewAdapter(this);
 
-        mAdapter.addItem("lauch app");
-        mAdapter.addItem("phone call");
+        mAdapter.addItem("App");
+        mAdapter.addItem("Phone call");
         for (String name : additionFunctions.nameList) {
             mAdapter.addItem(name);
         }

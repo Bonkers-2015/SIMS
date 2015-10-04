@@ -11,16 +11,17 @@ import android.util.Log;
 import android.widget.RemoteViews;
 
 import bonkers.cau.sims.service.MainService;
+import bonkers.cau.sims.service.VolumeService;
 
 
-public class WidgetProvider extends AppWidgetProvider {
+public class SimsWidget extends AppWidgetProvider {
 
     private static final String ACTION_SIMS_ON ="com.sims.widget.ON";
     private static final String ACTION_SIMS_OFF ="com.sims.widget.OFF";
     private ComponentName simsWidget;
     private RemoteViews views = null;
 
-    int widgetControl = 0;
+    int widgetControl = 1;
 
     private Intent intent;
 
@@ -30,17 +31,17 @@ public class WidgetProvider extends AppWidgetProvider {
         // TODO Auto-generated method stub
         Log.e("Widget State","onUpdate");
 
-        simsWidget = new ComponentName(context, WidgetProvider.class);
+        simsWidget = new ComponentName(context, SimsWidget.class);
         views = new RemoteViews(context.getPackageName(), R.layout.activity_sims_widget);
 
         if(widgetControl == 0){
 
-            views.setImageViewResource(R.id.sims_btn, R.mipmap.off);
+            views.setImageViewResource(R.id.sims_btn, R.mipmap.widget_off);
             intent = new Intent(ACTION_SIMS_ON);
 
         }else if(widgetControl == 1){
 
-            views.setImageViewResource(R.id.sims_btn, R.mipmap.on);
+            views.setImageViewResource(R.id.sims_btn, R.mipmap.widget_on);
             intent = new Intent(ACTION_SIMS_OFF);
         }
 
@@ -65,9 +66,11 @@ public class WidgetProvider extends AppWidgetProvider {
 
                 Intent i = new Intent(context, MainService.class);
                 context.startService(i);
+                Intent j = new Intent(context, VolumeService.class);
+                context.startService(j);
 
                 AppWidgetManager manager = AppWidgetManager.getInstance(context);
-                this.onUpdate(context, manager, manager.getAppWidgetIds(new ComponentName(context, WidgetProvider.class)));
+                this.onUpdate(context, manager, manager.getAppWidgetIds(new ComponentName(context, SimsWidget.class)));
 
             }catch (Exception e) {
                 // TODO: handle exception
@@ -81,9 +84,11 @@ public class WidgetProvider extends AppWidgetProvider {
 
                 Intent i = new Intent(context, MainService.class);
                 context.stopService(i);
+                Intent j = new Intent(context, VolumeService.class);
+                context.stopService(j);
 
                 AppWidgetManager manager = AppWidgetManager.getInstance(context);
-                this.onUpdate(context, manager, manager.getAppWidgetIds(new ComponentName(context, WidgetProvider.class)));
+                this.onUpdate(context, manager, manager.getAppWidgetIds(new ComponentName(context, SimsWidget.class)));
 
             }catch (Exception e) {
                 // TODO: handle exception

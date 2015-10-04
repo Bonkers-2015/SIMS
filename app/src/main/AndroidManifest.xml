@@ -12,11 +12,10 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.VIBRATE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.media_content_control"/>
-    <uses-permission android:name="android.permission.CALL_PHONE"   />
-
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.media_content_control" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
         android:allowBackup="true"
@@ -46,12 +45,11 @@
             android:theme="@android:style/Theme.Dialog"
             android:windowSoftInputMode="stateHidden" >
         </activity>
-
         <activity
             android:name=".activity.AddEditActivity"
-            android:label="@string/title_activity_add_edit" >`
+            android:label="@string/title_activity_add_edit" >
+`
         </activity>
-
         <activity
             android:name=".activity.ListActivity"
             android:label="@string/title_activity_add_edit" >
@@ -63,7 +61,6 @@
 
         <service android:name=".service.MainService" >
         </service>
-
         <service
             android:name=".service.ShakeService"
             android:enabled="true"
@@ -79,33 +76,28 @@
             android:enabled="true"
             android:exported="true" >
         </service>
-
         <service
             android:name=".service.EarphoneService"
             android:enabled="true"
             android:exported="true" >
         </service>
-
         <service
             android:name=".service.VolumeService"
             android:enabled="true"
             android:exported="true" >
         </service>
 
-
-        <!--     EarphoneReceiver 생성자 때문에 오류남, 실행하는데 영향 X             -->
+        <!-- EarphoneReceiver 생성자 때문에 오류남, 실행하는데 영향 X -->
         <receiver
             android:name=".receiver.EarphoneReceiver"
             android:enabled="true"
             android:exported="true" >
         </receiver>
-
         <receiver
             android:name=".receiver.VolumeReceiver"
             android:enabled="true"
             android:exported="true" >
         </receiver>
-
         <receiver
             android:name=".receiver.ScreenReceiver"
             android:enabled="true"
@@ -115,7 +107,6 @@
                 <action android:name="android.intent.action.SCREEN_OFF" />
             </intent-filter>
         </receiver>
-
         <receiver
             android:name=".receiver.BootReceiver"
             android:enabled="true"
@@ -137,7 +128,7 @@
         </service>
 
         <receiver
-            android:name=".WidgetProvider"
+            android:name=".SimsWidget"
             android:label="@string/title_activity_widget_provider" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -149,8 +140,6 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_provider_basic" />
         </receiver>
-
-
         <receiver
             android:name=".ExcludeApp"
             android:label="@string/title_activity_exclude_app" >
@@ -159,5 +148,10 @@
             </intent-filter>
         </receiver>
 
+        <activity
+            android:name=".activity.EcludedApp"
+            android:label="@string/title_activity_ecluded_app" >
+        </activity>
     </application>
+
 </manifest>

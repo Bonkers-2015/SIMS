@@ -10,6 +10,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:src="@mipmap/off" />
+        android:src="@mipmap/widget_on" />
 
 </LinearLayout>
