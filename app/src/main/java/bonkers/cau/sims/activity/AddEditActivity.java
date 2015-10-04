@@ -37,7 +37,7 @@ public class AddEditActivity extends Activity implements OnClickListener {
 
     private static final int LAUNCHED_ACTIVITY = 1;
     private static final int VOLUME_UP=0,VOLUME_DOWN=1,SHAKE=2,PLUGIN=3,TOUCH=4;
-    private static final int MAIN_APP=0,MAIN_PHONE=1,MAIN_IOT=2,MAIN_ADDITION =3;
+    private static final int MAIN_APP=0,MAIN_PHONE=1,MAIN_ADDITION =2;
     private boolean editState = true;
 
     private CharSequence additionName = null, phoneName = null, appName = null, mAppName = null,mAppPackage=null;
@@ -98,11 +98,6 @@ public class AddEditActivity extends Activity implements OnClickListener {
                     intent = new Intent(AddEditActivity.this, PopupPhoneActivity.class);
                     startActivityForResult(intent, LAUNCHED_ACTIVITY);
 
-                } else if (position == MAIN_IOT) {
-                    additionName = "iot";
-                    appName = null;
-                    phoneName = null;
-                    listviewSetting(position);
                 } else {
                     for (int i = 0; i < additionFunctions.nameList.size(); i++) {
                         if (position == i + MAIN_ADDITION) {
@@ -151,11 +146,6 @@ public class AddEditActivity extends Activity implements OnClickListener {
                         mButtons.get(TOUCH).setName(touchName.toString());
 
                           Toast.makeText(getApplicationContext(), touchName.toString(), Toast.LENGTH_SHORT).show();
-                    } else if(returnType.equals("iot")){
-//                            additionName = "iot";
-//                            appName = null;
-//                            phoneName = null;
-//                            listviewSetting(MAIN_IOT);
                     }
 
                 }
@@ -213,10 +203,6 @@ public class AddEditActivity extends Activity implements OnClickListener {
         }else if(listDataArrList.get(mEditPosition).getmAdditionName() != null) {
             additionName = listDataArrList.get(mEditPosition).getmAdditionName();
 
-            if(additionName.equals("iot")){
-                mainPosition = MAIN_IOT;
-            }
-
             for (int i = 0; i < additionFunctions.nameList.size(); i++) {
                 if (additionName.equals(additionFunctions.nameList.get(i))) {
                     mainPosition = i + MAIN_ADDITION;
@@ -248,7 +234,6 @@ public class AddEditActivity extends Activity implements OnClickListener {
 
         mAdapter.addItem("lauch app");
         mAdapter.addItem("phone call");
-        mAdapter.addItem("IOT");
         for (String name : additionFunctions.nameList) {
             mAdapter.addItem(name);
         }
