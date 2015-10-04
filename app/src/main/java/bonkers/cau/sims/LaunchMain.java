@@ -40,10 +40,10 @@ public class LaunchMain {
 
                         Intent intent;
                         // 바로 걸기
-//                        intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+list.getmPhoneNumber()));
+                        intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:"+list.getmPhoneNumber()));
 
                         // 번호 띄우기
-                        intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+list.getmPhoneNumber()));
+//                        intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+list.getmPhoneNumber()));
 
                         PendingIntent pi = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_ONE_SHOT);
                         try {

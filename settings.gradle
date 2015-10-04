@@ -1,1 +1,1 @@
-include 'mylibrary', ':mylibrary', ':app', ':huelocalsdk', ':huesdkresources'
+include 'mylibrary', ':app', ':huelocalsdk', ':huesdkresources', ':mylibrary'

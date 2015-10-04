@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Timer;
@@ -66,12 +65,12 @@ public class VolumeReceiver extends BroadcastReceiver {
         prefs = mContext.getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
         editor = prefs.edit();
 
-        flag = prefs.getBoolean("flag", true);
+        flag = prefs.getBoolean("volumeFlag", true);
         oldVolume = prefs.getInt("volume",-1);
 
         if(flag) {
             // 두번 중 한번은 버림
-            editor.putBoolean("flag",false);
+            editor.putBoolean("volumeFlag",false);
             editor.commit();
             return;
         }
@@ -97,8 +96,6 @@ public class VolumeReceiver extends BroadcastReceiver {
                 //volume max
                 data1 = "volume up";
             }
-
-            Toast.makeText(mContext, ""+1, Toast.LENGTH_SHORT).show();
         }
 
         if(checkData1(data1)) {
@@ -114,7 +111,7 @@ public class VolumeReceiver extends BroadcastReceiver {
 
 
         editor.putInt("volume", currentVolume);
-        editor.putBoolean("flag",true);
+        editor.putBoolean("volumeFlag",true);
         editor.commit();
 
     }

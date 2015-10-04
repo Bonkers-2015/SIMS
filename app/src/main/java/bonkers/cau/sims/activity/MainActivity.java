@@ -37,7 +37,7 @@ public class MainActivity extends Activity  {
         int currentVolume = audio.getStreamVolume(AudioManager.STREAM_RING);
 
         editor.putInt("volume", currentVolume);
-        editor.putBoolean("flag", true);
+        editor.putBoolean("volumeFlag", true);
         editor.commit();
 
         startService(new Intent(this, VolumeService.class));

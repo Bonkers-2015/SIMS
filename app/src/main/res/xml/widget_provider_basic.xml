@@ -2,6 +2,6 @@
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
     android:minHeight="54dp"
     android:minWidth="54dp"
-    android:previewImage="@mipmap/off"
+    android:previewImage="@mipmap/widget_on"
     android:resizeMode="horizontal|vertical"
     android:updatePeriodMillis="1800000" />

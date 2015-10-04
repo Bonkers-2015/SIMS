@@ -32,4 +32,6 @@
     <string name="connecting">connecting</string>
     <string name="title_activity_test">Test</string>
     <string name="title_activity_brightness">Brightness</string>
+    <string name="title_activity_ecluded_app">EcludedApp</string>
+
 </resources>
