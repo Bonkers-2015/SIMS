@@ -18,8 +18,8 @@ public class SoundService extends Service {
     @Override
     public int onStartCommand(Intent paramIntent, int paramInt1, int paramInt2) {
         context=getApplicationContext();
-        Notification notification = new Notification(R.mipmap.ic_launcher, "¼­ºñ½º ½ÇÇàµÊ", System.currentTimeMillis());
-        notification.setLatestEventInfo(getApplicationContext(), "Screen Service", "Foreground·Î ½ÇÇàµÊ", null);
+        Notification notification = new Notification(R.mipmap.ic_launcher, "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½", System.currentTimeMillis());
+        notification.setLatestEventInfo(getApplicationContext(), "Screen Service", "Foregroundï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½", null);
         startForeground(1, notification);
         play();
 
@@ -29,10 +29,12 @@ public class SoundService extends Service {
     public void play(){
         context = getApplicationContext();
         try {
-            stop();
-            mediaPalyer = MediaPlayer.create(context,R.raw.nonesound);
-            mediaPalyer.setLooping(true);
-            mediaPalyer.start();
+            mediaPalyer = MediaPlayer.create(context, R.raw.nonesound);
+            if (!mediaPalyer.isPlaying()) {
+
+                mediaPalyer.setLooping(true);
+                mediaPalyer.start();
+            }
         }catch (IllegalStateException e) {
             e.printStackTrace();
         }

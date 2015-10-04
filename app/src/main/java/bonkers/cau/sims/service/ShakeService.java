@@ -12,7 +12,7 @@ import bonkers.cau.sims.LaunchMain;
 import bonkers.cau.sims.receiver.ShakeEventListener;
 
 /**
- * Created by ±è½Â¿í on 2015-08-20.
+ * Created by ï¿½ï¿½Â¿ï¿½ on 2015-08-20.
  */
 public class ShakeService extends Service {
     SensorManager mSensorManager;
@@ -38,6 +38,7 @@ public class ShakeService extends Service {
         mSensorListener.setOnShakeListener(new ShakeEventListener.OnShakeListener() {
 
             public void onShake() {
+
 
                 LaunchMain main = new LaunchMain();
                 main.launch(getApplicationContext(), data1, "shake");

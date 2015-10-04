@@ -10,9 +10,11 @@ import android.provider.Settings;
 
 import java.util.ArrayList;
 
+import bonkers.cau.sims.lighting.quickstart.Lighting;
+
 /*  Created by KGM on 2015-09-19.  */
 public class AdditionFunctions{
-
+    Lighting mLighting;
     public ArrayList<String> nameList;
 
     public AdditionFunctions(){
@@ -36,7 +38,14 @@ public class AdditionFunctions{
             set_RingMod(context);
         }else if(name.equals(nameList.get(6))) {
             //Screen Shot
-        }else if(name.equals(nameList.get(7))) {
+        }
+        else if(name.equals(nameList.get(7))) {
+            mLighting=new Lighting();
+            mLighting.randomLights();
+        }else if(name.equals(nameList.get(8))) {
+            mLighting=new Lighting();
+            mLighting.onOffLights();
+        }else if(name.equals(nameList.get(9))) {
             //empty
         }
     }
@@ -49,6 +58,8 @@ public class AdditionFunctions{
         nameList.add("vibrate mode");
         nameList.add("ring mode");
         nameList.add("Screen Shot");
+        nameList.add("light color");
+        nameList.add("light on/off");
         nameList.add("   ");
     }
 

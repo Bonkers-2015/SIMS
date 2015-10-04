@@ -16,7 +16,7 @@
             android:id="@+id/first_setting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="23dp"
+            android:textSize="18dp"
             android:layout_marginLeft="10dp"
             app:typeface="fonts/210 appR.ttf"
             android:text="text"/>
@@ -25,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="+"
-            android:textSize="23dp"
+            android:textSize="18dp"
             android:layout_marginLeft="10dp"
             app:typeface="fonts/210 appR.ttf"/>
 
@@ -33,7 +33,7 @@
             android:id="@+id/second_setting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="23dp"
+            android:textSize="18dp"
             android:layout_marginLeft="10dp"
             android:text="text"
             app:typeface="fonts/210 appR.ttf"/>

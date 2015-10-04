@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import bonkers.cau.sims.WakeLockUtils;
 import bonkers.cau.sims.database.ListDBManager;
 import bonkers.cau.sims.database.ListData;
 import bonkers.cau.sims.service.EarphoneService;
@@ -47,6 +48,9 @@ public class VolumeReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         mContext = context;
 //        mIntent =  intent;
+        WakeLockUtils wakeLockUtils=new WakeLockUtils(mContext);
+        wakeLockUtils.unLock();
+
 
         touchIntent = new Intent(mContext, TouchService.class);
         shakeIntent = new Intent(mContext, ShakeService.class);

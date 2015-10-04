@@ -15,9 +15,9 @@ import bonkers.cau.sims.database.ListData;
  * Created by dongbin on 2015-10-01.
  */
 public class LaunchMain {
-
     public void launch(Context context, String data1, String data2){
-
+        WakeLockUtils wakeLock=new WakeLockUtils(context);
+        wakeLock.unLockScreen();
         ListDBManager dbManager = new ListDBManager(context);
         ArrayList<ListData> listDataArrList = dbManager.selectAll();
         PackageManager packagemanager = context.getPackageManager();

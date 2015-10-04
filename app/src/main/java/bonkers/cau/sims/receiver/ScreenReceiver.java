@@ -10,7 +10,6 @@ import bonkers.cau.sims.service.SoundService;
 public class ScreenReceiver extends BroadcastReceiver {
     public void onReceive(Context paramContext, Intent paramIntent) {
         if (paramIntent.getAction() == "android.intent.action.SCREEN_ON") {
-            paramContext.stopService(new Intent(paramContext, SoundService.class));
 
             /*if (new AppSettings(paramContext).getShowNotification()) {
                 UtilsView.showScreenOffNotification(paramContext);
@@ -20,7 +19,6 @@ public class ScreenReceiver extends BroadcastReceiver {
         if (paramIntent.getAction() == "android.intent.action.SCREEN_OFF") {
             Log.d("screenoff", "screenoff");
             paramContext.startService(new Intent(paramContext, SoundService.class));
-
         }
 
     }

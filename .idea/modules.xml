@@ -4,6 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/SIMS.iml" filepath="$PROJECT_DIR$/SIMS.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/huelocalsdk/huelocalsdk.iml" filepath="$PROJECT_DIR$/huelocalsdk/huelocalsdk.iml" />
+      <module fileurl="file://$PROJECT_DIR$/huesdkresources/huesdkresources.iml" filepath="$PROJECT_DIR$/huesdkresources/huesdkresources.iml" />
       <module fileurl="file://$PROJECT_DIR$/mylibrary/mylibrary.iml" filepath="$PROJECT_DIR$/mylibrary/mylibrary.iml" />
     </modules>
   </component>

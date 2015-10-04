@@ -16,8 +16,20 @@
     <string name="title_activity_shake">ShakeActivity</string>
     <string name="title_activity_buttom_service">ButtomService</string>
     <string name="title_activity_sims_widget">SimsWidget</string>
+    <string name="btn_ok">btn_ok</string>
+    <string name="txt_selectbridges">txt_selectbridges</string>
+    <string name="search_progress">search_progress</string>
+    <string name="title_error">title_error</string>
+    <string name="txt_pushlink">txt_pushlink</string>
+    <string name="txt_select_smartbridge">selectSmartbridge</string>
+    <string name="no_bridge">noBridge</string>
+    <string name="menu_refresh">menu_refresh</string>
+    <string name="menu_find_bridge">menu_find_bridge</string>
+    <string name="press_pushlink_button">pressPushlinkButton</string>
     <string name="title_activity_touch_setting_activty">TouchSettingActivty</string>
     <string name="title_activity_earphone_pulgged">EarphonePulgged</string>
     <string name="title_activity_exclude_app">ExcludeApp</string>
+    <string name="connecting">connecting</string>
     <string name="title_activity_test">Test</string>
+    <string name="title_activity_brightness">Brightness</string>
 </resources>
