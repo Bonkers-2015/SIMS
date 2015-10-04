@@ -41,7 +41,7 @@ public class AdditionFunctions{
         nameList.add("Silent mode");
         nameList.add("Vibrate mode");
 //        nameList.add("Ring mode");
-        nameList.add("Screen Shot");
+//        nameList.add("Screen Shot");
         nameList.add("   ");
     }
 
@@ -115,6 +115,10 @@ public class AdditionFunctions{
 //    public void set_RingMod(Context mContext) {
 //        AudioManager mAudioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
 //        mAudioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
+//    }
+
+//    public void set_ScreenShot(Context mContext){
+//
 //    }
 
     /*  Screenshot  */

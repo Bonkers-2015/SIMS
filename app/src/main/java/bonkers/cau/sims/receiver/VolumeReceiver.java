@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Timer;
@@ -93,8 +92,6 @@ public class VolumeReceiver extends BroadcastReceiver {
                 //volume max
                 data1 = "volume up";
             }
-
-            Toast.makeText(mContext, ""+1, Toast.LENGTH_SHORT).show();
         }
 
         if(checkData1(data1)) {

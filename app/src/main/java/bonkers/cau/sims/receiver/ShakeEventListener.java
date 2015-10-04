@@ -1,7 +1,7 @@
 package bonkers.cau.sims.receiver;
 
 /**
- * Created by ±è½Â¿í on 2015-08-21.
+ * Created by ï¿½ï¿½Â¿ï¿½ on 2015-08-21.
  */
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -14,7 +14,7 @@ import android.hardware.SensorManager;
 public class ShakeEventListener implements SensorEventListener {
 
     /** Minimum movement force to consider. */
-    private static final int MIN_FORCE = 10;
+    private static final int MIN_FORCE = 5;
 
     /**
      * Minimum times in a shake gesture that the direction of movement needs to
