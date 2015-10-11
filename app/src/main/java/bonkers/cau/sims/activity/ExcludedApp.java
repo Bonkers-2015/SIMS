@@ -35,7 +35,7 @@ public class ExcludedApp extends Activity {
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND, WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
-        setContentView(R.layout.activity_ecluded_app);
+        setContentView(R.layout.activity_excluded_app);
 
         mListView = (ListView) findViewById(R.id.listview_excluded);
 

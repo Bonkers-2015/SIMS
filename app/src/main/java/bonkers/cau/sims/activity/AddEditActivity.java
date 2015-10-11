@@ -312,8 +312,7 @@ public class AddEditActivity extends Activity implements OnClickListener {
                     // �ܸ����� �޴���ư
 
                     // 150804 Kim Gwang Min : Setting Button Event
-                    Intent intentSetting = new Intent(AddEditActivity.this, SettingActivity.class);
-                    startActivity(intentSetting);
+
                     return true;
             }
         }

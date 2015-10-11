@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:orientation="horizontal"
-        android:layout_marginLeft="20dp"
+        android:layout_marginLeft="25dp"
         android:layout_alignParentLeft="true"
         android:gravity="bottom">
 
@@ -17,7 +17,7 @@
             android:id="@+id/txt_main"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20dp"
+            android:textSize="18dp"
             android:text="Text"
             app:typeface="fonts/210 appR.ttf"/>
 
@@ -32,7 +32,7 @@
             android:id="@+id/txt_sub"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="15dp"
+            android:textSize="13dp"
             android:layout_marginLeft="10dp"
             app:typeface="fonts/210 appR.ttf"/>
 
