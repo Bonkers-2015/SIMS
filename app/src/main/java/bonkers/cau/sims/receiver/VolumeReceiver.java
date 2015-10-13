@@ -147,28 +147,32 @@ public class VolumeReceiver extends BroadcastReceiver {
         SharedPreferences myPrefs = mContext.getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
 
         ArrayList<String> excludedAppList = new ArrayList<String>();
-        excludedAppList.addAll(myPrefs.getStringSet("excludedAppList",null));
 
-        ActivityManager manager = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
-        List<ActivityManager.RunningAppProcessInfo> proceses = manager.getRunningAppProcesses();
 
-        for(ActivityManager.RunningAppProcessInfo  process : proceses ){
+        if(myPrefs.getStringSet("excludedAppList",null)!=null){
+            excludedAppList.addAll(myPrefs.getStringSet("excludedAppList",null));
+            ActivityManager manager = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
+            List<ActivityManager.RunningAppProcessInfo> proceses = manager.getRunningAppProcesses();
 
-            if(process.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND){
+            for(ActivityManager.RunningAppProcessInfo  process : proceses ){
 
-                strPackage = process.processName;
+                if(process.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND){
 
-                if(excludedAppList!=null){
-                    for(int i=0;i<excludedAppList.size();i++){
-                        if(excludedAppList.get(i).equals(strPackage)){
-                            onOff = true;
+                    strPackage = process.processName;
+
+                    if(excludedAppList!=null){
+                        for(int i=0;i<excludedAppList.size();i++){
+                            if(excludedAppList.get(i).equals(strPackage)){
+                                onOff = true;
+                            }
                         }
+                    }else{
+                        Toast.makeText(mContext, "No Exclude AppList", Toast.LENGTH_SHORT).show();
                     }
-                }else{
-                    Toast.makeText(mContext, "No Exclude AppList", Toast.LENGTH_SHORT).show();
                 }
             }
         }
+
         return onOff;
     }
 }

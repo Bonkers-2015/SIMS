@@ -13,7 +13,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import bonkers.cau.sims.R;
-import bonkers.cau.sims.lighting.quickstart.PHHomeService;
+import bonkers.cau.sims.lighting.PHHomeService;
 import bonkers.cau.sims.service.ScreenService;
 import bonkers.cau.sims.service.VolumeService;
 
@@ -24,11 +24,12 @@ public class MainActivity extends Activity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        startService(new Intent(this, ScreenService.class));
         Intent lightIntent = new Intent(getApplicationContext(), PHHomeService.class);
         startService(lightIntent);
         startService(new Intent(getApplicationContext(), ScreenService.class));
 
-        //ó�� ������ ����
+
         SharedPreferences prefs = this.getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
 

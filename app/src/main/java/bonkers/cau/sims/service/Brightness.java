@@ -12,7 +12,7 @@ import android.view.WindowManager;
 import android.widget.SeekBar;
 
 import bonkers.cau.sims.R;
-import bonkers.cau.sims.lighting.quickstart.Lighting;
+import bonkers.cau.sims.lighting.Lighting;
 
 public class Brightness extends Service implements SeekBar.OnSeekBarChangeListener {
     SeekBar bar;

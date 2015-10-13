@@ -18,9 +18,7 @@ public class SoundService extends Service {
     @Override
     public int onStartCommand(Intent paramIntent, int paramInt1, int paramInt2) {
         context=getApplicationContext();
-        Notification notification = new Notification(R.mipmap.ic_launcher, "���� �����", System.currentTimeMillis());
-        notification.setLatestEventInfo(getApplicationContext(), "Screen Service", "Foreground�� �����", null);
-        startForeground(1, notification);
+
         play();
 
         return 0;

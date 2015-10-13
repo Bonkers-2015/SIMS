@@ -7,7 +7,7 @@ import android.net.wifi.WifiManager;
 
 import java.util.ArrayList;
 
-import bonkers.cau.sims.lighting.quickstart.Lighting;
+import bonkers.cau.sims.lighting.Lighting;
 
 /*  Created by KGM on 2015-09-19.  */
 public class AdditionFunctions{

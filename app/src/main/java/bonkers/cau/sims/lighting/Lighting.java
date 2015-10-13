@@ -1,4 +1,4 @@
-package bonkers.cau.sims.lighting.quickstart;
+package bonkers.cau.sims.lighting;
 
 import android.content.Intent;
 
@@ -14,8 +14,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import bonkers.cau.sims.lighting.data.HueSharedPreferences;
-
 /**
  * Created by redpe_000 on 2015-10-04.
  */
@@ -23,7 +21,6 @@ public class Lighting {
 
     private PHHueSDK phHueSDK;
     private static final int MAX_HUE = 65535;
-    private HueSharedPreferences prefs;
 
     public Lighting() {
         phHueSDK = PHHueSDK.create();

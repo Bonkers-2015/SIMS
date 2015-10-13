@@ -1,10 +1,12 @@
 package bonkers.cau.sims.service;
 
+import android.app.Notification;
 import android.app.Service;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.IBinder;
 
+import bonkers.cau.sims.R;
 import bonkers.cau.sims.receiver.VolumeReceiver;
 
 /**
@@ -27,6 +29,9 @@ public class VolumeService extends Service{
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        Notification notification = new Notification(R.mipmap.ic_launcher, "SIMS가 실행중입니다", System.currentTimeMillis());
+        notification.setLatestEventInfo(getApplicationContext(), "SIMS", "버튼을 감지중입니다.", null);
+        startForeground(1, notification);
 
         filter = new IntentFilter();
         filter.addAction("android.media.VOLUME_CHANGED_ACTION");

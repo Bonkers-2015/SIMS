@@ -14,18 +14,25 @@ public class ScreenService extends Service {
     private IntentFilter filter;
     private ScreenReceiver screenReceiver;
 
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+    }
+
     public IBinder onBind(Intent paramIntent) {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
     public void onDestroy() {
-        unregisterReceiver(this.screenReceiver);
         super.onDestroy();
+        unregisterReceiver(this.screenReceiver);
     }
 
     @Override
     public int onStartCommand(Intent paramIntent, int paramInt1, int paramInt2) {
         Log.i("Volume Unlock", "Start screen service");
+
         this.screenReceiver = new ScreenReceiver();
         this.filter = new IntentFilter();
         this.filter.addAction("android.intent.action.SCREEN_ON");

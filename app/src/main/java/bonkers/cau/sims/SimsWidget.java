@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.RemoteViews;
 
-import bonkers.cau.sims.service.MainService;
 import bonkers.cau.sims.service.VolumeService;
 
 
@@ -64,8 +63,6 @@ public class SimsWidget extends AppWidgetProvider {
             try{
                 widgetControl = 1;
 
-                Intent i = new Intent(context, MainService.class);
-                context.startService(i);
                 Intent j = new Intent(context, VolumeService.class);
                 context.startService(j);
 
@@ -82,8 +79,7 @@ public class SimsWidget extends AppWidgetProvider {
 
                 widgetControl = 0;
 
-                Intent i = new Intent(context, MainService.class);
-                context.stopService(i);
+
                 Intent j = new Intent(context, VolumeService.class);
                 context.stopService(j);
 

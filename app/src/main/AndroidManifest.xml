@@ -58,17 +58,10 @@
             android:label="@string/title_activity_add_edit" />
 
         <activity
-            android:name=".lighting.quickstart.PHPushlinkActivity"
-            android:label="@string/app_name" />
-
-        <activity
             android:name=".activity.ExcludedAppActivity"
             android:label="ExcludedAppActivity" >
             `
         </activity>
-
-        <service android:name=".service.MainService" >
-        </service>
 
         <service
             android:name=".service.ShakeService"
@@ -79,7 +72,7 @@
             android:enabled="true"
             android:exported="true" />
         <service
-            android:name=".lighting.quickstart.PHHomeService"
+            android:name=".lighting.PHHomeService"
             android:enabled="true"
             android:exported="true" />
         <service
@@ -111,10 +104,6 @@
             android:name=".receiver.ScreenReceiver"
             android:enabled="true"
             android:exported="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.SCREEN_ON" />
-                <action android:name="android.intent.action.SCREEN_OFF" />
-            </intent-filter>
         </receiver>
         <receiver
             android:name=".receiver.BootReceiver"
