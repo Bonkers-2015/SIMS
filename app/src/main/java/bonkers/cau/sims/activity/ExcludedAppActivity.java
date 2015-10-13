@@ -63,6 +63,9 @@ public class ExcludedAppActivity extends Activity implements View.OnClickListene
             mAdapter.addItem(appList.get(i).loadIcon(packagemanager), appList.get(i).loadLabel(packagemanager),appList.get(i).packageName);
         }
 
+
+        setListView(this);
+
         mListView.setAdapter(mAdapter);
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -116,6 +119,23 @@ public class ExcludedAppActivity extends Activity implements View.OnClickListene
 
 
     }
+
+    public void setListView(Context context){
+        SharedPreferences myPrefs = context.getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
+        ArrayList<String> excludedAppList = new ArrayList<String>();
+        if(myPrefs.getStringSet("excludedAppList",null)!=null){
+            excludedAppList.addAll(myPrefs.getStringSet("excludedAppList",null));
+            for(int i=0;i<excludedAppList.size();i++){
+                for(int j=0;j<mAdapter.mExcludedListData.size();j++){
+                    if (excludedAppList.get(i).equals(mAdapter.mExcludedListData.get(j).mPackageName)){
+                        mAdapter.mExcludedListData.get(j).mOnOff = true;
+                    }
+                }
+            }
+        }
+        mAdapter.dataChange();
+    }
+
 
     private class ViewHolder {
         public ImageView icon;

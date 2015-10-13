@@ -144,10 +144,10 @@ public class VolumeReceiver extends BroadcastReceiver {
 
         Boolean onOff=false;
 
-        SharedPreferences test = mContext.getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
+        SharedPreferences myPrefs = mContext.getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
 
         ArrayList<String> excludedAppList = new ArrayList<String>();
-        excludedAppList.addAll(test.getStringSet("excludedAppList",null));
+        excludedAppList.addAll(myPrefs.getStringSet("excludedAppList",null));
 
         ActivityManager manager = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningAppProcessInfo> proceses = manager.getRunningAppProcesses();
