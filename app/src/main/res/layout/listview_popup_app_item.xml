@@ -17,7 +17,7 @@
         android:id="@+id/popup_app_list_text"
         android:layout_width="match_parent"
         android:layout_height="35dp"
-        android:layout_weight="0"
+        android:layout_weight="20"
         android:textSize="20dp"
         android:textColor="#FF000000"
         android:gravity="center_vertical"

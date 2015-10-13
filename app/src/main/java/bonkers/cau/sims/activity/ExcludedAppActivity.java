@@ -2,7 +2,7 @@ package bonkers.cau.sims.activity;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
@@ -14,19 +14,23 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import bonkers.cau.sims.R;
 import bonkers.cau.sims.database.ExcludedListData;
 
-public class ExcludedApp extends Activity {
+public class ExcludedAppActivity extends Activity implements View.OnClickListener {
     private ListView mListView = null;
-    private PUListAdapter appAdapter = null;
+    private ListAdapter mAdapter = null;
+    private Button btnSave,btnCancel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +41,13 @@ public class ExcludedApp extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND, WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
         setContentView(R.layout.activity_excluded_app);
 
-        mListView = (ListView) findViewById(R.id.listview_excluded);
+        btnSave = (Button)findViewById(R.id.btn_excluded_save);
+        btnCancel = (Button)findViewById(R.id.btn_excluded_cancle);
+        btnSave.setOnClickListener(this);
+        btnCancel.setOnClickListener(this);
 
-        appAdapter = new PUListAdapter(this);
+        mListView = (ListView) findViewById(R.id.listview_excluded);
+        mAdapter = new ListAdapter(this);
 
         PackageManager packagemanager = this.getPackageManager();
         List<ApplicationInfo> installedApps = getApplicationContext().getPackageManager().getInstalledApplications(PackageManager.PERMISSION_GRANTED);
@@ -52,32 +60,61 @@ public class ExcludedApp extends Activity {
         }
 
         for (int i = 0; i < appList.size(); i++){
-            appAdapter.addItem(appList.get(i).loadIcon(packagemanager), appList.get(i).loadLabel(packagemanager),appList.get(i).packageName);
+            mAdapter.addItem(appList.get(i).loadIcon(packagemanager), appList.get(i).loadLabel(packagemanager),appList.get(i).packageName);
         }
 
-        mListView.setAdapter(appAdapter);
+        mListView.setAdapter(mAdapter);
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 
+                ExcludedListData mData = mAdapter.mExcludedListData.get(position);
 
-                //Add edit Activity�� ������ ������ resultText Key ���� "superdroid result" ���ڿ���
-                //Extra�� Intent�� ��Ҵ�.
-                Intent intent = new Intent();
-                ExcludedListData mData = appAdapter.mExcludedListData.get(position);
+                if(mData.mOnOff){
+                    mData.mOnOff = false;
+                }else{
+                    mData.mOnOff = true;
+                }
 
-                intent.putExtra("resultText", mData.mPackageName);
-                intent.putExtra("resultType", "app");
-
-                // ������ Intent�� �����ϰ� finish()�Լ��� ����
-                //B Activity�� �����Ŵ�� ���ÿ� ����� Intent�� �����Ͽ���.
-                setResult(RESULT_OK, intent);
-                finish();
-
+                mAdapter.dataChange();
             }
         });
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        if(v==btnSave){
+
+            ArrayList<String> checkedAppList = new ArrayList<String>();
+
+            for (int i=0; i<mAdapter.mExcludedListData.size();i++){
+                if(mAdapter.mExcludedListData.get(i).mOnOff){
+                    checkedAppList.add(mAdapter.mExcludedListData.get(i).mPackageName.toString());
+                }
+            }
+
+            SharedPreferences prefs = this.getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+
+            Set<String> stringSet = new HashSet<>();
+            stringSet.addAll(checkedAppList);
+
+            editor.putStringSet("excludedAppList", stringSet);
+            editor.commit();
+
+
+//
+
+            finish();
+
+        }else if(v==btnCancel){
+            finish();
+        }
+
+
     }
 
     private class ViewHolder {
@@ -86,16 +123,16 @@ public class ExcludedApp extends Activity {
         public ImageView check;
     }
 
-    private class PUListAdapter extends BaseAdapter {
+    private class ListAdapter extends BaseAdapter {
         private Context mContext = null;
         private ArrayList<ExcludedListData> mExcludedListData = new ArrayList<ExcludedListData>();
 
-        public PUListAdapter(Context mContext) {
+        public ListAdapter(Context mContext) {
             super();
             this.mContext = mContext;
         }
 
-        public PUListAdapter(Context mContext, ArrayList<CharSequence> mylist) {
+        public ListAdapter(Context mContext, ArrayList<CharSequence> mylist) {
             super();
             this.mContext = mContext;
         }
@@ -119,6 +156,9 @@ public class ExcludedApp extends Activity {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             ViewHolder holder;
+
+
+
             if (convertView == null) {
                 holder = new ViewHolder();
 
@@ -134,23 +174,18 @@ public class ExcludedApp extends Activity {
                 holder = (ViewHolder) convertView.getTag();
             }
 
+
             ExcludedListData mData = mExcludedListData.get(position);
 
             if(mData.mOnOff == true){
                 holder.check.setVisibility(View.VISIBLE);
-                holder.check.setImageDrawable(mData.mIcon);
+                holder.check.setImageDrawable(mData.mCheck);
             }else{
                 holder.check.setVisibility(View.GONE);;
             }
 
-//            if (mData.mIcon != null) {
-//                holder.icon.setVisibility(View.VISIBLE);
-//                holder.icon.setImageDrawable(mData.mIcon);
-//            } else {
-//                holder.icon.setVisibility(View.GONE);
-//            }
-
-            holder.textView.setText(mData.mPackageName);
+            holder.icon.setImageDrawable(mData.mIcon);
+            holder.textView.setText(mData.mTitle);
 
             return convertView;
         }
@@ -161,6 +196,8 @@ public class ExcludedApp extends Activity {
             addInfo.mIcon = icon;
             addInfo.mTitle = mTitle;
             addInfo.mPackageName = mPackageName;
+            addInfo.mOnOff = false;
+            addInfo.mCheck = getResources().getDrawable(R.mipmap.excluded_check);
 
             mExcludedListData.add(addInfo);
             dataChange();
@@ -173,7 +210,7 @@ public class ExcludedApp extends Activity {
 
 
         public void dataChange() {
-            appAdapter.notifyDataSetChanged();
+            mAdapter.notifyDataSetChanged();
         }
 
     }

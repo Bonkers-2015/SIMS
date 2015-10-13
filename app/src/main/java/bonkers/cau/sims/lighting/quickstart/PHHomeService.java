@@ -63,8 +63,8 @@ public class PHHomeService extends Service implements OnItemClickListener {
 
         // Try to automatically connect to the last known bridge.  For first time use this will be empty so a bridge search is automatically started.
         prefs = HueSharedPreferences.getInstance(getApplicationContext());
-        String lastIpAddress   = "192.168.10.51";
-        String lastUsername    = "3c66b166c96334730dd72ca3ac6aa7b";
+        String lastIpAddress   = "192.168.0.14";
+        String lastUsername    = "f845cda39c1fd971eae384696fc0b3";
 
         // Automatically try to connect to the last connected IP Address.  For multiple bridge support a different implementation is required.
         if (lastIpAddress !=null && !lastIpAddress.equals("")) {

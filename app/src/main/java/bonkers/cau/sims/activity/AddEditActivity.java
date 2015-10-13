@@ -109,8 +109,8 @@ public class AddEditActivity extends Activity implements OnClickListener {
 
                     listviewSetting(position);
                 }
+                mAdapter.dataChange();
 
-                mAdapter.notifyDataSetChanged();
 
             }
         });
@@ -289,7 +289,7 @@ public class AddEditActivity extends Activity implements OnClickListener {
 
         }
 
-        mAdapter.notifyDataSetChanged();
+        mAdapter.dataChange();
     }
 
     // CharSequence to split.
@@ -525,7 +525,7 @@ public class AddEditActivity extends Activity implements OnClickListener {
             addInfo.mTitle = mTitle;
             addInfo.mIcon = null;
             addInfo.mSubTitle = "";
-            addInfo.mCheck = getResources().getDrawable(R.mipmap.check);
+            addInfo.mCheck = getResources().getDrawable(R.mipmap.main_check);
             addInfo.mOnOff = false;
 
             mAddEditListdata.add(addInfo);

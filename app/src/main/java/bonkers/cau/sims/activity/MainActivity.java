@@ -42,7 +42,6 @@ public class MainActivity extends Activity  {
 
         startService(new Intent(this, VolumeService.class));
 
-
         TimerTask myTask = new TimerTask() {
             public void run() {
                 Intent intent = new Intent(MainActivity.this, ListActivity.class);

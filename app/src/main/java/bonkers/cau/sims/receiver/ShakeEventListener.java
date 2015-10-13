@@ -86,7 +86,7 @@ public class ShakeEventListener implements SensorEventListener {
                 mLastDirectionChangeTime = now;
             }
 
-            // check if the last movement was not long ago
+            // main_check if the last movement was not long ago
             long lastChangeWasAgo = now - mLastDirectionChangeTime;
             if (lastChangeWasAgo < MAX_PAUSE_BETHWEEN_DIRECTION_CHANGE) {
 
@@ -99,10 +99,10 @@ public class ShakeEventListener implements SensorEventListener {
                 lastY = y;
                 lastZ = z;
 
-                // check how many movements are so far
+                // main_check how many movements are so far
                 if (mDirectionChangeCount >= MIN_DIRECTION_CHANGE) {
 
-                    // check total duration
+                    // main_check total duration
                     long totalDuration = now - mFirstDirectionChangeTime;
                     if (totalDuration < MAX_TOTAL_DURATION_OF_SHAKE) {
                         mShakeListener.onShake();

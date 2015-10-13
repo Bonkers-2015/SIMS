@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -36,7 +37,8 @@ public class ListActivity extends Activity implements View.OnClickListener {
     private ListViewAdapter mAdapter=null;
     private ListDBManager dbManager;
     private ArrayList<ListData> listDataArrList;
-    private ImageButton addBtn;
+    private ImageButton btnAdd;
+    private Button btnExcluded;
     private Boolean backKey = false;
 
 
@@ -59,8 +61,10 @@ public class ListActivity extends Activity implements View.OnClickListener {
             mAdapter.addItem(data.getId(), data.getIndexNum(), data.getmData1(), data.getmData2(), data.getmAppName(),data.getmAppPackage(), data.getmPhoneName(), data.getmPhoneNumber(),data.getmAdditionName());
         }
 
-        addBtn =(ImageButton)findViewById(R.id.list_add_btn);
-        addBtn.setOnClickListener(this);
+        btnExcluded=(Button)findViewById(R.id.btn_excluded);
+        btnExcluded.setOnClickListener(this);
+        btnAdd =(ImageButton)findViewById(R.id.list_add_btn);
+        btnAdd.setOnClickListener(this);
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -104,13 +108,17 @@ public class ListActivity extends Activity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
 
-        Intent intent = new Intent(ListActivity.this ,AddEditActivity.class);
+        Intent intent =null;
         Bundle myData = new Bundle();
-        if(v == addBtn) {
+        if(v == btnAdd) {
+            intent = new Intent(ListActivity.this ,AddEditActivity.class);
             myData.putInt("selectedPosition", -1);
             intent.putExtras(myData);
             startActivity(intent);
             finish();
+        }else if(v==btnExcluded){
+            intent = new Intent(ListActivity.this ,ExcludedAppActivity.class);
+            startActivity(intent);
         }
     }
 
@@ -189,8 +197,6 @@ public class ListActivity extends Activity implements View.OnClickListener {
             }
 
             ListData mData = mListData.get(position);
-
-
 
             if(mData.getmAppName() != null) {
                 CharSequence mAppName;

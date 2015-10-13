@@ -14,7 +14,6 @@ public class VolumeService extends Service{
     private IntentFilter filter;
     private VolumeReceiver mReceiver;
 
-
     @Override
     public IBinder onBind(Intent intent) {
         return null;

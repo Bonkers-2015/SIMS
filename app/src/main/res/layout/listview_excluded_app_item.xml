@@ -2,32 +2,49 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
     android:weightSum="100"
     tools:context=".ExcluededApp">
 
-    <ImageView
-        android:id="@+id/excluded_app_list_image"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="35dp"
-        android:layout_weight="45"
-        android:background="#FFFFFFFF"/>
+        android:layout_weight="20"
+        android:weightSum="100"
+        android:orientation="horizontal"
+        android:background="#FFFFFFFF">
 
-    <TextView
-        android:id="@+id/excluded_app_list_text"
-        android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:layout_weight="10"
-        android:textSize="20dp"
-        android:textColor="#FF000000"
-        android:gravity="center_vertical"
-        android:background="#FFFFFFFF"/>
+        <ImageView
+            android:id="@+id/excluded_app_list_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="80" />
 
-    <ImageView
-        android:id="@+id/excluded_app_list_check"
+        <TextView
+            android:id="@+id/excluded_app_list_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="20"
+            android:textSize="20dp"
+            android:textColor="#FF000000" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="35dp"
-        android:layout_weight="45"/>
+        android:layout_weight="80"
+        android:gravity="center"
+        android:background="#FFFFFFFF">
+
+        <ImageView
+            android:id="@+id/excluded_app_list_check"
+            android:layout_width="35dp"
+            android:layout_height="35dp" />
+
+    </LinearLayout>
+
 
 </LinearLayout>

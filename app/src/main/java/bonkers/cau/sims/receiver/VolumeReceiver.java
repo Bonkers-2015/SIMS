@@ -1,12 +1,15 @@
 package bonkers.cau.sims.receiver;
 
+import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -21,8 +24,10 @@ import bonkers.cau.sims.service.TouchService;
  * Created by dongbin on 2015-09-30.
  */
 public class VolumeReceiver extends BroadcastReceiver {
+    private String strPackage = "";
     private Context mContext;
-//    private Intent mIntent;
+
+    //    private Intent mIntent;
     private Intent touchIntent, shakeIntent, earphoneIntent;
     private final int maxVolume=10,minVolume=0;
     private int currentVolume,oldVolume;
@@ -46,6 +51,7 @@ public class VolumeReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         mContext = context;
+
 //        mIntent =  intent;
         WakeLockUtils wakeLockUtils=new WakeLockUtils(mContext);
         wakeLockUtils.unLock();
@@ -97,18 +103,17 @@ public class VolumeReceiver extends BroadcastReceiver {
                 data1 = "volume up";
             }
         }
-
-        if(checkData1(data1)) {
-            touchIntent.putExtra("data1",data1);
-            shakeIntent.putExtra("data1",data1);
-            earphoneIntent.putExtra("data1",data1);
-            mContext.startService(touchIntent);
-            mContext.startService(shakeIntent);
-            mContext.startService(earphoneIntent);
-            timer.schedule(myTask, 2000);
+        if(excludeApp()==false){
+            if(checkData1(data1)) {
+                touchIntent.putExtra("data1",data1);
+                shakeIntent.putExtra("data1",data1);
+                earphoneIntent.putExtra("data1",data1);
+                mContext.startService(touchIntent);
+                mContext.startService(shakeIntent);
+                mContext.startService(earphoneIntent);
+                timer.schedule(myTask, 2000);
+            }
         }
-
-
 
         editor.putInt("volume", currentVolume);
         editor.putBoolean("volumeFlag",true);
@@ -133,5 +138,37 @@ public class VolumeReceiver extends BroadcastReceiver {
             }
         }
         return false;
+    }
+
+    public boolean excludeApp(){
+
+        Boolean onOff=false;
+
+        SharedPreferences test = mContext.getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
+
+        ArrayList<String> excludedAppList = new ArrayList<String>();
+        excludedAppList.addAll(test.getStringSet("excludedAppList",null));
+
+        ActivityManager manager = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningAppProcessInfo> proceses = manager.getRunningAppProcesses();
+
+        for(ActivityManager.RunningAppProcessInfo  process : proceses ){
+
+            if(process.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND){
+
+                strPackage = process.processName;
+
+                if(excludedAppList!=null){
+                    for(int i=0;i<excludedAppList.size();i++){
+                        if(excludedAppList.get(i).equals(strPackage)){
+                            onOff = true;
+                        }
+                    }
+                }else{
+                    Toast.makeText(mContext, "No Exclude AppList", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+        return onOff;
     }
 }
