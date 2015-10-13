@@ -29,13 +29,15 @@ public class AdditionFunctions{
             set_SilentMod(context);
         }else if(name.equals(nameList.get(3))){
             set_VibrateMod(context);
-        }else if(name.equals(nameList.get(4))) {
-            mLighting=new Lighting();
-            mLighting.randomLights();
+        }else if(name.equals(nameList.get(4))){
+            set_RingMod(context);
         }else if(name.equals(nameList.get(5))) {
             mLighting=new Lighting();
-            mLighting.onOffLights();
+            mLighting.randomLights();
         }else if(name.equals(nameList.get(6))) {
+            mLighting=new Lighting();
+            mLighting.onOffLights();
+        }else if(name.equals(nameList.get(7))) {
             //empty
         }
     }
@@ -45,10 +47,10 @@ public class AdditionFunctions{
         nameList.add("Bluetooth on/off");
         nameList.add("Silent mode");
         nameList.add("Vibrate mode");
+        nameList.add("Ring mode");
         nameList.add("Light color");
         nameList.add("Light on/off");
 //        nameList.add("GPS on/off");
-//        nameList.add("Ring mode");
 //        nameList.add("Screen Shot");
         nameList.add("   ");
     }
@@ -119,11 +121,11 @@ public class AdditionFunctions{
         mAudioManager.setRingerMode(AudioManager.RINGER_MODE_VIBRATE);
     }
 
-//    /*  Ring mode 소리모드로 변경  */
-//    public void set_RingMod(Context mContext) {
-//        AudioManager mAudioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
-//        mAudioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
-//    }
+    /*  Ring mode 소리모드로 변경  */
+    public void set_RingMod(Context mContext) {
+        AudioManager mAudioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
+        mAudioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
+    }
 
 //    public void set_ScreenShot(Context mContext){
 //
