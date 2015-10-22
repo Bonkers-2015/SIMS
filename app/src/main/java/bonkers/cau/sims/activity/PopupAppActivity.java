@@ -62,18 +62,18 @@ public class PopupAppActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 
-                //Add edit Activity·Î Àü´ÞÇÑ µ¥ÀÌÅÍ resultText Key °ªÀÇ "superdroid result" ¹®ÀÚ¿­À»
-                //Extra·Î Intent¿¡ ´ã¾Ò´Ù.
+                //Add edit Activityï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ resultText Key ï¿½ï¿½ï¿½ï¿½ "superdroid result" ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½
+                //Extraï¿½ï¿½ Intentï¿½ï¿½ ï¿½ï¿½Ò´ï¿½.
                 Intent intent = new Intent();
                 PopupListData mData = appAdapter.mPopupListData.get(position);
                 intent.putExtra("resultText", mData.mTitle);
                 intent.putExtra("resultType", "app");
 
-                // Àü´ÞÇÒ Intent¸¦ ¼³Á¤ÇÏ°í finish()ÇÔ¼ö¸¦ ÅëÇØ
-                //B Activity¸¦ Á¾·á½ÃÅ´°ú µ¿½Ã¿¡ °á°ú·Î Intent¸¦ Àü´ÞÇÏ¿´´Ù.
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Intentï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ finish()ï¿½Ô¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+                //B Activityï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Å´ï¿½ï¿½ ï¿½ï¿½ï¿½Ã¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ Intentï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ï¿½ï¿½.
                 setResult(RESULT_OK, intent);
                 finish();
-
+//sgdxggggggg
             }
         });
     }
